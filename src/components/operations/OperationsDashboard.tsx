@@ -160,29 +160,15 @@ export function OperationsDashboard() {
   );
 }
 
-function MetricCard({ icon, label, value, variant }: { icon: React.ReactNode; label: string; value: string | number; variant?: "warning" }) {
-  return (
-    <Card className={variant === "warning" ? "border-destructive/30 bg-destructive/5" : ""}>
-      <CardContent className="p-4">
-        <div className="flex items-center gap-2 text-muted-foreground mb-1">
-          {icon}
-          <span className="text-xs font-medium uppercase tracking-wide">{label}</span>
-        </div>
-        <p className={`text-2xl font-bold ${variant === "warning" ? "text-destructive" : "text-foreground"}`}>
-          {value}
-        </p>
-      </CardContent>
-    </Card>
-  );
-}
-
-function RevenueChart({ title, data, currentValue, color, prefix }: {
+function TrendChart({ title, data, currentValue, color, showTotal }: {
   title: string;
   data: { month: string; value: number }[];
   currentValue: string;
   color: string;
-  prefix?: string;
+  showTotal?: boolean;
 }) {
+  const total = showTotal ? data.reduce((sum, d) => sum + d.value, 0) : null;
+  
   return (
     <Card>
       <CardHeader className="pb-2">
@@ -190,26 +176,31 @@ function RevenueChart({ title, data, currentValue, color, prefix }: {
           <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
           <TrendingUp className="w-4 h-4 text-primary" />
         </div>
-        <p className="text-2xl font-bold text-foreground">{currentValue}</p>
+        <div className="flex items-baseline gap-2">
+          <p className="text-2xl font-bold text-foreground">{currentValue}</p>
+          {total !== null && (
+            <span className="text-sm text-muted-foreground">{total} total</span>
+          )}
+        </div>
       </CardHeader>
       <CardContent className="pb-3">
-        <ResponsiveContainer width="100%" height={120}>
-          <AreaChart data={data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
+        <ResponsiveContainer width="100%" height={140}>
+          <BarChart data={data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
             <defs>
               <linearGradient id={`gradient-${title}`} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={color} stopOpacity={0.3} />
-                <stop offset="100%" stopColor={color} stopOpacity={0.05} />
+                <stop offset="0%" stopColor={color} stopOpacity={0.8} />
+                <stop offset="100%" stopColor={color} stopOpacity={0.4} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="hsl(120, 20%, 90%)" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
             <XAxis dataKey="month" tick={{ fontSize: 11 }} tickLine={false} axisLine={false} />
-            <YAxis tick={{ fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={(v) => prefix ? `${prefix}${(v / 1000).toFixed(0)}k` : `${v}`} />
+            <YAxis tick={{ fontSize: 11 }} tickLine={false} axisLine={false} />
             <Tooltip
-              contentStyle={{ borderRadius: "8px", border: "1px solid hsl(120, 20%, 90%)", fontSize: 12 }}
-              formatter={(value: number) => [prefix ? `${prefix}${value.toLocaleString()}` : value, title]}
+              contentStyle={{ borderRadius: "8px", border: "1px solid hsl(var(--border))", fontSize: 12 }}
+              cursor={{ fill: "hsl(var(--muted))" }}
             />
-            <Area type="monotone" dataKey="value" stroke={color} strokeWidth={2} fill={`url(#gradient-${title})`} />
-          </AreaChart>
+            <Bar dataKey="value" fill={`url(#gradient-${title})`} radius={[4, 4, 0, 0]} />
+          </BarChart>
         </ResponsiveContainer>
       </CardContent>
     </Card>
