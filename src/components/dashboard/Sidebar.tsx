@@ -31,6 +31,7 @@ const navigationItems = [
   { icon: MessageCircle, label: "Meetings", path: "/meetings" },
   { icon: Megaphone, label: "Marketing", path: "/marketing" },
   { icon: Building, label: "My Company", path: "/my-company" },
+  { icon: Settings2, label: "Operations", path: "/operations" },
 ];
 
 export function Sidebar() {

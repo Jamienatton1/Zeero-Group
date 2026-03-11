@@ -58,6 +58,7 @@ const App = () => (
           <Route path="/balance" element={<Balance />} />
           <Route path="/trees" element={<Trees />} />
           <Route path="/co2-calculator" element={<CO2Calculator />} />
+          <Route path="/operations" element={<Operations />} />
           <Route path="/organisation-settings" element={<OrganisationSettings />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
