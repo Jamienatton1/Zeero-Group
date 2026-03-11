@@ -3,6 +3,7 @@ import { Header } from "@/components/dashboard/Header";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { OperationsDashboard } from "@/components/operations/OperationsDashboard";
 import { OperationsOrganisations } from "@/components/operations/OperationsOrganisations";
+import { OperationsUsers } from "@/components/operations/OperationsUsers";
 
 const Operations = () => {
   return (
