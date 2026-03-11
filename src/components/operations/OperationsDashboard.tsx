@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Users, Building2, TrendingUp, Calendar, AlertTriangle, Activity } from "lucide-react";
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 const signupMetrics = {
   last7Days: 12,
@@ -14,11 +15,32 @@ const trialMetrics = {
   expiring7Days: 9,
 };
 
-const revenueMetrics = {
-  mrr: 4830,
-  arr: 57960,
-  payingOrgs: 34,
-};
+const mrrData = [
+  { month: "Oct", value: 2100 },
+  { month: "Nov", value: 2650 },
+  { month: "Dec", value: 3100 },
+  { month: "Jan", value: 3480 },
+  { month: "Feb", value: 4200 },
+  { month: "Mar", value: 4830 },
+];
+
+const arrData = [
+  { month: "Oct", value: 25200 },
+  { month: "Nov", value: 31800 },
+  { month: "Dec", value: 37200 },
+  { month: "Jan", value: 41760 },
+  { month: "Feb", value: 50400 },
+  { month: "Mar", value: 57960 },
+];
+
+const payingOrgsData = [
+  { month: "Oct", value: 14 },
+  { month: "Nov", value: 18 },
+  { month: "Dec", value: 22 },
+  { month: "Jan", value: 26 },
+  { month: "Feb", value: 30 },
+  { month: "Mar", value: 34 },
+];
 
 const activationMetrics = {
   totalEvents: 1247,
@@ -47,11 +69,11 @@ export function OperationsDashboard() {
         <MetricCard icon={<AlertTriangle className="w-4 h-4" />} label="Expiring Today" value={trialMetrics.expiringToday} variant="warning" />
       </div>
 
-      {/* Revenue Row */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <MetricCard icon={<TrendingUp className="w-4 h-4" />} label="MRR" value={`£${revenueMetrics.mrr.toLocaleString()}`} />
-        <MetricCard icon={<TrendingUp className="w-4 h-4" />} label="ARR" value={`£${revenueMetrics.arr.toLocaleString()}`} />
-        <MetricCard icon={<Building2 className="w-4 h-4" />} label="Paying Organisations" value={revenueMetrics.payingOrgs} />
+      {/* Revenue Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <RevenueChart title="MRR" data={mrrData} currentValue="£4,830" color="hsl(160, 60%, 45%)" prefix="£" />
+        <RevenueChart title="ARR" data={arrData} currentValue="£57,960" color="hsl(200, 60%, 50%)" prefix="£" />
+        <RevenueChart title="Paying Organisations" data={payingOrgsData} currentValue="34" color="hsl(45, 90%, 50%)" />
       </div>
 
       {/* Activation & Trials Detail */}
@@ -123,6 +145,46 @@ function MetricCard({ icon, label, value, variant }: { icon: React.ReactNode; la
         <p className={`text-2xl font-bold ${variant === "warning" ? "text-destructive" : "text-foreground"}`}>
           {value}
         </p>
+      </CardContent>
+    </Card>
+  );
+}
+
+function RevenueChart({ title, data, currentValue, color, prefix }: {
+  title: string;
+  data: { month: string; value: number }[];
+  currentValue: string;
+  color: string;
+  prefix?: string;
+}) {
+  return (
+    <Card>
+      <CardHeader className="pb-2">
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
+          <TrendingUp className="w-4 h-4 text-primary" />
+        </div>
+        <p className="text-2xl font-bold text-foreground">{currentValue}</p>
+      </CardHeader>
+      <CardContent className="pb-3">
+        <ResponsiveContainer width="100%" height={120}>
+          <AreaChart data={data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
+            <defs>
+              <linearGradient id={`gradient-${title}`} x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor={color} stopOpacity={0.3} />
+                <stop offset="100%" stopColor={color} stopOpacity={0.05} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" stroke="hsl(120, 20%, 90%)" vertical={false} />
+            <XAxis dataKey="month" tick={{ fontSize: 11 }} tickLine={false} axisLine={false} />
+            <YAxis tick={{ fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={(v) => prefix ? `${prefix}${(v / 1000).toFixed(0)}k` : `${v}`} />
+            <Tooltip
+              contentStyle={{ borderRadius: "8px", border: "1px solid hsl(120, 20%, 90%)", fontSize: 12 }}
+              formatter={(value: number) => [prefix ? `${prefix}${value.toLocaleString()}` : value, title]}
+            />
+            <Area type="monotone" dataKey="value" stroke={color} strokeWidth={2} fill={`url(#gradient-${title})`} />
+          </AreaChart>
+        </ResponsiveContainer>
       </CardContent>
     </Card>
   );
