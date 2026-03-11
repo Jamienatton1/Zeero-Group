@@ -168,6 +168,7 @@ function TrendChart({ title, data, currentValue, color, showTotal }: {
   showTotal?: boolean;
 }) {
   const total = showTotal ? data.reduce((sum, d) => sum + d.value, 0) : null;
+  const gradientId = `gradient-${title.replace(/\s+/g, '-')}`;
   
   return (
     <Card>
@@ -187,7 +188,7 @@ function TrendChart({ title, data, currentValue, color, showTotal }: {
         <ResponsiveContainer width="100%" height={140}>
           <BarChart data={data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
             <defs>
-              <linearGradient id={`gradient-${title}`} x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor={color} stopOpacity={0.9} />
                 <stop offset="100%" stopColor={color} stopOpacity={0.6} />
               </linearGradient>
@@ -199,7 +200,7 @@ function TrendChart({ title, data, currentValue, color, showTotal }: {
               contentStyle={{ borderRadius: "8px", border: "1px solid hsl(var(--border))", fontSize: 12 }}
               cursor={{ fill: "hsl(var(--muted))" }}
             />
-            <Bar dataKey="value" fill={`url(#gradient-${title})`} radius={[4, 4, 0, 0]} />
+            <Bar dataKey="value" fill={`url(#${gradientId})`} radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </CardContent>
