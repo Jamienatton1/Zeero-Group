@@ -9,12 +9,8 @@ const Operations = () => {
     <div className="flex h-screen bg-background">
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header />
+        <Header title="Operations Dashboard" subtitle="Internal admin panel — product usage, organisations & activity" />
         <main className="flex-1 overflow-auto p-8">
-          <div className="mb-6">
-            <h1 className="text-2xl font-bold text-foreground">Operations Dashboard</h1>
-            <p className="text-muted-foreground text-sm mt-1">Internal admin panel — product usage, organisations & activity</p>
-          </div>
 
           <Tabs defaultValue="dashboard" className="w-full">
             <TabsList className="mb-6">
