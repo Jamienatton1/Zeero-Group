@@ -26,6 +26,7 @@ import OrganisationSettings from "./pages/OrganisationSettings";
 import Balance from "./pages/Balance";
 import Trees from "./pages/Trees";
 import CO2Calculator from "./pages/CO2Calculator";
+import Operations from "./pages/Operations";
 
 const queryClient = new QueryClient();
 
