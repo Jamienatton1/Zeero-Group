@@ -11,7 +11,8 @@ import {
   MessageCircle,
   Megaphone,
   Building,
-  ShoppingBag
+  ShoppingBag,
+  Settings2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLocation } from "react-router-dom";
