@@ -1,16 +1,33 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Users, Building2, TrendingUp, Calendar, AlertTriangle, Activity } from "lucide-react";
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Building2, TrendingUp, Calendar, Activity } from "lucide-react";
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, Bar, BarChart } from "recharts";
 
 const signupMetrics = {
   last7Days: 12,
   last30Days: 47,
 };
 
+const signupData = [
+  { month: "Oct", value: 5 },
+  { month: "Nov", value: 7 },
+  { month: "Dec", value: 4 },
+  { month: "Jan", value: 8 },
+  { month: "Feb", value: 9 },
+  { month: "Mar", value: 12 },
+];
+
+const activeTrialsData = [
+  { month: "Oct", value: 12 },
+  { month: "Nov", value: 14 },
+  { month: "Dec", value: 16 },
+  { month: "Jan", value: 20 },
+  { month: "Feb", value: 16 },
+  { month: "Mar", value: 18 },
+];
+
 const trialMetrics = {
   activeTrials: 18,
-  expiringToday: 2,
   expiring3Days: 5,
   expiring7Days: 9,
 };
