@@ -1,16 +1,33 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Users, Building2, TrendingUp, Calendar, AlertTriangle, Activity } from "lucide-react";
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Building2, TrendingUp, Calendar, Activity } from "lucide-react";
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, Bar, BarChart } from "recharts";
 
 const signupMetrics = {
   last7Days: 12,
   last30Days: 47,
 };
 
+const signupData = [
+  { month: "Oct", value: 5 },
+  { month: "Nov", value: 7 },
+  { month: "Dec", value: 4 },
+  { month: "Jan", value: 8 },
+  { month: "Feb", value: 9 },
+  { month: "Mar", value: 12 },
+];
+
+const activeTrialsData = [
+  { month: "Oct", value: 12 },
+  { month: "Nov", value: 14 },
+  { month: "Dec", value: 16 },
+  { month: "Jan", value: 20 },
+  { month: "Feb", value: 16 },
+  { month: "Mar", value: 18 },
+];
+
 const trialMetrics = {
   activeTrials: 18,
-  expiringToday: 2,
   expiring3Days: 5,
   expiring7Days: 9,
 };
@@ -51,8 +68,8 @@ const activationMetrics = {
 };
 
 const expiringTrials = [
-  { name: "GreenFest Ltd", daysLeft: 0 },
-  { name: "EcoSummit Co", daysLeft: 0 },
+  { name: "GreenFest Ltd", daysLeft: 1 },
+  { name: "EcoSummit Co", daysLeft: 1 },
   { name: "Blue Horizon Events", daysLeft: 1 },
   { name: "Nordic Travel Group", daysLeft: 2 },
   { name: "Sustainable Stays", daysLeft: 3 },
@@ -61,12 +78,21 @@ const expiringTrials = [
 export function OperationsDashboard() {
   return (
     <div className="space-y-6">
-      {/* Signup & Trial Row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <MetricCard icon={<Building2 className="w-4 h-4" />} label="Signups (7d)" value={signupMetrics.last7Days} />
-        <MetricCard icon={<Building2 className="w-4 h-4" />} label="Signups (30d)" value={signupMetrics.last30Days} />
-        <MetricCard icon={<Users className="w-4 h-4" />} label="Active Trials" value={trialMetrics.activeTrials} />
-        <MetricCard icon={<AlertTriangle className="w-4 h-4" />} label="Expiring Today" value={trialMetrics.expiringToday} variant="warning" />
+      {/* Signup & Trial Charts Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <TrendChart 
+          title="Signups" 
+          data={signupData} 
+          currentValue={`${signupMetrics.last30Days} this month`} 
+          color="hsl(220, 70%, 55%)"
+          showTotal
+        />
+        <TrendChart 
+          title="Active Trials" 
+          data={activeTrialsData} 
+          currentValue={`${trialMetrics.activeTrials} active now`} 
+          color="hsl(280, 60%, 55%)"
+        />
       </div>
 
       {/* Revenue Charts */}
@@ -121,9 +147,9 @@ export function OperationsDashboard() {
           <CardContent className="space-y-2">
             {expiringTrials.map((trial) => (
               <div key={trial.name} className="flex items-center justify-between text-sm py-1.5 border-b last:border-0">
-                <span className="text-foreground font-medium">{trial.name}</span>
-                <Badge variant={trial.daysLeft === 0 ? "destructive" : "secondary"} className="text-xs">
-                  {trial.daysLeft === 0 ? "Today" : `${trial.daysLeft}d left`}
+                <span className="text-muted-foreground font-medium">{trial.name}</span>
+                <Badge variant="secondary" className="text-xs">
+                  {trial.daysLeft}d left
                 </Badge>
               </div>
             ))}
@@ -134,17 +160,48 @@ export function OperationsDashboard() {
   );
 }
 
-function MetricCard({ icon, label, value, variant }: { icon: React.ReactNode; label: string; value: string | number; variant?: "warning" }) {
+function TrendChart({ title, data, currentValue, color, showTotal }: {
+  title: string;
+  data: { month: string; value: number }[];
+  currentValue: string;
+  color: string;
+  showTotal?: boolean;
+}) {
+  const total = showTotal ? data.reduce((sum, d) => sum + d.value, 0) : null;
+  
   return (
-    <Card className={variant === "warning" ? "border-destructive/30 bg-destructive/5" : ""}>
-      <CardContent className="p-4">
-        <div className="flex items-center gap-2 text-muted-foreground mb-1">
-          {icon}
-          <span className="text-xs font-medium uppercase tracking-wide">{label}</span>
+    <Card>
+      <CardHeader className="pb-2">
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
+          <TrendingUp className="w-4 h-4 text-primary" />
         </div>
-        <p className={`text-2xl font-bold ${variant === "warning" ? "text-destructive" : "text-foreground"}`}>
-          {value}
-        </p>
+        <div className="flex items-baseline gap-2">
+          <p className="text-2xl font-bold text-foreground">{currentValue}</p>
+          {total !== null && (
+            <span className="text-sm text-muted-foreground">{total} total</span>
+          )}
+        </div>
+      </CardHeader>
+      <CardContent className="pb-3">
+        <ResponsiveContainer width="100%" height={140}>
+          <BarChart data={data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
+            <defs>
+              <linearGradient id={`gradient-${title}`} x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor={color} stopOpacity={0.8} />
+                <stop offset="100%" stopColor={color} stopOpacity={0.4} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
+            <XAxis dataKey="month" tick={{ fontSize: 11 }} tickLine={false} axisLine={false} />
+            <YAxis tick={{ fontSize: 11 }} tickLine={false} axisLine={false} />
+            <Tooltip
+              contentStyle={{ borderRadius: "8px", border: "1px solid hsl(var(--border))", fontSize: 12 }}
+              cursor={{ fill: "hsl(var(--muted))" }}
+            />
+            <Bar dataKey="value" fill={`url(#gradient-${title})`} radius={[4, 4, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
       </CardContent>
     </Card>
   );
