@@ -17,7 +17,7 @@ const Operations = () => {
             <TabsList className="mb-6">
               <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
               <TabsTrigger value="organisations">Organisations</TabsTrigger>
-              <TabsTrigger value="users" disabled className="opacity-40">Users</TabsTrigger>
+              <TabsTrigger value="users">Users</TabsTrigger>
               <TabsTrigger value="revenue" disabled className="opacity-40">Revenue</TabsTrigger>
               <TabsTrigger value="notifications" disabled className="opacity-40">Notifications</TabsTrigger>
             </TabsList>
@@ -28,6 +28,10 @@ const Operations = () => {
 
             <TabsContent value="organisations">
               <OperationsOrganisations />
+            </TabsContent>
+
+            <TabsContent value="users">
+              <OperationsUsers />
             </TabsContent>
           </Tabs>
         </main>
