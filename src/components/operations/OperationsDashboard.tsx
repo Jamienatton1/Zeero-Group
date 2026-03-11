@@ -206,3 +206,43 @@ function TrendChart({ title, data, currentValue, color, showTotal }: {
     </Card>
   );
 }
+
+function RevenueChart({ title, data, currentValue, color, prefix }: {
+  title: string;
+  data: { month: string; value: number }[];
+  currentValue: string;
+  color: string;
+  prefix?: string;
+}) {
+  return (
+    <Card>
+      <CardHeader className="pb-2">
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
+          <TrendingUp className="w-4 h-4 text-primary" />
+        </div>
+        <p className="text-2xl font-bold text-foreground">{currentValue}</p>
+      </CardHeader>
+      <CardContent className="pb-3">
+        <ResponsiveContainer width="100%" height={120}>
+          <AreaChart data={data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
+            <defs>
+              <linearGradient id={`gradient-${title}`} x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor={color} stopOpacity={0.3} />
+                <stop offset="100%" stopColor={color} stopOpacity={0.05} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" stroke="hsl(120, 20%, 90%)" vertical={false} />
+            <XAxis dataKey="month" tick={{ fontSize: 11 }} tickLine={false} axisLine={false} />
+            <YAxis tick={{ fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={(v) => prefix ? `${prefix}${(v / 1000).toFixed(0)}k` : `${v}`} />
+            <Tooltip
+              contentStyle={{ borderRadius: "8px", border: "1px solid hsl(120, 20%, 90%)", fontSize: 12 }}
+              formatter={(value: number) => [prefix ? `${prefix}${value.toLocaleString()}` : value, title]}
+            />
+            <Area type="monotone" dataKey="value" stroke={color} strokeWidth={2} fill={`url(#gradient-${title})`} />
+          </AreaChart>
+        </ResponsiveContainer>
+      </CardContent>
+    </Card>
+  );
+}
