@@ -91,7 +91,7 @@ export function OperationsDashboard() {
           title="Active Trials" 
           data={activeTrialsData} 
           currentValue={`${trialMetrics.activeTrials} active now`} 
-          color="hsl(30, 95%, 55%)"
+          color="hsl(35, 100%, 60%)"
         />
       </div>
 
@@ -99,7 +99,7 @@ export function OperationsDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <RevenueChart title="MRR" data={mrrData} currentValue="£4,830" color="hsl(160, 60%, 45%)" prefix="£" />
         <RevenueChart title="ARR" data={arrData} currentValue="£57,960" color="hsl(200, 60%, 50%)" prefix="£" />
-        <RevenueChart title="Paying Organisations" data={payingOrgsData} currentValue="34" color="hsl(280, 65%, 55%)" />
+        <RevenueChart title="Paying Organisations" data={payingOrgsData} currentValue="34" color="hsl(270, 80%, 65%)" />
       </div>
 
       {/* Activation & Trials Detail */}
@@ -188,8 +188,8 @@ function TrendChart({ title, data, currentValue, color, showTotal }: {
           <BarChart data={data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
             <defs>
               <linearGradient id={`gradient-${title}`} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={color} stopOpacity={0.8} />
-                <stop offset="100%" stopColor={color} stopOpacity={0.4} />
+                <stop offset="0%" stopColor={color} stopOpacity={0.9} />
+                <stop offset="100%" stopColor={color} stopOpacity={0.6} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
@@ -228,8 +228,8 @@ function RevenueChart({ title, data, currentValue, color, prefix }: {
           <AreaChart data={data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
             <defs>
               <linearGradient id={`gradient-${title}`} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={color} stopOpacity={0.3} />
-                <stop offset="100%" stopColor={color} stopOpacity={0.05} />
+                <stop offset="0%" stopColor={color} stopOpacity={0.4} />
+                <stop offset="100%" stopColor={color} stopOpacity={0.1} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(120, 20%, 90%)" vertical={false} />
