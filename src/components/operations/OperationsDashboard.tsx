@@ -214,7 +214,7 @@ function RevenueChart({ title, data, currentValue, color, prefix }: {
   currentValue: string;
   color: string;
   prefix?: string;
-) {
+}) {
   const gradientId = `gradient-revenue-${title.replace(/\s+/g, '-')}`;
   
   return (
