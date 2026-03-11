@@ -11,7 +11,8 @@ import {
   MessageCircle,
   Megaphone,
   Building,
-  ShoppingBag
+  ShoppingBag,
+  Settings2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLocation } from "react-router-dom";
@@ -30,6 +31,7 @@ const navigationItems = [
   { icon: MessageCircle, label: "Meetings", path: "/meetings" },
   { icon: Megaphone, label: "Marketing", path: "/marketing" },
   { icon: Building, label: "My Company", path: "/my-company" },
+  { icon: Settings2, label: "Operations", path: "/operations" },
 ];
 
 export function Sidebar() {
