@@ -3,16 +3,21 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Leaf, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import loginDashboard from "@/assets/login-dashboard.png";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [view, setView] = useState<"login" | "forgot">("login");
+  const [view, setView] = useState<"login" | "forgot" | "signup">("login");
   const [resetEmail, setResetEmail] = useState("");
+  const [signupName, setSignupName] = useState("");
+  const [signupEmail, setSignupEmail] = useState("");
+  const [signupPassword, setSignupPassword] = useState("");
+  const [signupConfirm, setSignupConfirm] = useState("");
+  const [showSignupPassword, setShowSignupPassword] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -36,111 +41,156 @@ const Login = () => {
     setView("login");
   };
 
+  const handleSignup = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!signupName || !signupEmail || !signupPassword || !signupConfirm) {
+      toast({ title: "Please fill in all fields", variant: "destructive" });
+      return;
+    }
+    if (signupPassword !== signupConfirm) {
+      toast({ title: "Passwords do not match", variant: "destructive" });
+      return;
+    }
+    toast({ title: "Account created", description: "Welcome to Zeero Group!" });
+    navigate("/");
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4">
-      <div className="w-full max-w-md space-y-6">
-        {/* Logo */}
-        <div className="flex flex-col items-center gap-2">
-          <div className="h-12 w-12 rounded-xl bg-primary flex items-center justify-center">
-            <Leaf className="h-6 w-6 text-primary-foreground" />
+    <div className="min-h-screen flex">
+      {/* Left Panel */}
+      <div className="hidden lg:flex lg:w-1/2 flex-col justify-between p-10 text-primary-foreground relative overflow-hidden"
+        style={{ background: "linear-gradient(135deg, hsl(160 60% 25%), hsl(120 50% 35%))" }}
+      >
+        <div>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="h-10 w-10 rounded-xl bg-primary-foreground/20 flex items-center justify-center">
+              <Leaf className="h-5 w-5 text-primary-foreground" />
+            </div>
+            <span className="text-xl font-bold tracking-tight">Zeero Group</span>
           </div>
-          <h1 className="text-2xl font-bold text-foreground">Greener</h1>
+          <p className="text-primary-foreground/70 text-sm mt-1">
+            Measure, reduce & offset your carbon footprint
+          </p>
         </div>
 
-        {view === "login" ? (
-          <Card className="border-border shadow-lg">
-            <CardHeader className="text-center">
-              <CardTitle className="text-xl text-foreground">Welcome back</CardTitle>
-              <CardDescription>Sign in to your account to continue</CardDescription>
-            </CardHeader>
-            <form onSubmit={handleLogin}>
-              <CardContent className="space-y-4">
+        <div className="flex-1 flex items-center justify-center py-8">
+          <img
+            src={loginDashboard}
+            alt="Zeero Group Dashboard"
+            className="w-full max-w-md rounded-xl shadow-2xl border border-primary-foreground/10"
+          />
+        </div>
+
+        <div className="text-sm text-primary-foreground/60">
+          Trusted by 200+ organisations worldwide
+        </div>
+      </div>
+
+      {/* Right Panel */}
+      <div className="flex-1 flex items-center justify-center bg-background px-6">
+        <div className="w-full max-w-sm space-y-6">
+          {/* Mobile logo */}
+          <div className="flex flex-col items-center gap-2 lg:hidden">
+            <div className="h-12 w-12 rounded-xl bg-primary flex items-center justify-center">
+              <Leaf className="h-6 w-6 text-primary-foreground" />
+            </div>
+            <h1 className="text-2xl font-bold text-foreground">Zeero Group</h1>
+          </div>
+
+          {view === "login" && (
+            <>
+              <div className="space-y-1">
+                <h2 className="text-2xl font-bold text-foreground">Welcome back</h2>
+                <p className="text-sm text-muted-foreground">Sign in to your account to continue</p>
+              </div>
+              <form onSubmit={handleLogin} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="you@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
+                  <Input id="email" type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <Label htmlFor="password">Password</Label>
-                    <button
-                      type="button"
-                      onClick={() => setView("forgot")}
-                      className="text-xs text-primary hover:underline"
-                    >
+                    <button type="button" onClick={() => setView("forgot")} className="text-xs text-primary hover:underline">
                       Forgot password?
                     </button>
                   </div>
                   <div className="relative">
-                    <Input
-                      id="password"
-                      type={showPassword ? "text" : "password"}
-                      placeholder="••••••••"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                    >
+                    <Input id="password" type={showPassword ? "text" : "password"} placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
                       {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </button>
                   </div>
                 </div>
-              </CardContent>
-              <CardFooter className="flex-col gap-3">
-                <Button type="submit" className="w-full">
-                  Sign in
-                </Button>
-                <p className="text-sm text-muted-foreground">
-                  Don't have an account?{" "}
-                  <button type="button" className="text-primary hover:underline font-medium">
-                    Sign up
-                  </button>
-                </p>
-              </CardFooter>
-            </form>
-          </Card>
-        ) : (
-          <Card className="border-border shadow-lg">
-            <CardHeader className="text-center">
-              <CardTitle className="text-xl text-foreground">Reset password</CardTitle>
-              <CardDescription>Enter your email and we'll send you a reset link</CardDescription>
-            </CardHeader>
-            <form onSubmit={handleForgotPassword}>
-              <CardContent className="space-y-4">
+                <Button type="submit" className="w-full">Sign in</Button>
+              </form>
+              <p className="text-sm text-center text-muted-foreground">
+                Don't have an account?{" "}
+                <button type="button" onClick={() => setView("signup")} className="text-primary hover:underline font-medium">
+                  Create account
+                </button>
+              </p>
+            </>
+          )}
+
+          {view === "forgot" && (
+            <>
+              <div className="space-y-1">
+                <h2 className="text-2xl font-bold text-foreground">Reset password</h2>
+                <p className="text-sm text-muted-foreground">Enter your email and we'll send you a reset link</p>
+              </div>
+              <form onSubmit={handleForgotPassword} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="reset-email">Email</Label>
-                  <Input
-                    id="reset-email"
-                    type="email"
-                    placeholder="you@example.com"
-                    value={resetEmail}
-                    onChange={(e) => setResetEmail(e.target.value)}
-                  />
+                  <Input id="reset-email" type="email" placeholder="you@example.com" value={resetEmail} onChange={(e) => setResetEmail(e.target.value)} />
                 </div>
-              </CardContent>
-              <CardFooter className="flex-col gap-3">
-                <Button type="submit" className="w-full">
-                  Send reset link
-                </Button>
-                <button
-                  type="button"
-                  onClick={() => setView("login")}
-                  className="text-sm text-primary hover:underline"
-                >
-                  Back to sign in
+                <Button type="submit" className="w-full">Send reset link</Button>
+              </form>
+              <button type="button" onClick={() => setView("login")} className="text-sm text-primary hover:underline block mx-auto">
+                Back to sign in
+              </button>
+            </>
+          )}
+
+          {view === "signup" && (
+            <>
+              <div className="space-y-1">
+                <h2 className="text-2xl font-bold text-foreground">Create account</h2>
+                <p className="text-sm text-muted-foreground">Get started with Zeero Group</p>
+              </div>
+              <form onSubmit={handleSignup} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="signup-name">Full name</Label>
+                  <Input id="signup-name" type="text" placeholder="John Doe" value={signupName} onChange={(e) => setSignupName(e.target.value)} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signup-email">Email</Label>
+                  <Input id="signup-email" type="email" placeholder="you@example.com" value={signupEmail} onChange={(e) => setSignupEmail(e.target.value)} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signup-password">Password</Label>
+                  <div className="relative">
+                    <Input id="signup-password" type={showSignupPassword ? "text" : "password"} placeholder="••••••••" value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} />
+                    <button type="button" onClick={() => setShowSignupPassword(!showSignupPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                      {showSignupPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signup-confirm">Confirm password</Label>
+                  <Input id="signup-confirm" type="password" placeholder="••••••••" value={signupConfirm} onChange={(e) => setSignupConfirm(e.target.value)} />
+                </div>
+                <Button type="submit" className="w-full">Create account</Button>
+              </form>
+              <p className="text-sm text-center text-muted-foreground">
+                Already have an account?{" "}
+                <button type="button" onClick={() => setView("login")} className="text-primary hover:underline font-medium">
+                  Sign in
                 </button>
-              </CardFooter>
-            </form>
-          </Card>
-        )}
+              </p>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
