@@ -62,22 +62,22 @@ const Login = () => {
         style={{ background: "linear-gradient(135deg, hsl(160 60% 25%), hsl(120 50% 35%))" }}
       >
         <div>
-          <div className="flex items-center gap-3 mb-2">
+          <div className="flex items-center gap-3">
             <div className="h-10 w-10 rounded-xl bg-primary-foreground/20 flex items-center justify-center">
               <Leaf className="h-5 w-5 text-primary-foreground" />
             </div>
             <span className="text-xl font-bold tracking-tight">Zeero Group</span>
           </div>
-          <p className="text-primary-foreground/70 text-sm mt-1">
-            Measure, reduce & offset your carbon footprint
-          </p>
         </div>
 
-        <div className="flex-1 flex items-center justify-center py-8">
+        <div className="flex-1 flex flex-col items-center justify-center gap-6 py-8">
+          <p className="text-primary-foreground/90 text-lg font-medium text-center">
+            Measure, reduce & offset your carbon footprint
+          </p>
           <img
             src={loginDashboard}
             alt="Zeero Group Dashboard"
-            className="w-full max-w-md rounded-xl shadow-2xl border border-primary-foreground/10"
+            className="w-full rounded-xl shadow-2xl border border-primary-foreground/10"
           />
         </div>
 
