@@ -27,6 +27,7 @@ import Balance from "./pages/Balance";
 import Trees from "./pages/Trees";
 import CO2Calculator from "./pages/CO2Calculator";
 import Operations from "./pages/Operations";
+import Login from "./pages/Login";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/events" element={<Events />} />
           <Route path="/events/new" element={<NewEvent />} />
