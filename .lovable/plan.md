@@ -1,70 +1,41 @@
 
 
-## Billing Tab Redesign: Compact Plans + Invoices
+## Login Page Redesign - Split Layout with Dashboard Image
 
 ### Overview
-Redesign the Billing tab to make subscription plans more compact, and add a full Invoices section with support for both card-paid (Stripe) and invoice-based billing. Access is restricted to Account Owner and Billing Manager roles (UI-level for now).
+Redesign `/login` to a split two-panel layout. Left panel shows the uploaded dashboard charts image with Zeero Group branding. Right panel has the login form. Add a "Create account" view. Rename all "Greener" references to "Zeero Group".
 
-### Changes to `src/pages/OrganisationSettings.tsx`
+### Layout
 
-**1. Make Subscription Plans Compact**
-- Reduce plan card padding from `p-6` to `p-4`
-- Reduce plan name from `text-2xl` to `text-lg`
-- Reduce price from `text-4xl` to `text-2xl`
-- Tighten spacing between feature list items
-- This keeps all three plans visible without dominating the page
-
-**2. Add Invoices Section (new Card below plans)**
-
-Add mock invoice data and render a table with these columns:
-
-| Column | Description |
-|--------|-------------|
-| Invoice # | e.g. INV-2024-001 |
-| Date | Issue date |
-| Amount | e.g. $400.00 |
-| Payment Method | "Card" or "Invoice" |
-| Status | Paid / Unpaid / Overdue (with coloured badges) |
-| Due Date | Shown for invoice-based billing |
-| Days Remaining | Calculated from due date using Net 30 terms |
-| Action | "Pay by Card" button for unpaid invoices |
-
-- Card-paid invoices (from Stripe) show status as "Paid" with no action needed
-- Invoice-based entries show due date, days remaining, and a "Pay by Card" button when unpaid
-- Overdue invoices (past due date) show negative days and a red "Overdue" badge
-
-**3. Role-Based Access Control (UI-level)**
-
-- Check the current mock user's role (from the existing `users` state)
-- If the current user's role is `"user"` (not account_owner or billing_manager), show a restricted access message instead of the Billing tab content
-- This is UI-only gating for now; server-side enforcement would come later with Supabase
-
-**4. "Pay by Card" Dialog**
-
-- Add a simple confirmation dialog when clicking "Pay by Card" on an unpaid invoice
-- Shows invoice details and a confirm button
-- On confirm, shows a toast: "Payment initiated" (mock behaviour)
-
-### New State and Data
-
-```typescript
-interface Invoice {
-  id: string;
-  number: string;
-  date: string;
-  amount: number;
-  paymentMethod: "card" | "invoice";
-  status: "paid" | "unpaid" | "overdue";
-  dueDate?: string;
-}
+```text
+┌─────────────────────────┬─────────────────────────┐
+│  LEFT (hidden mobile)   │  RIGHT                  │
+│  Primary green bg       │  White bg               │
+│                         │                         │
+│  Zeero Group logo       │  "Welcome back" / ...   │
+│  Tagline text           │                         │
+│                         │  Email input            │
+│  [Dashboard image]      │  Password input         │
+│                         │  Forgot password link   │
+│  "Trusted by X orgs"   │  Sign in button         │
+│                         │  "Create account" link  │
+└─────────────────────────┴─────────────────────────┘
 ```
 
-Mock data will include ~5 invoices mixing card-paid and invoice-based entries.
+### Changes to `src/pages/Login.tsx`
 
-### New Imports
-- `CreditCard`, `FileText`, `Clock` from lucide-react
-- `Dialog` components (already available)
-- `date-fns` `differenceInDays` and `format` for date calculations
+1. **Copy uploaded image** to `src/assets/login-dashboard.png` and import it
+2. **Split layout**: `min-h-screen flex` with two halves
+   - Left: `hidden lg:flex` with primary green gradient, Zeero Group branding, the dashboard image, and marketing copy
+   - Right: centered form area (current form logic)
+3. **Rename** "Greener" to "Zeero Group" throughout
+4. **Add "signup" view** to the existing view state (`"login" | "forgot" | "signup"`)
+   - Signup form: Name, Email, Password, Confirm Password fields
+   - "Already have an account? Sign in" link
+   - Mock submit with toast
+5. **Wire "Create account"** link from login view and "Sign up" button from the reference
 
 ### Files Modified
-- `src/pages/OrganisationSettings.tsx` -- all changes in this single file
+- `src/pages/Login.tsx` - full rewrite
+- `src/assets/login-dashboard.png` - copied from upload
+
