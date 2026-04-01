@@ -79,13 +79,7 @@ const LandingPage = () => {
               </div>
             </div>
             <div className="hidden lg:block">
-              {/* Placeholder for hero image */}
-              <div className="bg-secondary rounded-2xl aspect-[4/3] flex items-center justify-center border border-border">
-                <div className="text-center text-muted-foreground">
-                  <BarChart3 className="w-16 h-16 mx-auto mb-3 opacity-40" />
-                  <p className="text-sm">Hero Image Placeholder</p>
-                </div>
-              </div>
+              <img src={heroDashboard} alt="Zeero Events dashboard showing carbon emissions tracking" className="rounded-2xl shadow-xl border border-border w-full" />
             </div>
           </div>
         </div>
