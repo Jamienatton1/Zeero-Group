@@ -429,6 +429,51 @@ const LandingPage = () => {
       </section>
 
 
+      {/* Contact Section */}
+      <section id="contact" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-bold text-foreground mb-2">Get in Touch</h2>
+          <p className="text-muted-foreground max-w-xl mx-auto">Have questions about ZEERO Events? We'd love to hear from you.</p>
+        </div>
+        <Card className="max-w-lg mx-auto border-border">
+          <CardContent className="pt-6">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                toast({
+                  title: "Message sent!",
+                  description: "We'll get back to you as soon as possible.",
+                });
+                setContactName("");
+                setContactEmail("");
+                setContactMessage("");
+              }}
+              className="space-y-4"
+            >
+              <div>
+                <label className="text-sm font-medium text-foreground mb-1.5 block">Name</label>
+                <Input placeholder="Your name" value={contactName} onChange={(e) => setContactName(e.target.value)} required />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-foreground mb-1.5 block">Email</label>
+                <Input type="email" placeholder="you@example.com" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} required />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-foreground mb-1.5 block">Message</label>
+                <Textarea placeholder="How can we help?" value={contactMessage} onChange={(e) => setContactMessage(e.target.value)} required className="min-h-[120px]" />
+              </div>
+              <Button type="submit" className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
+                <Send className="w-4 h-4 mr-1" />
+                Send Message
+              </Button>
+            </form>
+            <p className="text-center text-sm text-muted-foreground mt-4">
+              Or email us directly at <a href="mailto:info@zeeroevents.com" className="text-primary hover:underline">info@zeeroevents.com</a>
+            </p>
+          </CardContent>
+        </Card>
+      </section>
+
       {/* Pre-Footer CTA */}
       <section id="get-started" className="bg-gradient-hero">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
