@@ -279,12 +279,10 @@ const LandingPage = () => {
 
       {/* How It Works */}
       <section id="how-it-works" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-foreground mb-2">How ZEERO Events Works</h2>
-          <p className="text-muted-foreground">Comprehensive event impact analysis</p>
-        </div>
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
+            <h2 className="text-3xl font-bold text-foreground mb-2">How ZEERO Events Works</h2>
+            <p className="text-muted-foreground mb-6">Comprehensive event impact analysis</p>
             <p className="text-muted-foreground mb-6">
               ZEERO Events evaluates all major emission sources associated with meetings and events, providing a structured question flow that helps planners understand emission drivers and identify reduction opportunities early.
             </p>
