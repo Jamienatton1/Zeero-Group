@@ -80,6 +80,10 @@ const LandingPage = () => {
                   See How It Works
                 </Button>
               </div>
+              <p className="flex items-center gap-2 text-sm text-muted-foreground mt-3">
+                <CheckCircle className="w-4 h-4 text-primary" />
+                No credit card required. Start for free today.
+              </p>
             </div>
             <div className="hidden lg:block">
               <img src={heroDashboard} alt="Zeero Events dashboard showing carbon emissions tracking" className="rounded-2xl shadow-xl border border-border w-full" />
