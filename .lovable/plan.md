@@ -1,20 +1,25 @@
 
 
-## Plan: Add "Start Free Trial — No Credit Card Required" Messaging
+## Plan: Add Contact Section to Landing Page
 
 ### What changes
 
-1. **Hero Section** — Add a subtle text line beneath the CTA buttons: "No credit card required. Start for free today." This is the highest-visibility placement.
+1. **Add "Contact Us" link in the navigation bar** — Insert a nav link pointing to `#contact` alongside the existing Features, Pricing, etc.
 
-2. **Pricing Section** — Add a banner/callout above the pricing cards reinforcing "Start your free trial — no credit card required" with a CTA button.
+2. **Add a Contact section before the Pre-Footer CTA** — A simple section with:
+   - Heading: "Get in Touch"
+   - Subtitle: "Have questions? We'd love to hear from you."
+   - A contact form with Name, Email, and Message fields plus a "Send Message" button
+   - Alternatively, display a contact email address (e.g. info@zeeroevents.com) alongside the form
 
-3. **Pre-Footer CTA Section** — Add a dedicated full-width call-to-action band before the footer with bold messaging: "Get Started for Free — No Credit Card Required" and a prominent "Start Free Trial" button linking to `/onboarding`.
+3. **Add "Contact" to the footer** — Add a contact email link or anchor to `#contact` in the footer's columns.
 
 ### Technical details
 
-All changes are in `src/pages/LandingPage.tsx`:
+All changes in `src/pages/LandingPage.tsx`:
 
-- **Line ~82** (after CTA buttons): Insert a `<p>` with "No credit card required" text styled with `text-sm text-muted-foreground` and a checkmark icon.
-- **Pricing section**: Add a centered callout div above the pricing grid with the free trial message and a green CTA button.
-- **Line ~448** (before footer): Insert a new `<section>` with a green gradient background, headline "Get Started for Free", subtitle "No credit card required", and a "Start Free Trial" button.
+- **Nav bar (~line 31)**: Add `<a href="#contact">Contact</a>` link.
+- **New section (~line 423, before Pre-Footer CTA)**: Add a `<section id="contact">` with a centered card containing a simple form (Name, Email, Message fields using existing `Input` and `Textarea` components, plus a submit `Button`). Since there's no backend, the form will use a `mailto:` link or show a toast confirmation on submit.
+- **Footer (~line 461)**: Add a "Contact" column with an email link and the `#contact` anchor.
+- **Import**: Add `Textarea` from `@/components/ui/textarea` and `useToast` for submit feedback.
 
