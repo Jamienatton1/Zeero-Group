@@ -134,7 +134,6 @@ const LandingPage = () => {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
             { icon: BookOpen, title: "Step by Step Guides", desc: "Structured workflows to measure and manage your event's carbon footprint." },
-            { icon: Play, title: "Training Videos", desc: "On-demand video guidance for every feature and workflow." },
             { icon: Star, title: "Best Practices", desc: "Industry-leading methodologies and reduction strategies." },
             { icon: FileText, title: "White-Label Reports", desc: "Branded carbon reports for your clients and stakeholders." },
           ].map((feature) => (
