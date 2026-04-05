@@ -82,9 +82,9 @@ const LandingPage = () => {
                   <ArrowRight className="w-4 h-4 ml-1" />
                 </Button>
                 <Button size="lg" variant="outline" onClick={() => {
-                  document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+                  document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" });
                 }}>
-                  Contact Us
+                  See How It Works
                 </Button>
               </div>
               <p className="flex items-center gap-2 text-sm text-muted-foreground mt-3">
