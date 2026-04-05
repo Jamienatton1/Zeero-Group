@@ -131,7 +131,7 @@ const LandingPage = () => {
           <h2 className="text-3xl font-bold text-foreground mb-2">Everything You Need</h2>
           <p className="text-muted-foreground">A sustainability platform built for tomorrow's events</p>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
           {[
             { icon: BookOpen, title: "Step by Step Guides", desc: "Structured workflows to measure and manage your event's carbon footprint." },
             { icon: Star, title: "Best Practices", desc: "Industry-leading methodologies and reduction strategies." },
