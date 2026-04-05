@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { TreePine, BarChart3, Users, FileText, Play, BookOpen, Star, CheckCircle, ArrowRight, Leaf, Building, Globe, Mail, ChevronDown } from "lucide-react";
+import { TreePine, BarChart3, Users, FileText, BookOpen, Star, CheckCircle, ArrowRight, Leaf, Building, Globe, Mail, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
