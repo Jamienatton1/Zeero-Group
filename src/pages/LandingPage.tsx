@@ -81,10 +81,16 @@ const LandingPage = () => {
                   Start Free Trial
                   <ArrowRight className="w-4 h-4 ml-1" />
                 </Button>
-                <Button size="lg" variant="outline" onClick={() => {
-                  document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" });
-                }}>
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  className="border border-border shadow-sm hover:shadow-md"
+                  onClick={() => {
+                    document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                >
                   See How It Works
+                  <ChevronDown className="w-4 h-4 ml-1" />
                 </Button>
               </div>
               <p className="flex items-center gap-2 text-sm text-muted-foreground mt-3">
