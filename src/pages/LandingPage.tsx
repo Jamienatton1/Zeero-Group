@@ -421,45 +421,9 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Get Started CTA */}
-      <section id="get-started" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-foreground mb-2">Get Started</h2>
-        </div>
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          <Card className="border-border">
-            <CardContent className="pt-6 text-center">
-              <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                <ArrowRight className="w-7 h-7 text-primary" />
-              </div>
-              <h3 className="text-lg font-semibold text-foreground mb-2">New Users</h3>
-              <p className="text-sm text-muted-foreground mb-6">
-                Select your plan above or register your interest here, and our team will be in touch to get you started.
-              </p>
-              <Button onClick={() => navigate("/onboarding")} className="bg-primary text-primary-foreground hover:bg-primary/90 w-full">
-                Create Account
-              </Button>
-            </CardContent>
-          </Card>
-          <Card className="border-border">
-            <CardContent className="pt-6 text-center">
-              <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                <Users className="w-7 h-7 text-primary" />
-              </div>
-              <h3 className="text-lg font-semibold text-foreground mb-2">Existing ZEERO Dashboard Users</h3>
-              <p className="text-sm text-muted-foreground mb-6">
-                Contact us and we'll activate the latest ZEERO Events Dashboard on your account.
-              </p>
-              <Button variant="outline" onClick={() => navigate("/login")} className="w-full">
-                Log In
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
 
       {/* Pre-Footer CTA */}
-      <section className="bg-gradient-hero">
+      <section id="get-started" className="bg-gradient-hero">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold text-primary-foreground mb-3">Get Started for Free</h2>
           <p className="text-primary-foreground/80 text-lg mb-2">No credit card required. No commitment.</p>
