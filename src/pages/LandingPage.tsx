@@ -159,11 +159,19 @@ const LandingPage = () => {
       {/* Pricing Section */}
       <section id="pricing" className="bg-card border-y border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-foreground mb-2">Pricing & Plans</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Flexible plans for hotels, venues, agencies and corporate event teams — whether you're piloting sustainability or scaling across a global programme.
             </p>
+          </div>
+          <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 text-center mb-10 max-w-2xl mx-auto">
+            <p className="text-lg font-semibold text-foreground mb-1">Start your free trial — no credit card required</p>
+            <p className="text-sm text-muted-foreground mb-4">Try ZEERO Events free and see the impact on your first event.</p>
+            <Button onClick={() => navigate("/onboarding")} className="bg-primary text-primary-foreground hover:bg-primary/90">
+              Start Free Trial
+              <ArrowRight className="w-4 h-4 ml-1" />
+            </Button>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Cvent Lite */}
