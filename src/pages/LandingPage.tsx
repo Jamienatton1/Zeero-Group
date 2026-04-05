@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { TreePine, BarChart3, Users, FileText, BookOpen, Star, CheckCircle, ArrowRight, Leaf, Building, Globe, Mail, ChevronDown } from "lucide-react";
+import { TreePine, BarChart3, Users, FileText, BookOpen, Star, CheckCircle, ArrowRight, Leaf, Building, Globe, Mail, ChevronDown, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
 import heroDashboard from "@/assets/hero-dashboard.png";
 import attendeeEngagementImg from "@/assets/attendee-engagement.png";
 import eventImpactImg from "@/assets/event-impact-analysis.png";
