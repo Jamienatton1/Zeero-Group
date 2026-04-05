@@ -13,6 +13,10 @@ import eventImpactImg from "@/assets/event-impact-analysis.png";
 const LandingPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [contactName, setContactName] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
+  const [contactMessage, setContactMessage] = useState("");
+  const { toast } = useToast();
 
   return (
     <div className="min-h-screen bg-background">
