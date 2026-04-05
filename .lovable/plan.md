@@ -1,41 +1,20 @@
 
 
-## Login Page Redesign - Split Layout with Dashboard Image
+## Plan: Add "Start Free Trial — No Credit Card Required" Messaging
 
-### Overview
-Redesign `/login` to a split two-panel layout. Left panel shows the uploaded dashboard charts image with Zeero Group branding. Right panel has the login form. Add a "Create account" view. Rename all "Greener" references to "Zeero Group".
+### What changes
 
-### Layout
+1. **Hero Section** — Add a subtle text line beneath the CTA buttons: "No credit card required. Start for free today." This is the highest-visibility placement.
 
-```text
-┌─────────────────────────┬─────────────────────────┐
-│  LEFT (hidden mobile)   │  RIGHT                  │
-│  Primary green bg       │  White bg               │
-│                         │                         │
-│  Zeero Group logo       │  "Welcome back" / ...   │
-│  Tagline text           │                         │
-│                         │  Email input            │
-│  [Dashboard image]      │  Password input         │
-│                         │  Forgot password link   │
-│  "Trusted by X orgs"   │  Sign in button         │
-│                         │  "Create account" link  │
-└─────────────────────────┴─────────────────────────┘
-```
+2. **Pricing Section** — Add a banner/callout above the pricing cards reinforcing "Start your free trial — no credit card required" with a CTA button.
 
-### Changes to `src/pages/Login.tsx`
+3. **Pre-Footer CTA Section** — Add a dedicated full-width call-to-action band before the footer with bold messaging: "Get Started for Free — No Credit Card Required" and a prominent "Start Free Trial" button linking to `/onboarding`.
 
-1. **Copy uploaded image** to `src/assets/login-dashboard.png` and import it
-2. **Split layout**: `min-h-screen flex` with two halves
-   - Left: `hidden lg:flex` with primary green gradient, Zeero Group branding, the dashboard image, and marketing copy
-   - Right: centered form area (current form logic)
-3. **Rename** "Greener" to "Zeero Group" throughout
-4. **Add "signup" view** to the existing view state (`"login" | "forgot" | "signup"`)
-   - Signup form: Name, Email, Password, Confirm Password fields
-   - "Already have an account? Sign in" link
-   - Mock submit with toast
-5. **Wire "Create account"** link from login view and "Sign up" button from the reference
+### Technical details
 
-### Files Modified
-- `src/pages/Login.tsx` - full rewrite
-- `src/assets/login-dashboard.png` - copied from upload
+All changes are in `src/pages/LandingPage.tsx`:
+
+- **Line ~82** (after CTA buttons): Insert a `<p>` with "No credit card required" text styled with `text-sm text-muted-foreground` and a checkmark icon.
+- **Pricing section**: Add a centered callout div above the pricing grid with the free trial message and a green CTA button.
+- **Line ~448** (before footer): Insert a new `<section>` with a green gradient background, headline "Get Started for Free", subtitle "No credit card required", and a "Start Free Trial" button.
 
