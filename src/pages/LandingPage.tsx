@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import heroDashboard from "@/assets/hero-dashboard.png";
+import attendeeEngagementImg from "@/assets/attendee-engagement.png";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -319,13 +320,11 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              {/* Placeholder for attendee engagement image */}
-              <div className="bg-secondary rounded-2xl aspect-[4/3] flex items-center justify-center border border-border">
-                <div className="text-center text-muted-foreground">
-                  <Users className="w-16 h-16 mx-auto mb-3 opacity-40" />
-                  <p className="text-sm">Questionnaire Preview Placeholder</p>
-                </div>
-              </div>
+              <img
+                src={attendeeEngagementImg}
+                alt="Attendee engagement tools showing carbon survey, CO2 impact dashboard, and question types"
+                className="rounded-2xl w-full"
+              />
             </div>
             <div>
               <h2 className="text-3xl font-bold text-foreground mb-4">Attendee Engagement Tools</h2>
