@@ -161,83 +161,116 @@ const LandingPage = () => {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Cvent Lite */}
-            <Card className="border-border">
+            <Card className="border-border flex flex-col">
               <CardHeader className="pb-4">
-                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Cvent Lite</p>
-                <CardTitle className="text-foreground">A simple CO₂e summary</CardTitle>
+                <p className="text-xs font-semibold text-primary uppercase tracking-wider">Cvent Lite</p>
+                <CardTitle className="text-foreground text-lg">A simple CO₂e summary displayed directly inside Cvent powered by Zeero's API.</CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground mb-4">Cvent powered by Zeero's API. Every subscription restores nature & powers renewable energy.</p>
-                <ul className="space-y-2 text-sm text-muted-foreground">
+              <CardContent className="flex-1 flex flex-col">
+                <div className="mb-4">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase mb-1">Ideal for:</p>
+                  <p className="text-sm text-muted-foreground">M&E agencies & planners who want basic visibility inside their existing workflow.</p>
+                </div>
+                <p className="text-xs font-semibold text-muted-foreground uppercase mb-2">Highlights:</p>
+                <ul className="space-y-2 text-sm text-muted-foreground mb-6">
                   <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />CO₂ summary inside Cvent</li>
                   <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />Automated API calculation</li>
                   <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />Seamless integration</li>
+                  <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />Ideal starting point before upgrading</li>
                 </ul>
+                <div className="mt-auto pt-4 border-t border-border">
+                  <p className="text-xs text-muted-foreground mb-3"><span className="font-semibold">Upgrade to Tiers 1–3 for:</span> Dashboards, reporting, analytics, climate contributions, and full sustainability intelligence.</p>
+                  <Button variant="outline" className="w-full" onClick={() => navigate("/onboarding")}>Learn More</Button>
+                </div>
               </CardContent>
             </Card>
 
             {/* Core */}
-            <Card className="border-border">
+            <Card className="border-primary border-2 relative flex flex-col">
               <CardHeader className="pb-4">
-                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Core</p>
-                <CardTitle className="text-foreground">Credible carbon reporting</CardTitle>
+                <p className="text-xs font-semibold text-primary uppercase tracking-wider">Core</p>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-3xl font-bold text-foreground">£69</span>
+                  <span className="text-muted-foreground text-sm">/month</span>
+                </div>
+                <p className="text-xs text-primary font-medium">Includes 26 Trees</p>
+                <CardTitle className="text-foreground text-base mt-2">More than software, every subscription restores nature & powers renewable energy every month.</CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground mb-4">For hotels, venues & event teams needing simple, credible carbon reporting with built-in climate impact.</p>
-                <ul className="space-y-2 text-sm text-muted-foreground">
+              <CardContent className="flex-1 flex flex-col">
+                <div className="mb-4">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase mb-1">Ideal for:</p>
+                  <p className="text-sm text-muted-foreground">Hotels, venues & event teams needing simple, credible carbon reporting with built-in climate impact.</p>
+                </div>
+                <p className="text-xs font-semibold text-muted-foreground uppercase mb-2">What you get:</p>
+                <ul className="space-y-2 text-sm text-muted-foreground mb-6">
                   <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />5 carbon reports per month</li>
                   <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />F&B, travel & venue inputs</li>
                   <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />Unlimited users</li>
                   <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />White-labelled reports</li>
-                  <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />Monthly climate contributions</li>
+                  <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />12-month data retention</li>
+                  <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />Monthly climate contributions (trees + UN CERs)</li>
                 </ul>
+                <div className="mt-auto pt-4 border-t border-border">
+                  <p className="text-xs text-muted-foreground mb-3"><span className="font-semibold">Why choose Core:</span> A simple, accessible way to measure event emissions while directly funding climate action.</p>
+                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90" onClick={() => navigate("/onboarding")}>Learn More</Button>
+                </div>
               </CardContent>
             </Card>
 
             {/* Impact */}
-            <Card className="border-primary border-2 relative">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full">
-                Most Popular
-              </div>
+            <Card className="border-border flex flex-col">
               <CardHeader className="pb-4">
-                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Impact</p>
-                <CardTitle className="text-foreground">Deeper insights</CardTitle>
+                <p className="text-xs font-semibold text-primary uppercase tracking-wider">Impact</p>
+                <div className="inline-block bg-secondary text-foreground text-xs font-semibold px-3 py-1 rounded-full w-fit">Coming Soon</div>
+                <CardTitle className="text-foreground text-base mt-2">Advanced insights for teams scaling their sustainability performance.</CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground mb-4">For agencies, venues & event teams managing multiple events who need deeper insights.</p>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />Everything in Core</li>
+              <CardContent className="flex-1 flex flex-col">
+                <div className="mb-4">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase mb-1">Ideal for:</p>
+                  <p className="text-sm text-muted-foreground">Agencies, venues & event teams managing multiple events who need deeper insights.</p>
+                </div>
+                <p className="text-xs font-semibold text-muted-foreground uppercase mb-2">What you get:</p>
+                <ul className="space-y-2 text-sm text-muted-foreground mb-6">
+                  <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />Everything in Core +</li>
                   <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />20 carbon reports per month</li>
+                  <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />Increased report allowance</li>
                   <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />Enhanced analytics</li>
+                  <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />Advanced F&B and logistics</li>
                   <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />Multi-event insights</li>
                   <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />Extended data retention</li>
                 </ul>
+                <div className="mt-auto pt-4 border-t border-border">
+                  <p className="text-xs text-muted-foreground"><span className="font-semibold">Why upgrade:</span> Unlock richer reporting & programme-level intelligence to optimise event sustainability at scale.</p>
+                </div>
               </CardContent>
             </Card>
 
             {/* Intelligence */}
-            <Card className="border-border">
+            <Card className="border-border flex flex-col">
               <CardHeader className="pb-4">
-                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Intelligence</p>
-                <CardTitle className="text-foreground">Enterprise-level</CardTitle>
+                <p className="text-xs font-semibold text-primary uppercase tracking-wider">Intelligence</p>
+                <div className="inline-block bg-secondary text-foreground text-xs font-semibold px-3 py-1 rounded-full w-fit">Coming Soon</div>
+                <CardTitle className="text-foreground text-base mt-2">Enterprise-level sustainability intelligence for organisations leading the way.</CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground mb-4">For agencies & corporates with complex, large venues, hotel groups, global event portfolios.</p>
-                <ul className="space-y-2 text-sm text-muted-foreground">
+              <CardContent className="flex-1 flex flex-col">
+                <div className="mb-4">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase mb-1">Ideal for:</p>
+                  <p className="text-sm text-muted-foreground">Large venues, hotel groups, global agencies & corporates with complex event portfolios.</p>
+                </div>
+                <p className="text-xs font-semibold text-muted-foreground uppercase mb-2">What you get:</p>
+                <ul className="space-y-2 text-sm text-muted-foreground mb-6">
                   <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />Unlimited reporting</li>
                   <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />Dedicated account support</li>
                   <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />Custom dashboards</li>
                   <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />API integrations</li>
-                  <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />Benchmarking & optimisation</li>
+                  <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />Benchmarking & optimisation tools</li>
+                  <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />Long-term data retention</li>
                 </ul>
+                <div className="mt-auto pt-4 border-t border-border">
+                  <p className="text-xs text-muted-foreground"><span className="font-semibold">Why upgrade:</span> A complete sustainability intelligence ecosystem for organisations that need deep analytics, benchmarking & custom integrations.</p>
+                </div>
               </CardContent>
             </Card>
-          </div>
-          <div className="text-center mt-8">
-            <Button size="lg" onClick={() => navigate("/onboarding")} className="bg-primary text-primary-foreground hover:bg-primary/90">
-              Choose Your Plan
-              <ArrowRight className="w-4 h-4 ml-1" />
-            </Button>
           </div>
         </div>
       </section>
