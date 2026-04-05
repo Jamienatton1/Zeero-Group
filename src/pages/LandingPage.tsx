@@ -496,7 +496,7 @@ const LandingPage = () => {
       {/* Footer */}
       <footer className="bg-[hsl(var(--sidebar-dark))] text-primary-foreground">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-8 h-8 bg-gradient-hero rounded-lg flex items-center justify-center">
