@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import heroDashboard from "@/assets/hero-dashboard.png";
 import attendeeEngagementImg from "@/assets/attendee-engagement.png";
+import eventImpactImg from "@/assets/event-impact-analysis.png";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -304,13 +305,11 @@ const LandingPage = () => {
             </div>
           </div>
           <div>
-            {/* Placeholder for how it works image */}
-            <div className="bg-secondary rounded-2xl aspect-[4/3] flex items-center justify-center border border-border">
-              <div className="text-center text-muted-foreground">
-                <BarChart3 className="w-16 h-16 mx-auto mb-3 opacity-40" />
-                <p className="text-sm">Dashboard Screenshot Placeholder</p>
-              </div>
-            </div>
+            <img
+              src={eventImpactImg}
+              alt="Executive summary showing projected total emissions of 142,800 kgCO2e with top emission sources breakdown"
+              className="rounded-2xl w-full border border-border shadow-lg"
+            />
           </div>
         </div>
       </section>
