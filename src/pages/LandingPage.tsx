@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { TreePine, BarChart3, Users, FileText, BookOpen, Star, CheckCircle, ArrowRight, Leaf, Building, Globe, Mail, ChevronDown } from "lucide-react";
+import { TreePine, BarChart3, Users, FileText, BookOpen, Star, CheckCircle, ArrowRight, Leaf, Building, Globe, Mail, ChevronDown, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
 import heroDashboard from "@/assets/hero-dashboard.png";
 import attendeeEngagementImg from "@/assets/attendee-engagement.png";
 import eventImpactImg from "@/assets/event-impact-analysis.png";
@@ -11,6 +13,10 @@ import eventImpactImg from "@/assets/event-impact-analysis.png";
 const LandingPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [contactName, setContactName] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
+  const [contactMessage, setContactMessage] = useState("");
+  const { toast } = useToast();
 
   return (
     <div className="min-h-screen bg-background">
@@ -28,6 +34,7 @@ const LandingPage = () => {
               <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Features</a>
               <a href="#pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
               <a href="#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">How It Works</a>
+              <a href="#contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Contact</a>
               <a href="#get-started" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Get Started</a>
             </div>
             <div className="flex items-center gap-3">
@@ -422,6 +429,51 @@ const LandingPage = () => {
       </section>
 
 
+      {/* Contact Section */}
+      <section id="contact" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-bold text-foreground mb-2">Get in Touch</h2>
+          <p className="text-muted-foreground max-w-xl mx-auto">Have questions about ZEERO Events? We'd love to hear from you.</p>
+        </div>
+        <Card className="max-w-lg mx-auto border-border">
+          <CardContent className="pt-6">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                toast({
+                  title: "Message sent!",
+                  description: "We'll get back to you as soon as possible.",
+                });
+                setContactName("");
+                setContactEmail("");
+                setContactMessage("");
+              }}
+              className="space-y-4"
+            >
+              <div>
+                <label className="text-sm font-medium text-foreground mb-1.5 block">Name</label>
+                <Input placeholder="Your name" value={contactName} onChange={(e) => setContactName(e.target.value)} required />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-foreground mb-1.5 block">Email</label>
+                <Input type="email" placeholder="you@example.com" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} required />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-foreground mb-1.5 block">Message</label>
+                <Textarea placeholder="How can we help?" value={contactMessage} onChange={(e) => setContactMessage(e.target.value)} required className="min-h-[120px]" />
+              </div>
+              <Button type="submit" className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
+                <Send className="w-4 h-4 mr-1" />
+                Send Message
+              </Button>
+            </form>
+            <p className="text-center text-sm text-muted-foreground mt-4">
+              Or email us directly at <a href="mailto:info@zeeroevents.com" className="text-primary hover:underline">info@zeeroevents.com</a>
+            </p>
+          </CardContent>
+        </Card>
+      </section>
+
       {/* Pre-Footer CTA */}
       <section id="get-started" className="bg-gradient-hero">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
@@ -463,6 +515,13 @@ const LandingPage = () => {
               <ul className="space-y-2 text-sm opacity-70">
                 <li><button onClick={() => navigate("/onboarding")} className="hover:opacity-100 transition-opacity">Create Account</button></li>
                 <li><button onClick={() => navigate("/login")} className="hover:opacity-100 transition-opacity">Log In</button></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-3">Contact</h4>
+              <ul className="space-y-2 text-sm opacity-70">
+                <li><a href="#contact" className="hover:opacity-100 transition-opacity">Contact Us</a></li>
+                <li><a href="mailto:info@zeeroevents.com" className="hover:opacity-100 transition-opacity">info@zeeroevents.com</a></li>
               </ul>
             </div>
           </div>
