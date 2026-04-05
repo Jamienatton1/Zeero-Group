@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import heroDashboard from "@/assets/hero-dashboard.png";
 import attendeeEngagementImg from "@/assets/attendee-engagement.png";
+import eventImpactImg from "@/assets/event-impact-analysis.png";
 
 const LandingPage = () => {
   const navigate = useNavigate();
