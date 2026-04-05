@@ -517,6 +517,13 @@ const LandingPage = () => {
                 <li><button onClick={() => navigate("/login")} className="hover:opacity-100 transition-opacity">Log In</button></li>
               </ul>
             </div>
+            <div>
+              <h4 className="font-semibold mb-3">Contact</h4>
+              <ul className="space-y-2 text-sm opacity-70">
+                <li><a href="#contact" className="hover:opacity-100 transition-opacity">Contact Us</a></li>
+                <li><a href="mailto:info@zeeroevents.com" className="hover:opacity-100 transition-opacity">info@zeeroevents.com</a></li>
+              </ul>
+            </div>
           </div>
           <div className="border-t border-primary-foreground/10 mt-8 pt-8 text-center text-sm opacity-50">
             © {new Date().getFullYear()} Zeero Group. All rights reserved.
