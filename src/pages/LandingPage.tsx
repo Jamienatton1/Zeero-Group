@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { TreePine, BarChart3, Users, FileText, Play, BookOpen, Star, CheckCircle, ArrowRight, Leaf, Building, Globe, Mail, ChevronDown } from "lucide-react";
+import { TreePine, BarChart3, Users, FileText, BookOpen, Star, CheckCircle, ArrowRight, Leaf, Building, Globe, Mail, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -134,7 +134,6 @@ const LandingPage = () => {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
             { icon: BookOpen, title: "Step by Step Guides", desc: "Structured workflows to measure and manage your event's carbon footprint." },
-            { icon: Play, title: "Training Videos", desc: "On-demand video guidance for every feature and workflow." },
             { icon: Star, title: "Best Practices", desc: "Industry-leading methodologies and reduction strategies." },
             { icon: FileText, title: "White-Label Reports", desc: "Branded carbon reports for your clients and stakeholders." },
           ].map((feature) => (
