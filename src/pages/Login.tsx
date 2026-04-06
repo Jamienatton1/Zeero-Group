@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Leaf, Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import loginDashboard from "@/assets/login-dashboard.png";
+import t4tLogo from "@/assets/T4Tlogo.png";
 
 const Login = () => {
   const [email, setEmail] = useState("");
