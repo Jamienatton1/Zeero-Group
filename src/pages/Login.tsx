@@ -87,10 +87,7 @@ const Login = () => {
         <div className="w-full max-w-sm space-y-6">
           {/* Mobile logo */}
           <div className="flex flex-col items-center gap-2 lg:hidden">
-            <div className="h-12 w-12 rounded-xl bg-primary flex items-center justify-center">
-              <Leaf className="h-6 w-6 text-primary-foreground" />
-            </div>
-            <h1 className="text-2xl font-bold text-foreground">Zeero Group</h1>
+            <img src={t4tLogo} alt="T4T Logo" className="h-12 w-auto invert" />
           </div>
 
           {view === "login" && (
