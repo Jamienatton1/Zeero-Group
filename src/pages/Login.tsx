@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Leaf, Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import loginDashboard from "@/assets/login-dashboard.png";
+import t4tLogo from "@/assets/T4Tlogo.png";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -62,12 +63,7 @@ const Login = () => {
         style={{ background: "linear-gradient(135deg, hsl(160 60% 25%), hsl(120 50% 35%))" }}
       >
         <div>
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-primary-foreground/20 flex items-center justify-center">
-              <Leaf className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="text-xl font-bold tracking-tight">Zeero Group</span>
-          </div>
+          <img src={t4tLogo} alt="T4T Logo" className="h-12 w-auto" />
         </div>
 
         <div className="flex-1 flex flex-col items-center justify-center gap-6 py-8">
@@ -91,10 +87,7 @@ const Login = () => {
         <div className="w-full max-w-sm space-y-6">
           {/* Mobile logo */}
           <div className="flex flex-col items-center gap-2 lg:hidden">
-            <div className="h-12 w-12 rounded-xl bg-primary flex items-center justify-center">
-              <Leaf className="h-6 w-6 text-primary-foreground" />
-            </div>
-            <h1 className="text-2xl font-bold text-foreground">Zeero Group</h1>
+            <img src={t4tLogo} alt="T4T Logo" className="h-12 w-auto invert" />
           </div>
 
           {view === "login" && (
