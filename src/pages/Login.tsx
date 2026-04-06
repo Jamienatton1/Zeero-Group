@@ -63,12 +63,7 @@ const Login = () => {
         style={{ background: "linear-gradient(135deg, hsl(160 60% 25%), hsl(120 50% 35%))" }}
       >
         <div>
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-primary-foreground/20 flex items-center justify-center">
-              <Leaf className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="text-xl font-bold tracking-tight">Zeero Group</span>
-          </div>
+          <img src={t4tLogo} alt="T4T Logo" className="h-12 w-auto" />
         </div>
 
         <div className="flex-1 flex flex-col items-center justify-center gap-6 py-8">
