@@ -22,6 +22,7 @@ import DataCollectionStatus from "./pages/DataCollectionStatus";
 import CompensationReport from "./pages/CompensationReport";
 import QuestionnaireResponses from "./pages/QuestionnaireResponses";
 import TreeSwag from "./pages/TreeSwag";
+import Holding from "./pages/Holding";
 import NotFound from "./pages/NotFound";
 import OrganisationSettings from "./pages/OrganisationSettings";
 import Balance from "./pages/Balance";
@@ -39,7 +40,8 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<Holding />} />
+          <Route path="/home" element={<LandingPage />} />
           <Route path="/dashboard" element={<Index />} />
           <Route path="/login" element={<Login />} />
           <Route path="/onboarding" element={<Onboarding />} />
