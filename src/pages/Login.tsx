@@ -60,7 +60,7 @@ const Login = () => {
     <div className="min-h-screen flex">
       {/* Left Panel */}
       <div className="hidden lg:flex lg:w-1/2 flex-col justify-between p-10 text-primary-foreground relative overflow-hidden"
-        style={{ background: "linear-gradient(135deg, hsl(160 60% 25%), hsl(120 50% 35%))" }}
+        style={{ background: "linear-gradient(135deg, hsl(178 47% 25%), hsl(178 49% 54%))" }}
       >
         <div>
           <img src={t4tLogo} alt="T4T Logo" className="h-12 w-auto" />
