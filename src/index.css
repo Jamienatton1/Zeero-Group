@@ -17,7 +17,7 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 160 25% 15%;
 
-    --primary: 160 60% 25%;
+    --primary: 178 47% 25%;
     --primary-foreground: 0 0% 98%;
 
     --secondary: 120 15% 92%;
@@ -26,7 +26,7 @@ All colors MUST be HSL.
     --muted: 120 15% 95%;
     --muted-foreground: 160 15% 50%;
 
-    --accent: 120 50% 50%;
+    --accent: 178 49% 54%;
     --accent-foreground: 0 0% 98%;
 
     --destructive: 0 84.2% 60.2%;
@@ -34,20 +34,20 @@ All colors MUST be HSL.
 
     --border: 120 20% 90%;
     --input: 120 20% 95%;
-    --ring: 160 60% 25%;
+    --ring: 178 47% 25%;
 
     --radius: 0.75rem;
     
     /* Dashboard specific tokens */
-    --sidebar-dark: 160 25% 8%;
-    --sidebar-item: 160 15% 15%;
-    --sidebar-item-active: 160 60% 25%;
+    --sidebar-dark: 178 47% 12%;
+    --sidebar-item: 178 30% 20%;
+    --sidebar-item-active: 178 47% 25%;
     --metric-card: 0 0% 100%;
-    --chart-primary: 160 60% 45%;
+    --chart-primary: 178 49% 54%;
     --chart-secondary: 45 90% 60%;
-    --chart-tertiary: 200 60% 50%;
-    --shadow-card: 160 25% 15%;
-    --gradient-hero: linear-gradient(135deg, hsl(160 60% 25%), hsl(120 50% 35%));
+    --chart-tertiary: 178 47% 25%;
+    --shadow-card: 178 47% 15%;
+    --gradient-hero: linear-gradient(135deg, hsl(178 47% 25%), hsl(178 49% 54%));
 
     --sidebar-background: 0 0% 98%;
 
