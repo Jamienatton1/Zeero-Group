@@ -470,6 +470,7 @@ const FoodDrink = () => {
                             </Button>
                           </div>
                         </div>
+                        <DayStatusPills />
                       </CardContent>
                     </Card>
 
