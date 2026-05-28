@@ -411,7 +411,7 @@ const FoodDrink = () => {
                     {/* Date Selection and Controls */}
                     <Card>
                       <CardContent className="pt-6">
-                        <DaySelector tab="meals" />
+                        <DaySelector />
                       </CardContent>
                     </Card>
 
@@ -483,7 +483,7 @@ const FoodDrink = () => {
                     {/* Date Selection and Controls */}
                     <Card>
                       <CardContent className="pt-6">
-                        <DaySelector tab="beverages" />
+                        <DaySelector />
                       </CardContent>
                     </Card>
 
