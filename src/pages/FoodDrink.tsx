@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronLeft, Plus, Minus, Coffee, Utensils, Wine, Copy, Eye, ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronLeft, Plus, Minus, Coffee, Utensils, Wine, Copy, Eye, ChevronDown, ChevronUp, Check } from "lucide-react";
 import { Header } from "@/components/dashboard/Header";
 import { Sidebar } from "@/components/dashboard/Sidebar";
 
