@@ -489,77 +489,7 @@ const FoodDrink = () => {
                     {/* Date Selection and Controls */}
                     <Card>
                       <CardContent className="pt-6">
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                          <div className="space-y-2">
-                            <Label className="text-sm font-medium">Select Date</Label>
-                            <Select value={selectedDate} onValueChange={setSelectedDate}>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Choose event date" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {eventDates.map(date => (
-                                  <SelectItem key={date} value={date}>
-                                    {new Date(date).toLocaleDateString('en-US', { 
-                                      weekday: 'long',
-                                      month: 'long', 
-                                      day: 'numeric' 
-                                    })}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </div>
-
-                          <div className="space-y-2">
-                            <Label className="text-sm font-medium">Copy From Previous Day</Label>
-                            <Select value={copyFromDate} onValueChange={setCopyFromDate}>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select source date" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {eventDates.filter(date => date !== selectedDate).map(date => (
-                                  <SelectItem key={date} value={date}>
-                                    {new Date(date).toLocaleDateString('en-US', { 
-                                      weekday: 'short',
-                                      month: 'short', 
-                                      day: 'numeric' 
-                                    })}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </div>
-
-                          <div className="flex gap-2 items-end">
-                            <Button 
-                              variant="outline" 
-                              onClick={copyFromAnotherDay}
-                              disabled={!copyFromDate}
-                              className="flex items-center gap-2"
-                            >
-                              <Copy className="h-4 w-4" />
-                              Copy
-                            </Button>
-                          </div>
-
-                          <div className="flex gap-2 items-end">
-                            <Button 
-                              variant="outline" 
-                              onClick={() => setAllMeals(50)}
-                              className="flex-1"
-                            >
-                              Set All 50
-                            </Button>
-                            <Button 
-                              variant="outline" 
-                              onClick={() => setAllMeals(0)}
-                              className="flex-1 text-destructive"
-                            >
-                              Clear All
-                            </Button>
-                          </div>
-                        </div>
-                        <DayStatusPills />
+                        <DaySelector tab="meals" />
                       </CardContent>
                     </Card>
 
