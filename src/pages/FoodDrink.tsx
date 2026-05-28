@@ -39,7 +39,66 @@ const FoodDrink = () => {
   const [beveragesExpanded, setBeveragesExpanded] = useState(false);
 
   // Sample event dates - in real app, this would come from eventData
-  const eventDates = ["2024-08-20", "2024-08-21", "2024-08-22"];
+  const eventDates = ["2024-08-20", "2024-08-21", "2024-08-22", "2024-08-23", "2024-08-24", "2024-08-25", "2024-08-26"];
+
+  // Mock per-day data-entry status for the indicator pills (visual only)
+  const mockDayStatus: Record<string, { meals: boolean; bev: boolean }> = {
+    "2024-08-20": { meals: true, bev: false },
+    "2024-08-21": { meals: true, bev: false },
+    "2024-08-22": { meals: false, bev: false },
+    "2024-08-23": { meals: false, bev: false },
+    "2024-08-24": { meals: false, bev: false },
+    "2024-08-25": { meals: false, bev: false },
+    "2024-08-26": { meals: false, bev: false },
+  };
+
+  const DayStatusPills = () => (
+    <div className="relative mt-4">
+      <div className="flex gap-2 overflow-x-auto pb-2 scroll-smooth [scrollbar-width:thin]">
+        {eventDates.map(date => {
+          const status = mockDayStatus[date] ?? { meals: false, bev: false };
+          const d = new Date(date);
+          const label = `${d.toLocaleDateString('en-US', { weekday: 'short' })} ${d.getDate()}`;
+          const isActive = date === selectedDate;
+          return (
+            <div
+              key={date}
+              className={`flex-shrink-0 flex flex-col items-center gap-1.5 rounded-lg border px-3 py-2 min-w-[72px] ${
+                isActive ? 'border-primary bg-primary/5' : 'border-border bg-card'
+              }`}
+            >
+              <span className="text-xs font-semibold text-foreground whitespace-nowrap">{label}</span>
+              <div className="flex items-center gap-2">
+                <div className="flex flex-col items-center gap-0.5">
+                  {status.meals ? (
+                    <div className="h-4 w-4 rounded-full bg-primary flex items-center justify-center">
+                      <Check className="h-2.5 w-2.5 text-primary-foreground" strokeWidth={3} />
+                    </div>
+                  ) : (
+                    <div className="h-4 w-4 rounded-full border border-muted-foreground/40 bg-muted" />
+                  )}
+                  <span className="text-[9px] uppercase tracking-wide text-muted-foreground">Meals</span>
+                </div>
+                <div className="flex flex-col items-center gap-0.5">
+                  {status.bev ? (
+                    <div className="h-4 w-4 rounded-full bg-primary flex items-center justify-center">
+                      <Check className="h-2.5 w-2.5 text-primary-foreground" strokeWidth={3} />
+                    </div>
+                  ) : (
+                    <div className="h-4 w-4 rounded-full border border-muted-foreground/40 bg-muted" />
+                  )}
+                  <span className="text-[9px] uppercase tracking-wide text-muted-foreground">Bev</span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      {/* edge fades to hint scrollability */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-card to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-card to-transparent" />
+    </div>
+  );
 
   const mealTypes = ["Breakfast", "Lunch", "Dinner", "Coffee Break"];
   const foodCategories = ["Poultry", "Red Meat", "Seafood", "Vegan", "Vegetarian", "Mixed Buffet", "Snacks"];
