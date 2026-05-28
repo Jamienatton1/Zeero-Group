@@ -52,53 +52,142 @@ const FoodDrink = () => {
     "2024-08-26": { meals: false, bev: false },
   };
 
-  const DayStatusPills = () => (
-    <div className="relative mt-4">
-      <div className="flex gap-2 overflow-x-auto pb-2 scroll-smooth [scrollbar-width:thin]">
-        {eventDates.map(date => {
-          const status = mockDayStatus[date] ?? { meals: false, bev: false };
-          const d = new Date(date);
-          const label = `${d.toLocaleDateString('en-US', { weekday: 'short' })} ${d.getDate()}`;
-          const isActive = date === selectedDate;
-          return (
-            <div
-              key={date}
-              className={`flex-shrink-0 flex flex-col items-center gap-1.5 rounded-lg border px-3 py-2 min-w-[72px] ${
-                isActive ? 'border-primary bg-primary/5' : 'border-border bg-card'
-              }`}
+  const DaySelector = ({ tab }: { tab: "meals" | "beverages" }) => {
+    const currentIdx = eventDates.indexOf(selectedDate);
+    const canCopy = currentIdx > 0;
+
+    const handleCopyPrev = () => {
+      if (!canCopy) return;
+      const src = eventDates[currentIdx - 1];
+      const sourceData = foodDrinkData[src];
+      if (!sourceData) return;
+      setFoodDrinkData(prev => ({
+        ...prev,
+        [selectedDate]: {
+          ...prev[selectedDate],
+          ...(tab === "meals"
+            ? { meals: { ...(sourceData.meals || {}) } }
+            : { drinks: { ...(sourceData.drinks || {}) } }),
+        },
+      }));
+    };
+
+    const handleSetAll = (val: number) =>
+      tab === "meals" ? setAllMeals(val) : setAllDrinks(val);
+
+    return (
+      <div className="space-y-4">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <Label className="text-sm font-semibold">Event Days</Label>
+            <p className="text-xs text-muted-foreground mt-1">
+              Click a day to enter or edit its {tab === "meals" ? "meals" : "beverages"}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleCopyPrev}
+              disabled={!canCopy}
+              className="gap-2"
             >
-              <span className="text-xs font-semibold text-foreground whitespace-nowrap">{label}</span>
-              <div className="flex items-center gap-2">
-                <div className="flex flex-col items-center gap-0.5">
-                  {status.meals ? (
-                    <div className="h-4 w-4 rounded-full bg-primary flex items-center justify-center">
-                      <Check className="h-2.5 w-2.5 text-primary-foreground" strokeWidth={3} />
-                    </div>
+              <Copy className="h-4 w-4" />
+              Copy from previous day
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => handleSetAll(50)}>
+              Set all 50
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => handleSetAll(0)}
+              className="text-destructive"
+            >
+              Clear
+            </Button>
+          </div>
+        </div>
+
+        <div className="relative">
+          <div className="flex gap-3 overflow-x-auto pb-3 -mx-1 px-1 [scrollbar-width:thin]">
+            {eventDates.map((date, idx) => {
+              const status = mockDayStatus[date] ?? { meals: false, bev: false };
+              const d = new Date(date);
+              const weekday = d.toLocaleDateString("en-US", { weekday: "short" });
+              const day = d.getDate();
+              const month = d.toLocaleDateString("en-US", { month: "short" });
+              const isActive = date === selectedDate;
+
+              const StatusChip = ({
+                label,
+                done,
+              }: {
+                label: string;
+                done: boolean;
+              }) => (
+                <div
+                  className={`flex items-center gap-1 rounded-full px-1.5 py-0.5 text-[10px] font-medium ${
+                    done
+                      ? "bg-primary/10 text-primary"
+                      : "bg-muted text-muted-foreground"
+                  }`}
+                >
+                  {done ? (
+                    <Check className="h-2.5 w-2.5" strokeWidth={3} />
                   ) : (
-                    <div className="h-4 w-4 rounded-full border border-muted-foreground/40 bg-muted" />
+                    <div className="h-1.5 w-1.5 rounded-full bg-muted-foreground/50" />
                   )}
-                  <span className="text-[9px] uppercase tracking-wide text-muted-foreground">Meals</span>
+                  {label}
                 </div>
-                <div className="flex flex-col items-center gap-0.5">
-                  {status.bev ? (
-                    <div className="h-4 w-4 rounded-full bg-primary flex items-center justify-center">
-                      <Check className="h-2.5 w-2.5 text-primary-foreground" strokeWidth={3} />
-                    </div>
-                  ) : (
-                    <div className="h-4 w-4 rounded-full border border-muted-foreground/40 bg-muted" />
-                  )}
-                  <span className="text-[9px] uppercase tracking-wide text-muted-foreground">Bev</span>
-                </div>
-              </div>
-            </div>
-          );
-        })}
+              );
+
+              return (
+                <button
+                  key={date}
+                  type="button"
+                  onClick={() => setSelectedDate(date)}
+                  className={`group relative flex-shrink-0 flex flex-col items-center rounded-xl border px-4 py-3 min-w-[96px] transition-all ${
+                    isActive
+                      ? "border-primary bg-primary text-primary-foreground shadow-md scale-[1.02]"
+                      : "border-border bg-card hover:border-primary/60 hover:bg-primary/5"
+                  }`}
+                >
+                  <span
+                    className={`text-[10px] uppercase tracking-wider font-semibold ${
+                      isActive ? "text-primary-foreground/80" : "text-muted-foreground"
+                    }`}
+                  >
+                    Day {idx + 1} · {weekday}
+                  </span>
+                  <span className="text-2xl font-bold leading-tight mt-0.5">
+                    {day}
+                  </span>
+                  <span
+                    className={`text-[10px] mb-2 ${
+                      isActive ? "text-primary-foreground/80" : "text-muted-foreground"
+                    }`}
+                  >
+                    {month}
+                  </span>
+                  <div
+                    className={`flex flex-col gap-1 ${
+                      isActive ? "[&_*]:!bg-primary-foreground/15 [&_*]:!text-primary-foreground" : ""
+                    }`}
+                  >
+                    <StatusChip label="Meals" done={status.meals} />
+                    <StatusChip label="Bev" done={status.bev} />
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-background to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-background to-transparent" />
+        </div>
       </div>
-      {/* edge fades to hint scrollability */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-card to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-card to-transparent" />
-    </div>
-  );
+    );
+  };
 
   const mealTypes = ["Breakfast", "Lunch", "Dinner", "Coffee Break"];
   const foodCategories = ["Poultry", "Red Meat", "Seafood", "Vegan", "Vegetarian", "Mixed Buffet", "Snacks"];
