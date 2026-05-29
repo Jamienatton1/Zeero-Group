@@ -191,6 +191,8 @@ const FoodDrink = () => {
       },
     }));
     toast.success(`Copied ${kind} from ${label}`);
+  };
+
   const CopyFromPrevLink = ({ kind }: { kind: "meals" | "drinks" }) => {
     const otherDates = eventDates.filter(d => d !== selectedDate);
     if (otherDates.length === 0) return null;
