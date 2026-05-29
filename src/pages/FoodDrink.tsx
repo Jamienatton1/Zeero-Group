@@ -569,7 +569,7 @@ const FoodDrink = () => {
                     <Card>
                       <CardContent className="pt-6 space-y-4">
                         <DaySelector />
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center justify-between gap-3">
                           <CopyFromPrevControl kind="drinks" />
                           <ClearAllButton kind="drinks" />
                         </div>
