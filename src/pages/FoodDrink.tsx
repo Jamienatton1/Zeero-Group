@@ -66,7 +66,7 @@ const FoodDrink = () => {
     const cols = getGridCols(eventDates.length);
     return (
       <div
-        className="grid gap-2"
+        className="grid gap-1.5"
         style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
       >
         {eventDates.map(date => {
@@ -80,18 +80,16 @@ const FoodDrink = () => {
           const isActive = date === selectedDate;
 
           const StatusDot = ({ label, done }: { label: string; done: boolean }) => (
-            <div className="flex items-center gap-1">
+            <span className="inline-flex items-center gap-1 bg-muted/60 rounded-full px-1.5 py-0.5">
               {done ? (
-                <div className="h-3 w-3 rounded-full bg-emerald-600 flex items-center justify-center">
-                  <Check className="h-2 w-2 text-white" strokeWidth={4} />
-                </div>
+                <span className="h-2 w-2 rounded-full bg-emerald-600 inline-block" />
               ) : (
-                <div className="h-3 w-3 rounded-full border border-muted-foreground/40 bg-muted" />
+                <span className="h-2 w-2 rounded-full border border-muted-foreground/40 bg-background inline-block" />
               )}
-              <span className="text-[11px] font-medium text-muted-foreground">
+              <span className="text-[10px] font-medium text-muted-foreground">
                 {label}
               </span>
-            </div>
+            </span>
           );
 
           return (
@@ -99,7 +97,7 @@ const FoodDrink = () => {
               key={date}
               type="button"
               onClick={() => setSelectedDate(date)}
-              className={`flex items-center justify-between gap-2 rounded-md border h-9 px-3 transition-colors ${
+              className={`flex items-center justify-between gap-2 rounded-md border h-8 px-2 transition-colors ${
                 isActive
                   ? "border-emerald-700 border-2 bg-emerald-50"
                   : "border-border bg-card hover:bg-muted/50"
