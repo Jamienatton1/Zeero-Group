@@ -193,6 +193,18 @@ const FoodDrink = () => {
     toast.success(`Copied ${kind} from ${label}`);
   };
 
+  const clearKind = (kind: "meals" | "drinks") => {
+    if (!selectedDate) return;
+    setFoodDrinkData(prev => ({
+      ...prev,
+      [selectedDate]: {
+        ...prev[selectedDate],
+        [kind]: {}
+      }
+    }));
+    toast.success(`Cleared all ${kind}`);
+  };
+
   const CopyFromPrevLink = ({ kind }: { kind: "meals" | "drinks" }) => {
     const otherDates = eventDates.filter(d => d !== selectedDate);
     if (otherDates.length === 0) return null;
@@ -217,6 +229,17 @@ const FoodDrink = () => {
       </DropdownMenu>
     );
   };
+
+  const ClearAllButton = ({ kind }: { kind: "meals" | "drinks" }) => (
+    <button
+      type="button"
+      onClick={() => clearKind(kind)}
+      className="inline-flex items-center gap-2 h-9 px-3 rounded-md border border-red-200 bg-background text-xs text-red-600 hover:bg-red-50 transition-colors"
+    >
+      <Trash2 className="h-3.5 w-3.5" />
+      Clear All
+    </button>
+  );
 
 
 
