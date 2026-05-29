@@ -192,6 +192,7 @@ const FoodDrink = () => {
     }));
     toast.success(`Copied ${kind} from ${label}`);
   };
+
   const CopyFromPrevLink = ({ kind }: { kind: "meals" | "drinks" }) => {
     const otherDates = eventDates.filter(d => d !== selectedDate);
     if (otherDates.length === 0) return null;
@@ -200,10 +201,10 @@ const FoodDrink = () => {
         <DropdownMenuTrigger asChild>
           <button
             type="button"
-            className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            className="inline-flex items-center gap-2 h-9 px-3 rounded-md border border-input bg-background text-xs text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
           >
-            <Copy className="h-3 w-3" />
-            Copy from previous days
+            <Copy className="h-3.5 w-3.5" />
+            Copy from previous day
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="bg-popover z-50">
@@ -216,6 +217,8 @@ const FoodDrink = () => {
       </DropdownMenu>
     );
   };
+
+
 
 
 
@@ -456,8 +459,11 @@ const FoodDrink = () => {
                     <Card>
                       <CardContent className="pt-6">
                         <DaySelector />
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardContent className="py-4">
                         <CopyFromPrevLink kind="meals" />
-
                       </CardContent>
                     </Card>
 
@@ -530,9 +536,14 @@ const FoodDrink = () => {
                     <Card>
                       <CardContent className="pt-6">
                         <DaySelector />
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardContent className="py-4">
                         <CopyFromPrevLink kind="drinks" />
                       </CardContent>
                     </Card>
+
 
 
                     {/* Beverages Collapsible */}
