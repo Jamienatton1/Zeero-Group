@@ -530,10 +530,6 @@ const FoodDrink = () => {
                   <div className="space-y-6">
                     {/* Date Selection and Controls */}
                     <Card>
-                      <CardContent className="pt-6">
-                        <DaySelector />
-                      </CardContent>
-                    <Card>
                       <CardContent className="pt-6 space-y-4">
                         <DaySelector />
                         <CopyFromPrevLink kind="drinks" />
