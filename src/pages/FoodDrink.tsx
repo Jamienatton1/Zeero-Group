@@ -52,9 +52,20 @@ const FoodDrink = () => {
     "2024-08-26": { meals: false, bev: false },
   };
 
-  const DaySelector = () => (
-    <div className="relative">
-      <div className="flex gap-2 overflow-x-auto -mx-1 px-1 [scrollbar-width:thin]">
+  const getGridCols = (n: number) => {
+    if (n <= 5) return n;
+    if (n === 6) return 3;
+    if (n === 8) return 4;
+    return 5; // 7, 9, 10, 11+
+  };
+
+  const DaySelector = () => {
+    const cols = getGridCols(eventDates.length);
+    return (
+      <div
+        className="grid gap-2"
+        style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
+      >
         {eventDates.map(date => {
           const status = mockDayStatus[date] ?? { meals: false, bev: false };
           const d = new Date(date);
@@ -85,14 +96,14 @@ const FoodDrink = () => {
               key={date}
               type="button"
               onClick={() => setSelectedDate(date)}
-              className={`flex-shrink-0 flex items-center gap-3 rounded-md border h-9 px-3 transition-colors ${
+              className={`flex items-center justify-between gap-2 rounded-md border h-9 px-3 transition-colors ${
                 isActive
                   ? "border-emerald-700 border-2 bg-emerald-50"
                   : "border-border bg-card hover:bg-muted/50"
               }`}
             >
               <span
-                className={`text-xs font-semibold whitespace-nowrap ${
+                className={`text-xs font-semibold ${
                   isActive ? "text-emerald-900" : "text-foreground"
                 }`}
               >
@@ -106,10 +117,9 @@ const FoodDrink = () => {
           );
         })}
       </div>
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-background to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-background to-transparent" />
-    </div>
-  );
+    );
+  };
+
 
   const mealTypes = ["Breakfast", "Lunch", "Dinner", "Coffee Break"];
   const foodCategories = ["Poultry", "Red Meat", "Seafood", "Vegan", "Vegetarian", "Mixed Buffet", "Snacks"];
