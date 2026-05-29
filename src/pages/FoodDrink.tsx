@@ -36,8 +36,6 @@ const FoodDrink = () => {
   
   const [foodDrinkData, setFoodDrinkData] = useState<FoodDrinkData>({});
   const [selectedDate, setSelectedDate] = useState<string>("2024-08-20");
-  const [copyFromMeals, setCopyFromMeals] = useState<string>("");
-  const [copyFromDrinks, setCopyFromDrinks] = useState<string>("");
   const [activeTab, setActiveTab] = useState("overview");
   const [beveragesExpanded, setBeveragesExpanded] = useState(false);
 
@@ -193,34 +191,19 @@ const FoodDrink = () => {
     }));
     toast.success(`Copied ${kind} from ${label}`);
   };
-  const CopyPrevButton = ({ kind }: { kind: "meals" | "drinks" }) => {
-    const otherDates = eventDates.filter(d => d !== selectedDate);
-    const pickedDate = kind === "meals" ? copyFromMeals : copyFromDrinks;
-    const setPickedDate = kind === "meals" ? setCopyFromMeals : setCopyFromDrinks;
+  const CopyFromPrevLink = ({ kind }: { kind: "meals" | "drinks" }) => {
+    const idx = eventDates.indexOf(selectedDate);
+    const prev = idx > 0 ? eventDates[idx - 1] : null;
+    if (!prev) return null;
     return (
-      <div className="flex items-center gap-2">
-        <Select value={pickedDate} onValueChange={setPickedDate}>
-          <SelectTrigger className="w-[220px] h-9">
-            <SelectValue placeholder="Copy from day…" />
-          </SelectTrigger>
-          <SelectContent>
-            {otherDates.map(d => (
-              <SelectItem key={d} value={d}>{formatDayLabel(d)}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={() => copyFromDay(kind, pickedDate)}
-          disabled={!pickedDate}
-          className="gap-2"
-        >
-          <Copy className="h-4 w-4" />
-          Copy
-        </Button>
-      </div>
+      <button
+        type="button"
+        onClick={() => copyFromDay(kind, prev)}
+        className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+      >
+        <Copy className="h-3 w-3" />
+        Copy from previous day
+      </button>
     );
   };
 
@@ -462,9 +445,7 @@ const FoodDrink = () => {
                     <Card>
                       <CardContent className="pt-6">
                         <DaySelector />
-                        <div className="mt-4 flex justify-end">
-                          <CopyPrevButton kind="meals" />
-                        </div>
+                        <CopyFromPrevLink kind="meals" />
 
                       </CardContent>
                     </Card>
@@ -538,9 +519,7 @@ const FoodDrink = () => {
                     <Card>
                       <CardContent className="pt-6">
                         <DaySelector />
-                        <div className="mt-4 flex justify-end">
-                          <CopyPrevButton kind="drinks" />
-                        </div>
+                        <CopyFromPrevLink kind="drinks" />
                       </CardContent>
                     </Card>
 
