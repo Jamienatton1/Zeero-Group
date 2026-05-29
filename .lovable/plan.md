@@ -1,25 +1,40 @@
+## Goal
+Improve the day selection UX on the Food & Beverage page:
+1. Replace the horizontal scrolling strip with a grid that adapts to the number of event days.
+2. Add a "Copy from previous day" action on the Meals and Beverages tabs.
 
+## Changes (frontend only — `src/pages/FoodDrink.tsx`)
 
-## Plan: Add Contact Section to Landing Page
+### 1. Day selector → adaptive grid (max 5 per row)
 
-### What changes
+Day pills become equal-width grid cells. The number of columns is chosen based on the total event day count so rows balance nicely:
 
-1. **Add "Contact Us" link in the navigation bar** — Insert a nav link pointing to `#contact` alongside the existing Features, Pricing, etc.
+| Days | Columns | Layout |
+|------|---------|--------|
+| 1–5  | = days  | single row |
+| 6    | 3       | 3 + 3 |
+| 7    | 5       | 5 + 2 |
+| 8    | 4       | 4 + 4 |
+| 9    | 5       | 5 + 4 |
+| 10   | 5       | 5 + 5 |
+| 11+  | 5       | wraps onto further rows of 5 |
 
-2. **Add a Contact section before the Pre-Footer CTA** — A simple section with:
-   - Heading: "Get in Touch"
-   - Subtitle: "Have questions? We'd love to hear from you."
-   - A contact form with Name, Email, and Message fields plus a "Send Message" button
-   - Alternatively, display a contact email address (e.g. info@zeeroevents.com) alongside the form
+Implementation:
+- Compute `cols` from `eventDates.length` using the table above.
+- Apply via an inline `gridTemplateColumns: repeat(${cols}, minmax(0, 1fr))` style on the wrapper (Tailwind can't express dynamic counts).
+- Remove the `overflow-x-auto` scroll wrapper and `min-w-[96px]` / `whitespace-nowrap`.
+- Day card visual stays the same: compact pill with abbreviated weekday + date + month (e.g. "Tue 20 Aug"), Meals + Bev status dots, active state = `border-emerald-700 border-2 bg-emerald-50`.
 
-3. **Add "Contact" to the footer** — Add a contact email link or anchor to `#contact` in the footer's columns.
+### 2. Copy from previous day
 
-### Technical details
+Add a small action row immediately above the per-day inputs on each tab (not inside `DaySelector`):
+- Outline button "Copy from previous day" with lucide `Copy` icon.
+- Meals tab copies previous day's `meals`; Beverages tab copies previous day's `drinks`.
+- Disabled on the first event day; helper caption "From: {prev day label}" when enabled.
+- Toast confirmation on click.
 
-All changes in `src/pages/LandingPage.tsx`:
+Previous date = `eventDates[eventDates.indexOf(selectedDate) - 1]`. Deep-clone the slice before assigning into `foodDrinkData`.
 
-- **Nav bar (~line 31)**: Add `<a href="#contact">Contact</a>` link.
-- **New section (~line 423, before Pre-Footer CTA)**: Add a `<section id="contact">` with a centered card containing a simple form (Name, Email, Message fields using existing `Input` and `Textarea` components, plus a submit `Button`). Since there's no backend, the form will use a `mailto:` link or show a toast confirmation on submit.
-- **Footer (~line 461)**: Add a "Contact" column with an email link and the `#contact` anchor.
-- **Import**: Add `Textarea` from `@/components/ui/textarea` and `useToast` for submit feedback.
-
+## Out of scope
+- No backend/data-model changes.
+- No restyling of the meal/beverage input cards or the Overview tab.
