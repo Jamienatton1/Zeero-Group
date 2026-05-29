@@ -536,6 +536,8 @@ const FoodDrink = () => {
                       </CardContent>
                     </Card>
 
+                    <Collapsible open={beveragesExpanded} onOpenChange={setBeveragesExpanded}>
+
                       <CollapsibleTrigger asChild>
                         <Card className="cursor-pointer hover:bg-muted/50 transition-colors">
                           <CardContent className="pt-6">
