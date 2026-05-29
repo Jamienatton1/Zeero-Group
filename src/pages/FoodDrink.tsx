@@ -13,6 +13,8 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { ChevronLeft, Plus, Minus, Coffee, Utensils, Wine, Copy, Eye, ChevronDown, ChevronUp, Check } from "lucide-react";
 import { Header } from "@/components/dashboard/Header";
 import { Sidebar } from "@/components/dashboard/Sidebar";
+import { toast } from "sonner";
+
 
 interface FoodDrinkData {
   [date: string]: {
@@ -52,9 +54,20 @@ const FoodDrink = () => {
     "2024-08-26": { meals: false, bev: false },
   };
 
-  const DaySelector = () => (
-    <div className="relative">
-      <div className="flex gap-2 overflow-x-auto -mx-1 px-1 [scrollbar-width:thin]">
+  const getGridCols = (n: number) => {
+    if (n <= 5) return n;
+    if (n === 6) return 3;
+    if (n === 8) return 4;
+    return 5; // 7, 9, 10, 11+
+  };
+
+  const DaySelector = () => {
+    const cols = getGridCols(eventDates.length);
+    return (
+      <div
+        className="grid gap-2"
+        style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
+      >
         {eventDates.map(date => {
           const status = mockDayStatus[date] ?? { meals: false, bev: false };
           const d = new Date(date);
@@ -85,14 +98,14 @@ const FoodDrink = () => {
               key={date}
               type="button"
               onClick={() => setSelectedDate(date)}
-              className={`flex-shrink-0 flex items-center gap-3 rounded-md border h-9 px-3 transition-colors ${
+              className={`flex items-center justify-between gap-2 rounded-md border h-9 px-3 transition-colors ${
                 isActive
                   ? "border-emerald-700 border-2 bg-emerald-50"
                   : "border-border bg-card hover:bg-muted/50"
               }`}
             >
               <span
-                className={`text-xs font-semibold whitespace-nowrap ${
+                className={`text-xs font-semibold ${
                   isActive ? "text-emerald-900" : "text-foreground"
                 }`}
               >
@@ -106,10 +119,9 @@ const FoodDrink = () => {
           );
         })}
       </div>
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-background to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-background to-transparent" />
-    </div>
-  );
+    );
+  };
+
 
   const mealTypes = ["Breakfast", "Lunch", "Dinner", "Coffee Break"];
   const foodCategories = ["Poultry", "Red Meat", "Seafood", "Vegan", "Vegetarian", "Mixed Buffet", "Snacks"];
@@ -162,20 +174,51 @@ const FoodDrink = () => {
     }, 0);
   };
 
-  const copyFromAnotherDay = () => {
-    if (!copyFromDate || !selectedDate) return;
-    
-    const sourceData = foodDrinkData[copyFromDate];
-    if (sourceData) {
-      setFoodDrinkData(prev => ({
-        ...prev,
-        [selectedDate]: {
-          meals: { ...sourceData.meals },
-          drinks: { ...sourceData.drinks }
-        }
-      }));
+  const prevDate = (() => {
+    const idx = eventDates.indexOf(selectedDate);
+    return idx > 0 ? eventDates[idx - 1] : null;
+  })();
+
+  const prevDateLabel = prevDate
+    ? new Date(prevDate).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" })
+    : "";
+
+  const copyPrevDay = (kind: "meals" | "drinks") => {
+    if (!prevDate) return;
+    const source = foodDrinkData[prevDate];
+    if (!source || !source[kind] || Object.keys(source[kind]).length === 0) {
+      toast(`No ${kind} data on ${prevDateLabel} to copy`);
+      return;
     }
+    setFoodDrinkData(prev => ({
+      ...prev,
+      [selectedDate]: {
+        meals: kind === "meals" ? JSON.parse(JSON.stringify(source.meals || {})) : (prev[selectedDate]?.meals || {}),
+        drinks: kind === "drinks" ? JSON.parse(JSON.stringify(source.drinks || {})) : (prev[selectedDate]?.drinks || {}),
+      },
+    }));
+    toast.success(`Copied ${kind} from ${prevDateLabel}`);
   };
+
+  const CopyPrevButton = ({ kind }: { kind: "meals" | "drinks" }) => (
+    <div className="flex items-center gap-3">
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        onClick={() => copyPrevDay(kind)}
+        disabled={!prevDate}
+        className="gap-2"
+      >
+        <Copy className="h-4 w-4" />
+        Copy from previous day
+      </Button>
+      {prevDate && (
+        <span className="text-xs text-muted-foreground">From: {prevDateLabel}</span>
+      )}
+    </div>
+  );
+
 
   const clearValues = () => {
     if (!selectedDate) return;
@@ -412,6 +455,10 @@ const FoodDrink = () => {
                     <Card>
                       <CardContent className="pt-6">
                         <DaySelector />
+                        <div className="mt-4 flex justify-end">
+                          <CopyPrevButton kind="meals" />
+                        </div>
+
                       </CardContent>
                     </Card>
 
@@ -484,8 +531,12 @@ const FoodDrink = () => {
                     <Card>
                       <CardContent className="pt-6">
                         <DaySelector />
+                        <div className="mt-4 flex justify-end">
+                          <CopyPrevButton kind="drinks" />
+                        </div>
                       </CardContent>
                     </Card>
+
 
                     {/* Beverages Collapsible */}
                     <Collapsible open={beveragesExpanded} onOpenChange={setBeveragesExpanded}>
