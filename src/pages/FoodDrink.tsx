@@ -558,7 +558,10 @@ const FoodDrink = () => {
                     <Card>
                       <CardContent className="pt-6 space-y-4">
                         <DaySelector />
-                        <CopyFromPrevLink kind="drinks" />
+                        <div className="flex items-center gap-3">
+                          <CopyFromPrevLink kind="drinks" />
+                          <ClearAllButton kind="drinks" />
+                        </div>
                       </CardContent>
                     </Card>
 
