@@ -174,20 +174,15 @@ const FoodDrink = () => {
     }, 0);
   };
 
-  const prevDate = (() => {
-    const idx = eventDates.indexOf(selectedDate);
-    return idx > 0 ? eventDates[idx - 1] : null;
-  })();
+  const formatDayLabel = (date: string) =>
+    new Date(date).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
 
-  const prevDateLabel = prevDate
-    ? new Date(prevDate).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" })
-    : "";
-
-  const copyPrevDay = (kind: "meals" | "drinks") => {
-    if (!prevDate) return;
-    const source = foodDrinkData[prevDate];
+  const copyFromDay = (kind: "meals" | "drinks", fromDate: string) => {
+    if (!fromDate || fromDate === selectedDate) return;
+    const source = foodDrinkData[fromDate];
+    const label = formatDayLabel(fromDate);
     if (!source || !source[kind] || Object.keys(source[kind]).length === 0) {
-      toast(`No ${kind} data on ${prevDateLabel} to copy`);
+      toast(`No ${kind} data on ${label} to copy`);
       return;
     }
     setFoodDrinkData(prev => ({
@@ -197,27 +192,41 @@ const FoodDrink = () => {
         drinks: kind === "drinks" ? JSON.parse(JSON.stringify(source.drinks || {})) : (prev[selectedDate]?.drinks || {}),
       },
     }));
-    toast.success(`Copied ${kind} from ${prevDateLabel}`);
+    toast.success(`Copied ${kind} from ${label}`);
   };
 
-  const CopyPrevButton = ({ kind }: { kind: "meals" | "drinks" }) => (
-    <div className="flex items-center gap-3">
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        onClick={() => copyPrevDay(kind)}
-        disabled={!prevDate}
-        className="gap-2"
-      >
-        <Copy className="h-4 w-4" />
-        Copy from previous day
-      </Button>
-      {prevDate && (
-        <span className="text-xs text-muted-foreground">From: {prevDateLabel}</span>
-      )}
-    </div>
-  );
+  const CopyPrevButton = ({ kind }: { kind: "meals" | "drinks" }) => {
+    const otherDates = eventDates.filter(d => d !== selectedDate);
+    const [pickedDate, setPickedDate] = useState<string>("");
+    return (
+      <div className="flex items-center gap-2">
+        <Select value={pickedDate} onValueChange={setPickedDate}>
+          <SelectTrigger className="w-[220px] h-9">
+            <SelectValue placeholder="Copy from day…" />
+          </SelectTrigger>
+          <SelectContent>
+            {otherDates.map(d => (
+              <SelectItem key={d} value={d}>{formatDayLabel(d)}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() => {
+            copyFromDay(kind, pickedDate);
+          }}
+          disabled={!pickedDate}
+          className="gap-2"
+        >
+          <Copy className="h-4 w-4" />
+          Copy
+        </Button>
+      </div>
+    );
+  };
+
 
 
   const clearValues = () => {
