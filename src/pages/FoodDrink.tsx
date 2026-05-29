@@ -175,7 +175,53 @@ const FoodDrink = () => {
   const copyFromAnotherDay = () => {
     if (!copyFromDate || !selectedDate) return;
     
-    const sourceData = foodDrinkData[copyFromDate];
+  };
+
+  const prevDate = (() => {
+    const idx = eventDates.indexOf(selectedDate);
+    return idx > 0 ? eventDates[idx - 1] : null;
+  })();
+
+  const prevDateLabel = prevDate
+    ? new Date(prevDate).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" })
+    : "";
+
+  const copyPrevDay = (kind: "meals" | "drinks") => {
+    if (!prevDate) return;
+    const source = foodDrinkData[prevDate];
+    if (!source) {
+      toast(`No ${kind} data on ${prevDateLabel} to copy`);
+      return;
+    }
+    setFoodDrinkData(prev => ({
+      ...prev,
+      [selectedDate]: {
+        meals: kind === "meals" ? JSON.parse(JSON.stringify(source.meals || {})) : (prev[selectedDate]?.meals || {}),
+        drinks: kind === "drinks" ? JSON.parse(JSON.stringify(source.drinks || {})) : (prev[selectedDate]?.drinks || {}),
+      },
+    }));
+    toast.success(`Copied ${kind} from ${prevDateLabel}`);
+  };
+
+  const CopyPrevButton = ({ kind }: { kind: "meals" | "drinks" }) => (
+    <div className="flex items-center gap-3">
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        onClick={() => copyPrevDay(kind)}
+        disabled={!prevDate}
+        className="gap-2"
+      >
+        <Copy className="h-4 w-4" />
+        Copy from previous day
+      </Button>
+      {prevDate && (
+        <span className="text-xs text-muted-foreground">From: {prevDateLabel}</span>
+      )}
+    </div>
+  );
+
     if (sourceData) {
       setFoodDrinkData(prev => ({
         ...prev,
