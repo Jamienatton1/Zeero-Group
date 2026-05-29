@@ -455,6 +455,10 @@ const FoodDrink = () => {
                     <Card>
                       <CardContent className="pt-6">
                         <DaySelector />
+                        <div className="mt-4 flex justify-end">
+                          <CopyPrevButton kind="meals" />
+                        </div>
+
                       </CardContent>
                     </Card>
 
