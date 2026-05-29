@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { ChevronLeft, Plus, Minus, Coffee, Utensils, Wine, Copy, Eye, ChevronDown, ChevronUp, Check } from "lucide-react";
+import { ChevronLeft, Plus, Minus, Coffee, Utensils, Wine, Copy, Eye, ChevronDown, ChevronUp, Check, Trash2 } from "lucide-react";
 import { Header } from "@/components/dashboard/Header";
 import { Sidebar } from "@/components/dashboard/Sidebar";
 import { toast } from "sonner";
@@ -193,6 +193,18 @@ const FoodDrink = () => {
     toast.success(`Copied ${kind} from ${label}`);
   };
 
+  const clearKind = (kind: "meals" | "drinks") => {
+    if (!selectedDate) return;
+    setFoodDrinkData(prev => ({
+      ...prev,
+      [selectedDate]: {
+        ...prev[selectedDate],
+        [kind]: {}
+      }
+    }));
+    toast.success(`Cleared all ${kind}`);
+  };
+
   const CopyFromPrevLink = ({ kind }: { kind: "meals" | "drinks" }) => {
     const otherDates = eventDates.filter(d => d !== selectedDate);
     if (otherDates.length === 0) return null;
@@ -217,6 +229,17 @@ const FoodDrink = () => {
       </DropdownMenu>
     );
   };
+
+  const ClearAllButton = ({ kind }: { kind: "meals" | "drinks" }) => (
+    <button
+      type="button"
+      onClick={() => clearKind(kind)}
+      className="inline-flex items-center gap-2 h-9 px-3 rounded-md border border-red-200 bg-background text-xs text-red-600 hover:bg-red-50 transition-colors"
+    >
+      <Trash2 className="h-3.5 w-3.5" />
+      Clear All
+    </button>
+  );
 
 
 
@@ -459,7 +482,10 @@ const FoodDrink = () => {
                     <Card>
                       <CardContent className="pt-6 space-y-4">
                         <DaySelector />
-                        <CopyFromPrevLink kind="meals" />
+                        <div className="flex items-center gap-3">
+                          <CopyFromPrevLink kind="meals" />
+                          <ClearAllButton kind="meals" />
+                        </div>
                       </CardContent>
                     </Card>
 
@@ -532,7 +558,10 @@ const FoodDrink = () => {
                     <Card>
                       <CardContent className="pt-6 space-y-4">
                         <DaySelector />
-                        <CopyFromPrevLink kind="drinks" />
+                        <div className="flex items-center gap-3">
+                          <CopyFromPrevLink kind="drinks" />
+                          <ClearAllButton kind="drinks" />
+                        </div>
                       </CardContent>
                     </Card>
 
