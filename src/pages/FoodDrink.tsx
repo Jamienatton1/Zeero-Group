@@ -536,9 +536,14 @@ const FoodDrink = () => {
                     <Card>
                       <CardContent className="pt-6">
                         <DaySelector />
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardContent className="py-4">
                         <CopyFromPrevLink kind="drinks" />
                       </CardContent>
                     </Card>
+
 
 
                     {/* Beverages Collapsible */}
