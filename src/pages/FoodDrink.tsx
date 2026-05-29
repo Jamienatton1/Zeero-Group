@@ -533,17 +533,13 @@ const FoodDrink = () => {
                       <CardContent className="pt-6">
                         <DaySelector />
                       </CardContent>
-                    </Card>
                     <Card>
-                      <CardContent className="py-4">
+                      <CardContent className="pt-6 space-y-4">
+                        <DaySelector />
                         <CopyFromPrevLink kind="drinks" />
                       </CardContent>
                     </Card>
 
-
-
-                    {/* Beverages Collapsible */}
-                    <Collapsible open={beveragesExpanded} onOpenChange={setBeveragesExpanded}>
                       <CollapsibleTrigger asChild>
                         <Card className="cursor-pointer hover:bg-muted/50 transition-colors">
                           <CardContent className="pt-6">
