@@ -529,14 +529,14 @@ const FoodDrink = () => {
                   <div className="space-y-6">
                     {/* Date Selection and Controls */}
                     <Card>
+                      <CardContent className="pt-6">
                         <DaySelector />
                         <div className="mt-4 flex justify-end">
                           <CopyPrevButton kind="drinks" />
                         </div>
-
-                        <DaySelector />
                       </CardContent>
                     </Card>
+
 
                     {/* Beverages Collapsible */}
                     <Collapsible open={beveragesExpanded} onOpenChange={setBeveragesExpanded}>
