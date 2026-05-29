@@ -172,11 +172,6 @@ const FoodDrink = () => {
     }, 0);
   };
 
-  const copyFromAnotherDay = () => {
-    if (!copyFromDate || !selectedDate) return;
-    
-  };
-
   const prevDate = (() => {
     const idx = eventDates.indexOf(selectedDate);
     return idx > 0 ? eventDates[idx - 1] : null;
@@ -189,7 +184,7 @@ const FoodDrink = () => {
   const copyPrevDay = (kind: "meals" | "drinks") => {
     if (!prevDate) return;
     const source = foodDrinkData[prevDate];
-    if (!source) {
+    if (!source || !source[kind] || Object.keys(source[kind]).length === 0) {
       toast(`No ${kind} data on ${prevDateLabel} to copy`);
       return;
     }
@@ -222,16 +217,6 @@ const FoodDrink = () => {
     </div>
   );
 
-    if (sourceData) {
-      setFoodDrinkData(prev => ({
-        ...prev,
-        [selectedDate]: {
-          meals: { ...sourceData.meals },
-          drinks: { ...sourceData.drinks }
-        }
-      }));
-    }
-  };
 
   const clearValues = () => {
     if (!selectedDate) return;
