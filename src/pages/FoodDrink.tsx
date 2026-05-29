@@ -457,12 +457,8 @@ const FoodDrink = () => {
                   <div className="space-y-6">
                     {/* Date Selection and Controls */}
                     <Card>
-                      <CardContent className="pt-6">
+                      <CardContent className="pt-6 space-y-4">
                         <DaySelector />
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardContent className="py-4">
                         <CopyFromPrevLink kind="meals" />
                       </CardContent>
                     </Card>
