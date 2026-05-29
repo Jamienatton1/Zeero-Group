@@ -36,8 +36,6 @@ const FoodDrink = () => {
   
   const [foodDrinkData, setFoodDrinkData] = useState<FoodDrinkData>({});
   const [selectedDate, setSelectedDate] = useState<string>("2024-08-20");
-  const [copyFromMeals, setCopyFromMeals] = useState<string>("");
-  const [copyFromDrinks, setCopyFromDrinks] = useState<string>("");
   const [activeTab, setActiveTab] = useState("overview");
   const [beveragesExpanded, setBeveragesExpanded] = useState(false);
 
@@ -66,7 +64,7 @@ const FoodDrink = () => {
     const cols = getGridCols(eventDates.length);
     return (
       <div
-        className="grid gap-2"
+        className="grid gap-1.5"
         style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
       >
         {eventDates.map(date => {
@@ -80,18 +78,16 @@ const FoodDrink = () => {
           const isActive = date === selectedDate;
 
           const StatusDot = ({ label, done }: { label: string; done: boolean }) => (
-            <div className="flex items-center gap-1">
+            <span className="inline-flex items-center gap-1 bg-muted/60 rounded-full px-1.5 py-0.5">
               {done ? (
-                <div className="h-3 w-3 rounded-full bg-emerald-600 flex items-center justify-center">
-                  <Check className="h-2 w-2 text-white" strokeWidth={4} />
-                </div>
+                <span className="h-2 w-2 rounded-full bg-emerald-600 inline-block" />
               ) : (
-                <div className="h-3 w-3 rounded-full border border-muted-foreground/40 bg-muted" />
+                <span className="h-2 w-2 rounded-full border border-muted-foreground/40 bg-background inline-block" />
               )}
-              <span className="text-[11px] font-medium text-muted-foreground">
+              <span className="text-[10px] font-medium text-muted-foreground">
                 {label}
               </span>
-            </div>
+            </span>
           );
 
           return (
@@ -99,7 +95,7 @@ const FoodDrink = () => {
               key={date}
               type="button"
               onClick={() => setSelectedDate(date)}
-              className={`flex items-center justify-between gap-2 rounded-md border h-9 px-3 transition-colors ${
+              className={`flex items-center justify-between gap-2 rounded-md border h-8 px-2 transition-colors ${
                 isActive
                   ? "border-emerald-700 border-2 bg-emerald-50"
                   : "border-border bg-card hover:bg-muted/50"
@@ -195,34 +191,19 @@ const FoodDrink = () => {
     }));
     toast.success(`Copied ${kind} from ${label}`);
   };
-  const CopyPrevButton = ({ kind }: { kind: "meals" | "drinks" }) => {
-    const otherDates = eventDates.filter(d => d !== selectedDate);
-    const pickedDate = kind === "meals" ? copyFromMeals : copyFromDrinks;
-    const setPickedDate = kind === "meals" ? setCopyFromMeals : setCopyFromDrinks;
+  const CopyFromPrevLink = ({ kind }: { kind: "meals" | "drinks" }) => {
+    const idx = eventDates.indexOf(selectedDate);
+    const prev = idx > 0 ? eventDates[idx - 1] : null;
+    if (!prev) return null;
     return (
-      <div className="flex items-center gap-2">
-        <Select value={pickedDate} onValueChange={setPickedDate}>
-          <SelectTrigger className="w-[220px] h-9">
-            <SelectValue placeholder="Copy from day…" />
-          </SelectTrigger>
-          <SelectContent>
-            {otherDates.map(d => (
-              <SelectItem key={d} value={d}>{formatDayLabel(d)}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={() => copyFromDay(kind, pickedDate)}
-          disabled={!pickedDate}
-          className="gap-2"
-        >
-          <Copy className="h-4 w-4" />
-          Copy
-        </Button>
-      </div>
+      <button
+        type="button"
+        onClick={() => copyFromDay(kind, prev)}
+        className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+      >
+        <Copy className="h-3 w-3" />
+        Copy from previous day
+      </button>
     );
   };
 
@@ -464,9 +445,7 @@ const FoodDrink = () => {
                     <Card>
                       <CardContent className="pt-6">
                         <DaySelector />
-                        <div className="mt-4 flex justify-end">
-                          <CopyPrevButton kind="meals" />
-                        </div>
+                        <CopyFromPrevLink kind="meals" />
 
                       </CardContent>
                     </Card>
@@ -540,9 +519,7 @@ const FoodDrink = () => {
                     <Card>
                       <CardContent className="pt-6">
                         <DaySelector />
-                        <div className="mt-4 flex justify-end">
-                          <CopyPrevButton kind="drinks" />
-                        </div>
+                        <CopyFromPrevLink kind="drinks" />
                       </CardContent>
                     </Card>
 
