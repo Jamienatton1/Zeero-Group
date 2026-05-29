@@ -459,8 +459,11 @@ const FoodDrink = () => {
                     <Card>
                       <CardContent className="pt-6">
                         <DaySelector />
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardContent className="py-4">
                         <CopyFromPrevLink kind="meals" />
-
                       </CardContent>
                     </Card>
 
