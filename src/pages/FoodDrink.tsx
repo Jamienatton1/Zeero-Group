@@ -195,10 +195,10 @@ const FoodDrink = () => {
     }));
     toast.success(`Copied ${kind} from ${label}`);
   };
-
   const CopyPrevButton = ({ kind }: { kind: "meals" | "drinks" }) => {
     const otherDates = eventDates.filter(d => d !== selectedDate);
-    const [pickedDate, setPickedDate] = useState<string>("");
+    const pickedDate = kind === "meals" ? copyFromMeals : copyFromDrinks;
+    const setPickedDate = kind === "meals" ? setCopyFromMeals : setCopyFromDrinks;
     return (
       <div className="flex items-center gap-2">
         <Select value={pickedDate} onValueChange={setPickedDate}>
@@ -215,9 +215,7 @@ const FoodDrink = () => {
           type="button"
           variant="outline"
           size="sm"
-          onClick={() => {
-            copyFromDay(kind, pickedDate);
-          }}
+          onClick={() => copyFromDay(kind, pickedDate)}
           disabled={!pickedDate}
           className="gap-2"
         >
@@ -226,6 +224,8 @@ const FoodDrink = () => {
         </Button>
       </div>
     );
+  };
+
   };
 
 
