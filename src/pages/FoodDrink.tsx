@@ -205,28 +205,39 @@ const FoodDrink = () => {
     toast.success(`Cleared all ${kind}`);
   };
 
-  const CopyFromPrevLink = ({ kind }: { kind: "meals" | "drinks" }) => {
+  const CopyFromPrevControl = ({ kind }: { kind: "meals" | "drinks" }) => {
+    const [fromDate, setFromDate] = useState<string>("");
     const otherDates = eventDates.filter(d => d !== selectedDate);
     if (otherDates.length === 0) return null;
     return (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <button
-            type="button"
-            className="inline-flex items-center gap-2 h-9 px-3 rounded-md border border-input bg-background text-xs text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
-          >
-            <Copy className="h-3.5 w-3.5" />
-            Copy from previous day
-          </button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="start" className="bg-popover z-50">
-          {otherDates.map(d => (
-            <DropdownMenuItem key={d} onClick={() => copyFromDay(kind, d)}>
-              {formatDayLabel(d)}
-            </DropdownMenuItem>
-          ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <div className="inline-flex items-center gap-2">
+        <span className="text-xs text-muted-foreground whitespace-nowrap">Copy data from</span>
+        <Select value={fromDate} onValueChange={setFromDate}>
+          <SelectTrigger className="h-9 w-[150px] text-xs">
+            <SelectValue placeholder="Select day" />
+          </SelectTrigger>
+          <SelectContent>
+            {otherDates.map(d => (
+              <SelectItem key={d} value={d} className="text-xs">
+                {formatDayLabel(d)}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Button
+          size="sm"
+          variant="outline"
+          className="h-9 px-3 text-xs"
+          disabled={!fromDate}
+          onClick={() => {
+            copyFromDay(kind, fromDate);
+            setFromDate("");
+          }}
+        >
+          <Copy className="h-3.5 w-3.5 mr-1" />
+          Copy
+        </Button>
+      </div>
     );
   };
 
@@ -483,7 +494,7 @@ const FoodDrink = () => {
                       <CardContent className="pt-6 space-y-4">
                         <DaySelector />
                         <div className="flex items-center gap-3">
-                          <CopyFromPrevLink kind="meals" />
+                          <CopyFromPrevControl kind="meals" />
                           <ClearAllButton kind="meals" />
                         </div>
                       </CardContent>
@@ -559,7 +570,7 @@ const FoodDrink = () => {
                       <CardContent className="pt-6 space-y-4">
                         <DaySelector />
                         <div className="flex items-center gap-3">
-                          <CopyFromPrevLink kind="drinks" />
+                          <CopyFromPrevControl kind="drinks" />
                           <ClearAllButton kind="drinks" />
                         </div>
                       </CardContent>
