@@ -36,7 +36,8 @@ const FoodDrink = () => {
   
   const [foodDrinkData, setFoodDrinkData] = useState<FoodDrinkData>({});
   const [selectedDate, setSelectedDate] = useState<string>("2024-08-20");
-  const [copyFromDate, setCopyFromDate] = useState<string>("");
+  const [copyFromMeals, setCopyFromMeals] = useState<string>("");
+  const [copyFromDrinks, setCopyFromDrinks] = useState<string>("");
   const [activeTab, setActiveTab] = useState("overview");
   const [beveragesExpanded, setBeveragesExpanded] = useState(false);
 
