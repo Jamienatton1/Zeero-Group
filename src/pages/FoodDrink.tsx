@@ -192,20 +192,30 @@ const FoodDrink = () => {
     toast.success(`Copied ${kind} from ${label}`);
   };
   const CopyFromPrevLink = ({ kind }: { kind: "meals" | "drinks" }) => {
-    const idx = eventDates.indexOf(selectedDate);
-    const prev = idx > 0 ? eventDates[idx - 1] : null;
-    if (!prev) return null;
+    const otherDates = eventDates.filter(d => d !== selectedDate);
+    if (otherDates.length === 0) return null;
     return (
-      <button
-        type="button"
-        onClick={() => copyFromDay(kind, prev)}
-        className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
-      >
-        <Copy className="h-3 w-3" />
-        Copy from previous day
-      </button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button
+            type="button"
+            className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Copy className="h-3 w-3" />
+            Copy from previous days
+          </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start" className="bg-popover z-50">
+          {otherDates.map(d => (
+            <DropdownMenuItem key={d} onClick={() => copyFromDay(kind, d)}>
+              {formatDayLabel(d)}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
     );
   };
+
 
 
 
