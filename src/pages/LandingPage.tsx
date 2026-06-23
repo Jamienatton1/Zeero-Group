@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import heroDashboard from "@/assets/hero-dashboard.png";
 import attendeeEngagementImg from "@/assets/attendee-engagement.png";
 import eventImpactImg from "@/assets/event-impact-analysis.png";
+import cventLogo from "@/assets/cvent-logo.png.asset.json";
 
 const LandingPage = () => {
   const navigate = useNavigate();
