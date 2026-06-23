@@ -303,6 +303,53 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* Cvent Integration Section */}
+      <section id="cvent" className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <img src={cventLogo.url} alt="Cvent" className="h-12 w-auto mb-8" />
+        <h2 className="text-3xl font-bold text-foreground mb-6">ZEERO Events + Cvent Integration</h2>
+
+        <h3 className="text-lg font-semibold text-foreground mb-3">Integrated Carbon Management for Modern Event Programmes</h3>
+        <p className="text-muted-foreground mb-4">
+          ZEERO Events enhances the Cvent ecosystem with high-quality, multi-stakeholder carbon emissions data and solutions delivered seamlessly through our API. The integration gives planners, agencies, hotels and venues a unified view of event impact from early design decisions through to post-event reporting.
+        </p>
+        <p className="text-muted-foreground mb-4">
+          Invite suppliers to contribute real operational carbon data, improving accuracy where verified figures are available and strengthening sustainability-led decision-making across the full event lifecycle.
+        </p>
+        <p className="text-muted-foreground mb-3">Through the integration, Cvent users gain:</p>
+        <ul className="space-y-2 text-muted-foreground mb-6">
+          {[
+            "Event-level carbon tracking",
+            "Pre-event optimisation insights",
+            "Post-event carbon performance reporting",
+            "Supplier data contribution workflows",
+            "Access to the ZEERO Climate Contribution Marketplace",
+            "TREE SWAG, a sustainable alternative to traditional promotional giveaways",
+          ].map((item) => (
+            <li key={item} className="flex items-start gap-2">
+              <CheckCircle className="w-4 h-4 text-primary mt-1 shrink-0" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+        <p className="text-muted-foreground mb-6">
+          Built specifically for Cvent customers, this seamless and transparent integration ensures sustainability data is no longer an afterthought, but a connected, intelligent part of the event tech stack that elevates sustainability performance across every stage of the event journey.
+        </p>
+        <blockquote className="border-l-4 border-primary pl-6 italic text-primary mb-8">
+          "Cvent created the Cvent App Marketplace as a space to collaborate with other leading technology companies to deliver fully integrated solutions that enhance every part of the event lifecycle. We're excited to expand our Marketplace with ZEERO Events as we work together to power a more connected event tech ecosystem."
+        </blockquote>
+
+        <h3 className="text-lg font-semibold text-foreground mb-2">See How It Works</h3>
+        <p className="text-muted-foreground mb-6">
+          A clear, guided walkthrough of how ZEERO Events connects with Cvent from activation to supplier engagement and reporting. <span className="font-semibold text-foreground">(Click for Integration/Configuration Guide)</span>
+        </p>
+
+        <h3 className="text-lg font-semibold text-foreground mb-2">Contact Our Team</h3>
+        <p className="text-muted-foreground mb-2">
+          Speak with us for onboarding support, enterprise requirements, or deeper sustainability guidance.
+        </p>
+        <a href="mailto:events@zeero-group.com" className="font-semibold text-foreground underline">events@zeero-group.com</a>
+      </section>
+
       {/* How It Works */}
       <section id="how-it-works" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="grid md:grid-cols-2 gap-12 items-center">
