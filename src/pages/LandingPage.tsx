@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import heroDashboard from "@/assets/hero-dashboard.png";
 import attendeeEngagementImg from "@/assets/attendee-engagement.png";
 import eventImpactImg from "@/assets/event-impact-analysis.png";
+import cventLogo from "@/assets/cvent-logo.png.asset.json";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -300,6 +301,167 @@ const LandingPage = () => {
             </Card>
           </div>
         </div>
+      </section>
+
+      {/* Report Credits & Tree Allocation */}
+      <section id="report-credits" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="max-w-4xl mx-auto text-center mb-12">
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <span className="text-sm text-muted-foreground">Integrates with</span>
+            <img src={cventLogo.url} alt="Cvent" className="h-8 w-auto" />
+          </div>
+          <h2 className="text-3xl font-bold text-foreground mb-3">Pricing & Feature Update</h2>
+          <p className="text-muted-foreground">
+            Updates to pricing, subscription logic, report credits, UI wording and additional purchase flows for{" "}
+            <span className="font-semibold text-foreground">ZEERO Events</span> and{" "}
+            <span className="font-semibold text-foreground">ZEERO Meetings</span>. All changes support a unified
+            subscription model and a shared carbon report credit system.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-6 mb-10">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-xl">Product Structure</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground mb-4">ZEERO Events and ZEERO Meetings will now:</p>
+              <ul className="space-y-2">
+                {[
+                  "Continue to be accessed as separate sections of the customer dashboard",
+                  "Be treated as one product under one subscription",
+                  "Share the same pool of report credits",
+                  "Use the same allocation logic",
+                  "Differ only in how credits are consumed (Events = 1, Meetings = 0.5)",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                    <span className="text-sm text-foreground">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-xl">Shared Report Credit System</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <p className="text-sm font-semibold text-foreground mb-2">Credit Consumption</p>
+                <ul className="space-y-1 text-sm text-muted-foreground">
+                  <li>• Event Report = 1 credit</li>
+                  <li>• Meeting Report = 0.5 credits</li>
+                </ul>
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-foreground mb-2">Tree Allocation</p>
+                <ul className="space-y-1 text-sm text-muted-foreground">
+                  <li>• 1 Event Report equivalent purchased = 1 tree</li>
+                  <li>• 2 Meeting Reports (0.5 + 0.5) = 1 Event Report equivalent = 1 tree</li>
+                </ul>
+                <p className="text-xs text-muted-foreground mt-2 italic">
+                  Applies to all customers, including Meetings-only accounts.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <Card className="mb-10">
+          <CardHeader>
+            <CardTitle className="text-xl">Minimum Purchase Rules (Top-Ups)</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="border border-border rounded-lg p-4">
+                <p className="font-semibold text-foreground mb-3">Event Carbon Reports</p>
+                <ul className="space-y-1 text-sm text-muted-foreground">
+                  <li>• No minimum purchase</li>
+                  <li>• Can be purchased individually</li>
+                  <li>• Each Event Report purchased = 1 tree</li>
+                </ul>
+              </div>
+              <div className="border border-border rounded-lg p-4">
+                <p className="font-semibold text-foreground mb-3">Meeting Carbon Reports</p>
+                <ul className="space-y-1 text-sm text-muted-foreground">
+                  <li>• Minimum purchase: 2</li>
+                  <li>• Must be purchased in multiples of 2 (e.g. 2, 4, 6…)</li>
+                  <li>• 2× Meeting Reports = 1 Event Report equivalent = 1 tree</li>
+                </ul>
+              </div>
+            </div>
+            <p className="text-xs text-muted-foreground mt-4 italic">
+              This prevents fractional tree allocation and maintains parity.
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="mb-10">
+          <CardHeader>
+            <CardTitle className="text-xl">Report & Tree Allocations (Subscription Tiers)</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-border">
+                    <th className="text-left py-2 px-3 font-semibold">Plan</th>
+                    <th className="text-left py-2 px-3 font-semibold">Tier</th>
+                    <th className="text-left py-2 px-3 font-semibold">Event Credits</th>
+                    <th className="text-left py-2 px-3 font-semibold">Meeting Equivalent</th>
+                    <th className="text-left py-2 px-3 font-semibold">Trees</th>
+                  </tr>
+                </thead>
+                <tbody className="text-muted-foreground">
+                  {[
+                    ["Monthly", "1", "5", "10 meeting reports", "5"],
+                    ["Monthly", "2", "15", "30 meeting reports", "15"],
+                    ["Monthly", "3", "60", "120 meeting reports", "60"],
+                    ["Annual", "1", "60", "120 meeting reports", "60"],
+                    ["Annual", "2", "180", "360 meeting reports", "180"],
+                    ["Annual", "3", "720", "1440 meeting reports", "720"],
+                  ].map((row, i) => (
+                    <tr key={i} className="border-b border-border/50">
+                      {row.map((cell, j) => (
+                        <td key={j} className="py-2 px-3">{cell}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-xl">Additional Report Credits (Top-Ups)</CardTitle>
+            <p className="text-sm text-muted-foreground mt-1">
+              GBP shown as the example currency — refer to the rate card for all supported currencies. Meeting Report
+              top-ups are always priced at 50% of the Event Report top-up value.
+            </p>
+          </CardHeader>
+          <CardContent>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <p className="font-semibold text-foreground mb-2">Pricing</p>
+                <ul className="space-y-1 text-sm text-muted-foreground">
+                  <li>• Event Report (1 Credit): £25</li>
+                  <li>• Meeting Report (0.5 Credit): £12.50</li>
+                </ul>
+              </div>
+              <div>
+                <p className="font-semibold text-foreground mb-2">Tree Allocation</p>
+                <ul className="space-y-1 text-sm text-muted-foreground">
+                  <li>• Each Additional Event Report (1 Credit) = 1 tree</li>
+                  <li>• 2 Meeting Reports = 1 tree</li>
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </section>
 
       {/* How It Works */}
