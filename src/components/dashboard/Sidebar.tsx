@@ -24,6 +24,7 @@ const navigationItems = [
   { icon: TreePine, label: "Trees", path: "/trees" },
   { icon: ShoppingBag, label: "Tree Swag", path: "/tree-swag" },
   { icon: FileText, label: "Reports", path: "/reports" },
+
   { icon: Package, label: "Packages", path: "/packages" },
   { icon: Users, label: "Clients", path: "/clients" },
   { icon: Cloud, label: "Carbon", path: "/carbon" },
