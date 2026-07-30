@@ -5,7 +5,6 @@ import {
   BarChart3,
   Bell,
   ReceiptText,
-  ShieldCheck,
   ArrowLeft,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -44,31 +43,30 @@ export function AdminSidebar() {
     pathname === "/operations/quotes" ? "quotes" : searchParams.get("tab") ?? "dashboard";
 
   return (
-    <aside className="w-64 shrink-0 bg-sidebar-dark min-h-screen flex flex-col">
-      <div className="p-6 border-b border-sidebar-item">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-gradient-hero rounded-lg flex items-center justify-center">
-            <ShieldCheck className="w-5 h-5 text-primary-foreground" />
-          </div>
-          <div className="min-w-0">
-            <div className="flex items-center gap-2">
-              <span className="text-primary-foreground font-semibold">Zeero Group</span>
-              <span className="rounded bg-primary/20 px-1.5 py-0.5 text-[10px] font-bold tracking-widest text-primary">
-                ADMIN
-              </span>
-            </div>
-            <p className="text-xs text-muted-foreground">Platform admin panel</p>
-          </div>
-        </div>
+    <aside className="w-64 shrink-0 bg-admin-nav min-h-screen flex flex-col">
+      <div className="h-[68px] flex items-center px-6">
+        <span className="text-admin-nav-foreground text-xl font-semibold tracking-tight">
+          ZEERO<span className="font-light text-admin-nav-muted">GROUP</span>
+        </span>
       </div>
 
-      <nav className="flex-1 py-4 overflow-y-auto">
+      <div className="px-6 py-4 border-y border-white/5">
+        <Link
+          to="/dashboard"
+          className="flex items-center gap-2 text-sm text-admin-nav-muted hover:text-admin-nav-foreground transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Exit Admin
+        </Link>
+      </div>
+
+      <nav className="flex-1 py-5 overflow-y-auto">
         {groups.map((group) => (
-          <div key={group.label} className="mb-4">
-            <p className="px-6 pb-2 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+          <div key={group.label} className="mb-5">
+            <p className="px-6 pb-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-admin-nav-muted">
               {group.label}
             </p>
-            <ul className="space-y-1">
+            <ul className="space-y-0.5">
               {group.items.map((item) => {
                 const Icon = item.icon;
                 const isActive = active === item.match;
@@ -77,10 +75,10 @@ export function AdminSidebar() {
                     <Link
                       to={item.to}
                       className={cn(
-                        "w-full flex items-center gap-3 px-6 py-2.5 transition-colors text-sm font-medium",
+                        "w-full flex items-center gap-3 px-6 py-2.5 transition-colors text-sm",
                         isActive
-                          ? "bg-sidebar-item-active text-primary-foreground"
-                          : "text-muted-foreground hover:text-primary-foreground hover:bg-sidebar-item"
+                          ? "bg-admin-nav-item-active text-admin-nav-foreground font-medium border-l-2 border-admin-accent pl-[22px]"
+                          : "text-admin-nav-muted hover:text-admin-nav-foreground hover:bg-admin-nav-item"
                       )}
                     >
                       <Icon className="w-4 h-4" />
@@ -93,16 +91,6 @@ export function AdminSidebar() {
           </div>
         ))}
       </nav>
-
-      <div className="border-t border-sidebar-item p-4">
-        <Link
-          to="/dashboard"
-          className="flex items-center gap-2 text-xs text-muted-foreground hover:text-primary-foreground transition-colors"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          Back to Zeero Events
-        </Link>
-      </div>
     </aside>
   );
 }
