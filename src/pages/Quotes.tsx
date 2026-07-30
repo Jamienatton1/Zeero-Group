@@ -279,7 +279,7 @@ const Quotes = () => {
     <AdminLayout title="Quotes" subtitle="Quotes, recipients and linked Xero invoices">
       <div className="space-y-6">
         {/* Filter bar */}
-        <Card>
+        <Card className="border-0 rounded-xl shadow-card">
           <CardContent className="p-6 space-y-5">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div className="flex flex-wrap items-end gap-4">
@@ -356,7 +356,7 @@ const Quotes = () => {
         </Card>
 
         {/* Master list */}
-        <Card>
+        <Card className="border-0 rounded-xl shadow-card overflow-hidden">
           <CardContent className="p-0">
             <Table className="table-fixed">
               <TableHeader>

@@ -49,6 +49,15 @@ All colors MUST be HSL.
     --shadow-card: 178 47% 15%;
     --gradient-hero: linear-gradient(135deg, hsl(178 47% 25%), hsl(178 49% 54%));
 
+    /* Admin panel tokens */
+    --admin-nav: 217 40% 10%;
+    --admin-nav-item: 217 30% 17%;
+    --admin-nav-item-active: 217 32% 21%;
+    --admin-nav-foreground: 210 20% 96%;
+    --admin-nav-muted: 215 16% 60%;
+    --admin-surface: 210 25% 97%;
+    --admin-accent: 158 64% 44%;
+
     --sidebar-background: 0 0% 98%;
 
     --sidebar-foreground: 240 5.3% 26.1%;
