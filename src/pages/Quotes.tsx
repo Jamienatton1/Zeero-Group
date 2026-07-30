@@ -37,13 +37,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import {
   Search,
@@ -268,7 +261,6 @@ const Quotes = () => {
     xero: true,
   });
 
-  const [detailQuote, setDetailQuote] = useState<Quote | null>(null);
   const [invoiceQuote, setInvoiceQuote] = useState<Quote | null>(null);
   const [recipientsQuote, setRecipientsQuote] = useState<Quote | null>(null);
   const [recipients, setRecipients] = useState(initialRecipients);
@@ -281,11 +273,6 @@ const Quotes = () => {
     { key: "discarded", label: "Show discarded quotes" },
     { key: "xero", label: "Fetch Xero invoices" },
   ];
-
-  const openInvoiceModal = (q: Quote) => {
-    setDetailQuote(null);
-    setInvoiceQuote(q);
-  };
 
   return (
     <AdminLayout title="Quotes" subtitle="Quotes, recipients and linked Xero invoices">
