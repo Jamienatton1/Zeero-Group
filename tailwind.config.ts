@@ -60,6 +60,13 @@ export default {
 				'chart-secondary': 'hsl(var(--chart-secondary))',
 				'chart-tertiary': 'hsl(var(--chart-tertiary))',
 				'shadow-card': 'hsl(var(--shadow-card))',
+				'admin-nav': 'hsl(var(--admin-nav))',
+				'admin-nav-item': 'hsl(var(--admin-nav-item))',
+				'admin-nav-item-active': 'hsl(var(--admin-nav-item-active))',
+				'admin-nav-foreground': 'hsl(var(--admin-nav-foreground))',
+				'admin-nav-muted': 'hsl(var(--admin-nav-muted))',
+				'admin-surface': 'hsl(var(--admin-surface))',
+				'admin-accent': 'hsl(var(--admin-accent))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
