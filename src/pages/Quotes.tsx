@@ -37,13 +37,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import {
   Search,
@@ -268,7 +261,6 @@ const Quotes = () => {
     xero: true,
   });
 
-  const [detailQuote, setDetailQuote] = useState<Quote | null>(null);
   const [invoiceQuote, setInvoiceQuote] = useState<Quote | null>(null);
   const [recipientsQuote, setRecipientsQuote] = useState<Quote | null>(null);
   const [recipients, setRecipients] = useState(initialRecipients);
@@ -281,11 +273,6 @@ const Quotes = () => {
     { key: "discarded", label: "Show discarded quotes" },
     { key: "xero", label: "Fetch Xero invoices" },
   ];
-
-  const openInvoiceModal = (q: Quote) => {
-    setDetailQuote(null);
-    setInvoiceQuote(q);
-  };
 
   return (
     <AdminLayout title="Quotes" subtitle="Quotes, recipients and linked Xero invoices">
@@ -370,30 +357,40 @@ const Quotes = () => {
         {/* Master list */}
         <Card>
           <CardContent className="p-0">
-            <Table>
+            <Table className="table-fixed">
               <TableHeader>
+                <TableRow className="hover:bg-transparent border-b-0">
+                  <TableHead
+                    colSpan={6}
+                    className="h-8 pt-3 pb-0 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground"
+                  >
+                    Quote
+                  </TableHead>
+                  <TableHead
+                    colSpan={3}
+                    className="h-8 pt-3 pb-0 border-l border-border text-[10px] font-semibold uppercase tracking-widest text-muted-foreground"
+                  >
+                    Invoice
+                  </TableHead>
+                  <TableHead className="h-8" />
+                </TableRow>
                 <TableRow className="hover:bg-transparent">
-                  <TableHead className="w-[130px]">Created</TableHead>
-                  <TableHead className="w-[200px]">Date range</TableHead>
-                  <TableHead>Partner</TableHead>
-                  <TableHead>Company</TableHead>
-                  <TableHead className="text-right w-[120px]">Sub total</TableHead>
-                  <TableHead className="text-right w-[100px]">CO₂ (tn)</TableHead>
-                  <TableHead className="w-[210px]">Invoice</TableHead>
-                  <TableHead className="w-[160px] text-right">Actions</TableHead>
+                  <TableHead className="w-[104px]">Created</TableHead>
+                  <TableHead className="w-[150px]">Date range</TableHead>
+                  <TableHead className="w-[150px]">Partner</TableHead>
+                  <TableHead className="w-[140px]">Company</TableHead>
+                  <TableHead className="w-[96px] text-right">Sub total</TableHead>
+                  <TableHead className="w-[80px] text-right">CO₂ (tn)</TableHead>
+                  <TableHead className="w-[190px] border-l border-border">Invoice no.</TableHead>
+                  <TableHead className="w-[90px] text-right">Total</TableHead>
+                  <TableHead className="w-[104px]">Xero status</TableHead>
+                  <TableHead className="w-[150px] text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {quotes.map((q) => (
-                  <TableRow
-                    key={q.id}
-                    onClick={() => setDetailQuote(q)}
-                    className={cn(
-                      "cursor-pointer",
-                      detailQuote?.id === q.id && "bg-muted/60 hover:bg-muted/60"
-                    )}
-                  >
-                    <TableCell className="py-3">
+                  <TableRow key={q.id}>
+                    <TableCell className="py-3 align-top">
                       <div className="text-sm font-medium text-foreground">{q.created}</div>
                       <Badge
                         variant="outline"
@@ -402,43 +399,52 @@ const Quotes = () => {
                         {q.type}
                       </Badge>
                     </TableCell>
-                    <TableCell className="py-3 text-sm">{q.dateRange}</TableCell>
-                    <TableCell className="py-3">
-                      <div className="text-sm font-medium">{q.partner}</div>
-                      <div className="text-xs text-muted-foreground truncate max-w-[180px]">
-                        {q.partnerEmail}
-                      </div>
+                    <TableCell className="py-3 align-top text-sm">{q.dateRange}</TableCell>
+                    <TableCell className="py-3 align-top">
+                      <div className="text-sm font-medium truncate">{q.partner}</div>
+                      <div className="text-xs text-muted-foreground truncate">{q.partnerEmail}</div>
                     </TableCell>
-                    <TableCell className="py-3 text-sm">{q.company}</TableCell>
-                    <TableCell className="py-3 text-right text-sm font-medium">{q.subTotal}</TableCell>
-                    <TableCell className="py-3 text-right text-sm">{q.co2}</TableCell>
-                    <TableCell className="py-3">
-                      {q.invoice ? (
-                        <div className="flex flex-col items-start gap-1">
+                    <TableCell className="py-3 align-top text-sm">{q.company}</TableCell>
+                    <TableCell className="py-3 align-top text-right text-sm font-medium">
+                      {q.subTotal}
+                    </TableCell>
+                    <TableCell className="py-3 align-top text-right text-sm">{q.co2}</TableCell>
+
+                    {q.invoice ? (
+                      <>
+                        <TableCell className="py-3 align-top border-l border-border">
+                          <div className="text-sm font-medium tabular-nums truncate">
+                            {q.invoice.number}
+                          </div>
+                          <div className="text-xs text-muted-foreground">
+                            Created {q.invoice.created} · Due {q.invoice.dueDate}
+                          </div>
+                        </TableCell>
+                        <TableCell className="py-3 align-top text-right text-sm font-medium">
+                          {q.invoice.total}
+                        </TableCell>
+                        <TableCell className="py-3 align-top">
                           <XeroStatusBadge status={q.invoice.status} />
-                          <span className="text-xs text-muted-foreground">
-                            Due {q.invoice.dueDate}
-                          </span>
-                        </div>
-                      ) : (
-                        <div
-                          className="flex items-center gap-2 rounded-md border border-dashed border-border bg-muted/40 px-2 py-1.5"
-                          onClick={(e) => e.stopPropagation()}
-                        >
+                        </TableCell>
+                      </>
+                    ) : (
+                      <TableCell colSpan={3} className="py-3 align-top border-l border-border">
+                        <div className="flex items-center gap-2 rounded-md border border-dashed border-border bg-muted/40 px-2 py-1.5">
                           <MinusCircle className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
                           <span className="text-xs text-muted-foreground">Not invoiced</span>
                           <Button
                             size="sm"
                             variant="outline"
-                            className="h-7 px-2 text-xs"
+                            className="h-7 px-2 text-xs ml-auto"
                             onClick={() => setInvoiceQuote(q)}
                           >
                             Create invoice
                           </Button>
                         </div>
-                      )}
-                    </TableCell>
-                    <TableCell className="py-3" onClick={(e) => e.stopPropagation()}>
+                      </TableCell>
+                    )}
+
+                    <TableCell className="py-3 align-top">
                       <div className="flex items-center justify-end gap-1">
                         <Button variant="ghost" size="sm" className="gap-1.5">
                           <FileText className="w-4 h-4" />
@@ -459,10 +465,27 @@ const Quotes = () => {
                               <Users className="mr-2 h-4 w-4" />
                               Manage recipients
                             </DropdownMenuItem>
-                            <DropdownMenuItem onSelect={() => setInvoiceQuote(q)}>
-                              <ReceiptText className="mr-2 h-4 w-4" />
-                              Create invoice
-                            </DropdownMenuItem>
+                            {q.invoice ? (
+                              <>
+                                <DropdownMenuItem>
+                                  <Send className="mr-2 h-4 w-4" />
+                                  Send invoice
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                  <CreditCard className="mr-2 h-4 w-4" />
+                                  Go to payment
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                  <RefreshCw className="mr-2 h-4 w-4" />
+                                  Update invoice
+                                </DropdownMenuItem>
+                              </>
+                            ) : (
+                              <DropdownMenuItem onSelect={() => setInvoiceQuote(q)}>
+                                <ReceiptText className="mr-2 h-4 w-4" />
+                                Create invoice
+                              </DropdownMenuItem>
+                            )}
                             <DropdownMenuItem>
                               <Download className="mr-2 h-4 w-4" />
                               Download emissions report
@@ -484,6 +507,7 @@ const Quotes = () => {
                 ))}
               </TableBody>
             </Table>
+
 
             {/* Pagination */}
             <div className="flex flex-wrap items-center justify-between gap-4 border-t border-border px-6 py-4">
@@ -510,114 +534,8 @@ const Quotes = () => {
         </Card>
       </div>
 
-      {/* Detail side panel */}
-      <Sheet open={!!detailQuote} onOpenChange={(o) => !o && setDetailQuote(null)}>
-        <SheetContent className="w-full sm:max-w-md overflow-y-auto">
-          <SheetHeader>
-            <SheetTitle>{detailQuote?.company}</SheetTitle>
-            <SheetDescription>
-              Quote created {detailQuote?.created} · {detailQuote?.dateRange}
-            </SheetDescription>
-          </SheetHeader>
 
-          <div className="mt-6 space-y-6">
-            <div className="rounded-lg border border-border p-4 space-y-3 text-sm">
-              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                Quote
-              </p>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Partner</span>
-                <span className="font-medium">{detailQuote?.partner}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Sub total</span>
-                <span className="font-medium">{detailQuote?.subTotal}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">CO₂ (tn)</span>
-                <span className="font-medium">{detailQuote?.co2}</span>
-              </div>
-            </div>
 
-            {detailQuote?.invoice ? (
-              <div className="rounded-lg border border-border p-4 space-y-3 text-sm">
-                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                  Invoice
-                </p>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Created</span>
-                  <span className="font-medium">{detailQuote.invoice.created}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Due date</span>
-                  <span className="font-medium">{detailQuote.invoice.dueDate}</span>
-                </div>
-                <div className="flex justify-between gap-4">
-                  <span className="text-muted-foreground shrink-0">Invoice number</span>
-                  <span className="font-medium tabular-nums truncate">
-                    {detailQuote.invoice.number}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Total</span>
-                  <span className="font-medium">{detailQuote.invoice.total}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">Xero status</span>
-                  <XeroStatusBadge status={detailQuote.invoice.status} />
-                </div>
-
-                <Separator />
-
-                <div className="grid grid-cols-2 gap-2">
-                  <Button className="gap-1.5">
-                    <Send className="w-4 h-4" />
-                    Send invoice
-                  </Button>
-                  <Button variant="outline" className="gap-1.5">
-                    <CreditCard className="w-4 h-4" />
-                    Go to payment
-                  </Button>
-                  <Button variant="outline" className="gap-1.5">
-                    <Download className="w-4 h-4" />
-                    Download PDF
-                  </Button>
-                  <Button variant="outline" className="gap-1.5">
-                    <RefreshCw className="w-4 h-4" />
-                    Update invoice
-                  </Button>
-                </div>
-              </div>
-            ) : (
-              <div className="rounded-lg border border-dashed border-border bg-muted/40 p-6 text-center space-y-3">
-                <MinusCircle className="w-6 h-6 mx-auto text-muted-foreground" />
-                <div>
-                  <p className="text-sm font-medium">Not invoiced</p>
-                  <p className="text-xs text-muted-foreground">
-                    No Xero invoice has been raised for this quote yet.
-                  </p>
-                </div>
-                <Button
-                  className="gap-1.5"
-                  onClick={() => detailQuote && openInvoiceModal(detailQuote)}
-                >
-                  <ReceiptText className="w-4 h-4" />
-                  Create invoice
-                </Button>
-              </div>
-            )}
-
-            <Button
-              variant="outline"
-              className="w-full gap-1.5"
-              onClick={() => detailQuote && setRecipientsQuote(detailQuote)}
-            >
-              <Users className="w-4 h-4" />
-              Manage recipients
-            </Button>
-          </div>
-        </SheetContent>
-      </Sheet>
 
       {/* Create invoice confirmation */}
       <Dialog open={!!invoiceQuote} onOpenChange={(o) => !o && setInvoiceQuote(null)}>
