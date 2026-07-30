@@ -458,6 +458,9 @@ const Quotes = () => {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="w-60">
+                            <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground">
+                              Quote
+                            </DropdownMenuLabel>
                             <DropdownMenuItem>
                               <FileText className="mr-2 h-4 w-4" />
                               View report
@@ -466,22 +469,7 @@ const Quotes = () => {
                               <Users className="mr-2 h-4 w-4" />
                               Manage recipients
                             </DropdownMenuItem>
-                            {q.invoice ? (
-                              <>
-                                <DropdownMenuItem>
-                                  <Send className="mr-2 h-4 w-4" />
-                                  Send invoice
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                  <CreditCard className="mr-2 h-4 w-4" />
-                                  Go to payment
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                  <RefreshCw className="mr-2 h-4 w-4" />
-                                  Update invoice
-                                </DropdownMenuItem>
-                              </>
-                            ) : (
+                            {!q.invoice && (
                               <DropdownMenuItem onSelect={() => setInvoiceQuote(q)}>
                                 <ReceiptText className="mr-2 h-4 w-4" />
                                 Create invoice
@@ -491,6 +479,32 @@ const Quotes = () => {
                               <Download className="mr-2 h-4 w-4" />
                               Download emissions report
                             </DropdownMenuItem>
+
+                            {q.invoice && (
+                              <>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground">
+                                  Invoice
+                                </DropdownMenuLabel>
+                                <DropdownMenuItem>
+                                  <Send className="mr-2 h-4 w-4" />
+                                  Send invoice
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                  <CreditCard className="mr-2 h-4 w-4" />
+                                  Go to payment
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                  <FileText className="mr-2 h-4 w-4" />
+                                  Download PDF
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                  <RefreshCw className="mr-2 h-4 w-4" />
+                                  Update invoice
+                                </DropdownMenuItem>
+                              </>
+                            )}
+
                             <DropdownMenuSeparator />
                             <DropdownMenuItem>
                               <Archive className="mr-2 h-4 w-4" />
