@@ -8,55 +8,56 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 250 50% 98%;
-    --foreground: 160 25% 15%;
+    --background: 150 20% 98%;
+    --foreground: 155 30% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 160 25% 15%;
+    --card-foreground: 155 30% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 160 25% 15%;
+    --popover-foreground: 155 30% 12%;
 
-    --primary: 178 49% 54%;
+    --primary: 158 66% 24%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 120 15% 92%;
-    --secondary-foreground: 160 25% 15%;
+    --secondary: 150 20% 93%;
+    --secondary-foreground: 155 30% 12%;
 
-    --muted: 120 15% 95%;
-    --muted-foreground: 160 15% 50%;
+    --muted: 150 18% 95%;
+    --muted-foreground: 155 12% 42%;
 
-    --accent: 178 49% 54%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 152 45% 40%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 120 20% 90%;
-    --input: 120 20% 95%;
-    --ring: 178 49% 54%;
+    --border: 150 16% 89%;
+    --input: 150 16% 92%;
+    --ring: 158 66% 24%;
 
     --radius: 0.75rem;
     
     /* Dashboard specific tokens */
-    --sidebar-dark: 178 47% 12%;
-    --sidebar-item: 178 30% 20%;
-    --sidebar-item-active: 178 47% 25%;
+    --sidebar-dark: 150 14% 8%;
+    --sidebar-item: 152 20% 16%;
+    --sidebar-item-active: 158 60% 22%;
     --metric-card: 0 0% 100%;
-    --chart-primary: 178 49% 54%;
+    --chart-primary: 158 66% 30%;
     --chart-secondary: 45 90% 60%;
-    --chart-tertiary: 178 47% 25%;
-    --shadow-card: 178 47% 15%;
-    --gradient-hero: linear-gradient(135deg, hsl(178 47% 25%), hsl(178 49% 54%));
+    --chart-tertiary: 152 45% 45%;
+    --shadow-card: 155 30% 15%;
+    --gradient-hero: linear-gradient(135deg, hsl(158 66% 20%), hsl(152 45% 38%));
 
     /* Admin panel tokens */
-    --admin-nav: 217 40% 10%;
-    --admin-nav-item: 217 30% 17%;
-    --admin-nav-item-active: 217 32% 21%;
-    --admin-nav-foreground: 210 20% 96%;
-    --admin-nav-muted: 215 16% 60%;
-    --admin-surface: 210 25% 97%;
+    --admin-nav: 150 14% 9%;
+    --admin-nav-item: 152 18% 16%;
+    --admin-nav-item-active: 158 40% 20%;
+    --admin-nav-foreground: 150 20% 96%;
+    --admin-nav-muted: 150 10% 62%;
+    --admin-surface: 150 20% 97%;
     --admin-accent: 158 64% 44%;
+
 
     --sidebar-background: 0 0% 98%;
 
