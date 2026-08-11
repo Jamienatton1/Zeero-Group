@@ -438,8 +438,14 @@ function CsvMode({
 /* ------------------------------------------------------------------ */
 /* Panel 2 — the card                                                  */
 /* ------------------------------------------------------------------ */
-function MessageEditor({ onChange }: { onChange: (html: string) => void }) {
+function MessageEditor({ value, onChange }: { value: string; onChange: (html: string) => void }) {
   const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (ref.current && ref.current.innerHTML !== value) ref.current.innerHTML = value;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
 
   const run = (command: string, value?: string) => {
     ref.current?.focus();
