@@ -4,12 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import {
   Select,
   SelectContent,
   SelectItem,
@@ -343,7 +337,6 @@ const Imports = () => {
           </CardContent>
         </Card>
 
-        <TooltipProvider>
           <Card className="rounded-xl shadow-card">
             <CardContent className="p-0">
               <Table className="w-full table-fixed">
@@ -438,7 +431,6 @@ const Imports = () => {
               </div>
             </CardContent>
           </Card>
-        </TooltipProvider>
       </div>
     </AdminLayout>
   );
