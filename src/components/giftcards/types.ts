@@ -5,6 +5,7 @@ export interface Recipient {
   id: string;
   email: string;
   trees: number;
+  message: string;
   error?: string;
 }
 
