@@ -665,7 +665,7 @@ export default function SendCardsTab() {
           </CardContent>
         </Card>
 
-        </Card>
+
 
         <Card>
           <PanelHeader step={3} title="Delivery" />
