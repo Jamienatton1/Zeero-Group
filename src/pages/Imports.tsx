@@ -4,6 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -18,21 +24,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import {
   Search,
   SlidersHorizontal,
   Upload,
-  MoreHorizontal,
   FileText,
   Download,
+  FileDown,
   RefreshCw,
   CheckCircle2,
   Trash2,
@@ -236,65 +235,66 @@ function RowActions({ job }: { job: ImportJob }) {
 
   return (
     <div className="flex items-center justify-end gap-1">
-      {job.hasQuote ? (
-        <Button variant="outline" size="sm" className="h-7 text-xs">
-          <FileText className="mr-1.5 h-3.5 w-3.5" />
-          View quote
-        </Button>
-      ) : canResume ? (
-        <Button variant="outline" size="sm" className="h-7 text-xs">
-          <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
-          Resume
-        </Button>
-      ) : (
-        <Button variant="outline" size="sm" className="h-7 text-xs">
-          <Download className="mr-1.5 h-3.5 w-3.5" />
-          File
-        </Button>
+      {job.hasQuote && (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="outline" size="icon" className="h-7 w-7">
+              <FileText className="h-3.5 w-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="top">View quote</TooltipContent>
+        </Tooltip>
       )}
-
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="h-7 w-7">
-            <MoreHorizontal className="h-4 w-4" />
+      {job.hasQuote && (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="outline" size="icon" className="h-7 w-7">
+              <FileDown className="h-3.5 w-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="top">Download quote</TooltipContent>
+        </Tooltip>
+      )}
+      {canResume && (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="outline" size="icon" className="h-7 w-7">
+              <RefreshCw className="h-3.5 w-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="top">Resume file processing</TooltipContent>
+        </Tooltip>
+      )}
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button variant="outline" size="icon" className="h-7 w-7">
+            <Download className="h-3.5 w-3.5" />
           </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-56 bg-popover">
-          {job.hasQuote && (
-            <>
-              <DropdownMenuItem>
-                <FileText className="mr-2 h-4 w-4" />
-                View quote
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Download className="mr-2 h-4 w-4" />
-                Download quote
-              </DropdownMenuItem>
-            </>
-          )}
-          {canResume && (
-            <DropdownMenuItem>
-              <RefreshCw className="mr-2 h-4 w-4" />
-              Resume file processing
-            </DropdownMenuItem>
-          )}
-          <DropdownMenuItem>
-            <Download className="mr-2 h-4 w-4" />
-            Download file
-          </DropdownMenuItem>
-          {inProgress && (
-            <DropdownMenuItem>
-              <CheckCircle2 className="mr-2 h-4 w-4" />
-              Mark as complete
-            </DropdownMenuItem>
-          )}
-          <DropdownMenuSeparator />
-          <DropdownMenuItem className="text-destructive focus:text-destructive">
-            <Trash2 className="mr-2 h-4 w-4" />
-            Remove import and file
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+        </TooltipTrigger>
+        <TooltipContent side="top">Download file</TooltipContent>
+      </Tooltip>
+      {inProgress && (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="outline" size="icon" className="h-7 w-7">
+              <CheckCircle2 className="h-3.5 w-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="top">Mark as complete</TooltipContent>
+        </Tooltip>
+      )}
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-7 w-7 hover:border-destructive hover:text-destructive"
+          >
+            <Trash2 className="h-3.5 w-3.5" />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent side="top">Remove import and file</TooltipContent>
+      </Tooltip>
     </div>
   );
 }
@@ -363,100 +363,102 @@ const Imports = () => {
           </CardContent>
         </Card>
 
-        <Card className="rounded-xl shadow-card">
-          <CardContent className="p-0">
-            <Table className="w-full table-fixed">
-              <TableHeader>
-                <TableRow className="hover:bg-transparent">
-                  <TableHead className="h-9 w-[180px] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                    Added
-                  </TableHead>
-                  <TableHead className="h-9 w-auto whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                    Agent / Corporate
-                  </TableHead>
-                  <TableHead className="h-9 w-[340px] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                    Import health
-                  </TableHead>
-                  <TableHead className="h-9 w-[150px] whitespace-nowrap py-2 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                    Actions
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {jobs.map((job) => {
-                  const problem = job.status === "Failed";
-                  return (
-                    <TableRow
-                      key={job.id}
-                      className={cn("align-middle", problem && "bg-destructive/[0.04]")}
-                    >
-                      <TableCell className="w-[180px] whitespace-nowrap py-2">
-                        <p className="text-sm font-medium leading-tight text-foreground">
-                          {job.added}
-                        </p>
-                        <p className="truncate text-xs leading-tight text-muted-foreground">
-                          {job.source}
-                        </p>
-                      </TableCell>
-                      <TableCell className="w-auto py-2">
-                        <p className="text-sm leading-tight text-foreground">
-                          {job.partner && (
-                            <span className="text-muted-foreground">{job.partner} · </span>
-                          )}
-                          {job.corporate}
-                        </p>
-                        <p className="truncate text-xs leading-tight text-muted-foreground">
-                          {job.file}
-                        </p>
-                      </TableCell>
-                      <TableCell className="w-[340px] py-2">
-                        <RecordsHealthCell job={job} />
-                      </TableCell>
-                      <TableCell className="w-[150px] py-2">
-                        <RowActions job={job} />
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
+        <TooltipProvider>
+          <Card className="rounded-xl shadow-card">
+            <CardContent className="p-0">
+              <Table className="w-full table-fixed">
+                <TableHeader>
+                  <TableRow className="hover:bg-transparent">
+                    <TableHead className="h-9 w-[180px] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      Added
+                    </TableHead>
+                    <TableHead className="h-9 w-auto whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      Agent / Corporate
+                    </TableHead>
+                    <TableHead className="h-9 w-[340px] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      Import health
+                    </TableHead>
+                    <TableHead className="h-9 w-[150px] whitespace-nowrap py-2 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      Actions
+                    </TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {jobs.map((job) => {
+                    const problem = job.status === "Failed";
+                    return (
+                      <TableRow
+                        key={job.id}
+                        className={cn("align-middle", problem && "bg-destructive/[0.04]")}
+                      >
+                        <TableCell className="w-[180px] whitespace-nowrap py-2">
+                          <p className="text-sm font-medium leading-tight text-foreground">
+                            {job.added}
+                          </p>
+                          <p className="truncate text-xs leading-tight text-muted-foreground">
+                            {job.source}
+                          </p>
+                        </TableCell>
+                        <TableCell className="w-auto py-2">
+                          <p className="text-sm leading-tight text-foreground">
+                            {job.partner && (
+                              <span className="text-muted-foreground">{job.partner} · </span>
+                            )}
+                            {job.corporate}
+                          </p>
+                          <p className="truncate text-xs leading-tight text-muted-foreground">
+                            {job.file}
+                          </p>
+                        </TableCell>
+                        <TableCell className="w-[340px] py-2">
+                          <RecordsHealthCell job={job} />
+                        </TableCell>
+                        <TableCell className="w-[150px] py-2">
+                          <RowActions job={job} />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
 
-            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border px-4 py-3">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <span>Show</span>
-                <Select defaultValue="10">
-                  <SelectTrigger className="h-8 w-[72px]">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="bg-popover">
-                    <SelectItem value="10">10</SelectItem>
-                    <SelectItem value="25">25</SelectItem>
-                    <SelectItem value="50">50</SelectItem>
-                  </SelectContent>
-                </Select>
-                <span>entries · Showing 1 to 10 of 1,248</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Button variant="outline" size="sm" className="h-8">
-                  Previous
-                </Button>
-                {["1", "2", "3", "…", "125"].map((p, i) => (
-                  <Button
-                    key={`${p}-${i}`}
-                    variant={p === "1" ? "default" : "outline"}
-                    size="sm"
-                    className="h-8 w-8 p-0"
-                  >
-                    {p}
+              <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border px-4 py-3">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <span>Show</span>
+                  <Select defaultValue="10">
+                    <SelectTrigger className="h-8 w-[72px]">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-popover">
+                      <SelectItem value="10">10</SelectItem>
+                      <SelectItem value="25">25</SelectItem>
+                      <SelectItem value="50">50</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <span>entries · Showing 1 to 10 of 1,248</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Button variant="outline" size="sm" className="h-8">
+                    Previous
                   </Button>
-                ))}
-                <Button variant="outline" size="sm" className="h-8">
-                  Next
-                </Button>
+                  {["1", "2", "3", "…", "125"].map((p, i) => (
+                    <Button
+                      key={`${p}-${i}`}
+                      variant={p === "1" ? "default" : "outline"}
+                      size="sm"
+                      className="h-8 w-8 p-0"
+                    >
+                      {p}
+                    </Button>
+                  ))}
+                  <Button variant="outline" size="sm" className="h-8">
+                    Next
+                  </Button>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </TooltipProvider>
       </div>
     </AdminLayout>
   );
