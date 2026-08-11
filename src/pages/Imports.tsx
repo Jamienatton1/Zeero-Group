@@ -351,7 +351,7 @@ const Imports = () => {
 
         <Card className="rounded-xl shadow-card">
           <CardContent className="p-0">
-            <Table>
+            <Table className="w-full">
               <TableHeader>
                 <TableRow className="hover:bg-transparent">
                   <TableHead className="h-9 w-[190px] text-xs font-medium uppercase tracking-wide text-muted-foreground">
