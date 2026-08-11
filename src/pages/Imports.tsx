@@ -288,7 +288,7 @@ function RowActions({ job }: { job: ImportJob }) {
 const Imports = () => {
   return (
     <AdminLayout title="Imports" subtitle="Travel data files from TMCs and corporates">
-      <div className="mx-auto max-w-[1280px]">
+      <div className="w-full">
         <Card className="mb-4 rounded-xl shadow-card">
           <CardContent className="p-4">
             <div className="flex flex-wrap items-center gap-3">
@@ -351,19 +351,19 @@ const Imports = () => {
 
         <Card className="rounded-xl shadow-card">
           <CardContent className="p-0">
-            <Table>
+            <Table className="w-full">
               <TableHeader>
                 <TableRow className="hover:bg-transparent">
-                  <TableHead className="h-9 w-[190px] text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  <TableHead className="h-9 w-[15%] whitespace-nowrap text-xs font-medium uppercase tracking-wide text-muted-foreground">
                     Added
                   </TableHead>
                   <TableHead className="h-9 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                     Agent / Corporate
                   </TableHead>
-                  <TableHead className="h-9 w-[430px] text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  <TableHead className="h-9 w-[35%] text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
                     Import health
                   </TableHead>
-                  <TableHead className="h-9 w-[170px] text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  <TableHead className="h-9 w-[1%] whitespace-nowrap text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
                     Actions
                   </TableHead>
                 </TableRow>
@@ -376,7 +376,7 @@ const Imports = () => {
                       key={job.id}
                       className={cn("align-middle", problem && "bg-destructive/[0.04]")}
                     >
-                      <TableCell className="py-2">
+                      <TableCell className="whitespace-nowrap py-2">
                         <p className="text-sm font-medium leading-tight text-foreground">
                           {job.added}
                         </p>
@@ -391,14 +391,14 @@ const Imports = () => {
                           )}
                           {job.corporate}
                         </p>
-                        <p className="max-w-[320px] truncate text-xs leading-tight text-muted-foreground">
+                        <p className="max-w-[420px] truncate text-xs leading-tight text-muted-foreground">
                           {job.file}
                         </p>
                       </TableCell>
                       <TableCell className="py-2">
-                        <div className="ml-auto flex w-[400px] items-center justify-end gap-4">
+                        <div className="flex items-center justify-end gap-4">
                           <RecordsCell job={job} />
-                          <div className="w-[62px] shrink-0 text-right">
+                          <div className="shrink-0 text-right">
                             <p className="text-sm font-medium leading-none text-foreground">
                               {job.processed}
                             </p>
@@ -408,7 +408,7 @@ const Imports = () => {
                           </div>
                           <Badge
                             variant="outline"
-                            className={cn("w-[92px] shrink-0 justify-center font-medium", statusStyles[job.status])}
+                            className={cn("shrink-0 justify-center font-medium", statusStyles[job.status])}
                           >
                             {job.status}
                           </Badge>
