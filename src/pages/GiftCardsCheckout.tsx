@@ -520,7 +520,9 @@ const GiftCardsCheckout = () => {
               <Button variant="outline" onClick={() => { setPreviewIndex(0); setPreviewOpen(true); }}>
                 Preview your card
               </Button>
-              <Button disabled={!canCheckout}>Checkout</Button>
+              <Button disabled={!canCheckout}>
+                {paymentMethod === "card" ? `Pay ${formatUsd(totalCost)}` : "Place order"}
+              </Button>
               <PrivacyInfo />
             </div>
           </div>
