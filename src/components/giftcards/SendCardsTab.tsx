@@ -575,7 +575,28 @@ export default function SendCardsTab() {
       {/* ---------------- form ---------------- */}
       <div className="space-y-6">
         <Card>
-          <PanelHeader step={1} title="Who's receiving?" />
+          <PanelHeader
+            step={1}
+            title="Who's receiving?"
+            suffix={
+              <TooltipProvider delayDuration={100}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      type="button"
+                      className="inline-flex items-center justify-center rounded-full p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                      aria-label="Privacy information"
+                    >
+                      <Info className="h-4 w-4" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" align="end" className="max-w-sm">
+                    Please note, we do not store or keep email addresses or names that are shared with us & neither will we send anything other than the greeting card to the recipient. The list is uploaded to our mailing software, in order to send the emails - the local data is then deleted according to GDPR regulations. Sendgrid (our mailing software provider) is SOC2 type reports (similar to ISO27001 accreditation) provides all the physical security protection measures you would expect.
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            }
+          />
           <CardContent className="space-y-5">
             <div className="inline-flex rounded-lg bg-muted p-1">
               {(
