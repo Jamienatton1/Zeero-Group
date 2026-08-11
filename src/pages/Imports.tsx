@@ -176,42 +176,56 @@ const statusStyles: Record<ImportStatus, string> = {
   Failed: "bg-destructive/10 text-destructive border-destructive/20",
 };
 
-function RecordsCell({ job }: { job: ImportJob }) {
+function RecordsHealthCell({ job }: { job: ImportJob }) {
   const total = Math.max(job.total, job.valid + job.skippedRule + job.duplicates, 1);
   const pct = (n: number) => `${(n / total) * 100}%`;
 
   return (
-    <div className="w-[196px] shrink-0 space-y-1">
-      <div className="flex h-1.5 w-full overflow-hidden rounded-full bg-muted">
-        <div className="bg-primary" style={{ width: pct(job.valid) }} />
-        <div className="bg-amber-500" style={{ width: pct(job.skippedRule) }} />
-        <div className="bg-muted-foreground/40" style={{ width: pct(job.duplicates) }} />
+    <div className="flex items-center justify-end gap-4">
+      <div className="w-[176px] shrink-0 space-y-1">
+        <div className="flex h-1.5 w-full overflow-hidden rounded-full bg-muted">
+          <div className="bg-primary" style={{ width: pct(job.valid) }} />
+          <div className="bg-amber-500" style={{ width: pct(job.skippedRule) }} />
+          <div className="bg-muted-foreground/40" style={{ width: pct(job.duplicates) }} />
+        </div>
+        <div className="flex items-center justify-between whitespace-nowrap text-[11px] leading-none">
+          <span className="flex items-center gap-1 text-foreground">
+            <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+            {job.valid} valid
+          </span>
+          <span
+            className={cn(
+              "flex items-center gap-1",
+              job.skippedRule > 0 ? "font-medium text-amber-700" : "text-muted-foreground"
+            )}
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
+            {job.skippedRule} rule
+          </span>
+          <span
+            className={cn(
+              "flex items-center gap-1",
+              job.duplicates > 0 ? "font-medium text-foreground" : "text-muted-foreground"
+            )}
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground/40" />
+            {job.duplicates} dupes
+          </span>
+        </div>
+        {job.total === 0 && <p className="text-[11px] text-destructive">No records read from file</p>}
       </div>
-      <div className="flex items-center gap-2.5 whitespace-nowrap text-[11px] leading-none">
-        <span className="flex items-center gap-1 text-foreground">
-          <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-          {job.valid} valid
-        </span>
-        <span
-          className={cn(
-            "flex items-center gap-1",
-            job.skippedRule > 0 ? "font-medium text-amber-700" : "text-muted-foreground"
-          )}
-        >
-          <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-          {job.skippedRule} rule
-        </span>
-        <span
-          className={cn(
-            "flex items-center gap-1",
-            job.duplicates > 0 ? "font-medium text-foreground" : "text-muted-foreground"
-          )}
-        >
-          <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground/40" />
-          {job.duplicates} dupes
-        </span>
+
+      <div className="w-[56px] shrink-0 text-right">
+        <p className="text-sm font-medium leading-none text-foreground">{job.processed}</p>
+        <p className="mt-1 text-[10px] leading-none text-muted-foreground">processed</p>
       </div>
-      {job.total === 0 && <p className="text-[11px] text-destructive">No records read from file</p>}
+
+      <Badge
+        variant="outline"
+        className={cn("w-[80px] shrink-0 justify-center font-medium", statusStyles[job.status])}
+      >
+        {job.status}
+      </Badge>
     </div>
   );
 }
@@ -351,19 +365,19 @@ const Imports = () => {
 
         <Card className="rounded-xl shadow-card">
           <CardContent className="p-0">
-            <Table className="w-full">
+            <Table className="table-fixed">
               <TableHeader>
                 <TableRow className="hover:bg-transparent">
-                  <TableHead className="h-9 w-[15%] whitespace-nowrap text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  <TableHead className="h-9 w-[180px] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                     Added
                   </TableHead>
-                  <TableHead className="h-9 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  <TableHead className="h-9 w-auto whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                     Agent / Corporate
                   </TableHead>
-                  <TableHead className="h-9 w-[35%] text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  <TableHead className="h-9 w-[340px] whitespace-nowrap py-2 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
                     Import health
                   </TableHead>
-                  <TableHead className="h-9 w-[1%] whitespace-nowrap text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  <TableHead className="h-9 w-[140px] whitespace-nowrap py-2 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
                     Actions
                   </TableHead>
                 </TableRow>
@@ -391,28 +405,12 @@ const Imports = () => {
                           )}
                           {job.corporate}
                         </p>
-                        <p className="max-w-[420px] truncate text-xs leading-tight text-muted-foreground">
+                        <p className="truncate text-xs leading-tight text-muted-foreground">
                           {job.file}
                         </p>
                       </TableCell>
                       <TableCell className="py-2">
-                        <div className="flex items-center justify-end gap-4">
-                          <RecordsCell job={job} />
-                          <div className="shrink-0 text-right">
-                            <p className="text-sm font-medium leading-none text-foreground">
-                              {job.processed}
-                            </p>
-                            <p className="mt-1 text-[10px] leading-none text-muted-foreground">
-                              processed
-                            </p>
-                          </div>
-                          <Badge
-                            variant="outline"
-                            className={cn("shrink-0 justify-center font-medium", statusStyles[job.status])}
-                          >
-                            {job.status}
-                          </Badge>
-                        </div>
+                        <RecordsHealthCell job={job} />
                       </TableCell>
                       <TableCell className="py-2">
                         <RowActions job={job} />
