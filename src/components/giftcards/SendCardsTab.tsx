@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Bold,
   Italic,
@@ -6,6 +6,9 @@ import {
   Quote,
   Plus,
   Trash2,
+  Pencil,
+  ChevronLeft,
+  ChevronRight,
   Upload,
   Download,
   FileSpreadsheet,
@@ -17,6 +20,12 @@ import {
   Send,
   Info,
 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -76,10 +85,14 @@ function PanelHeader({ step, title, hint }: { step: number; title: string; hint?
 function OneByOne({
   rows,
   setRows,
+  activeId,
+  setActiveId,
   onSwitchToCsv,
 }: {
   rows: Recipient[];
   setRows: (r: Recipient[]) => void;
+  activeId: string;
+  setActiveId: (id: string) => void;
   onSwitchToCsv: () => void;
 }) {
   const update = (id: string, patch: Partial<Recipient>) =>
@@ -90,65 +103,142 @@ function OneByOne({
     if (parts.length > 1) {
       const index = rows.findIndex((r) => r.id === id);
       const base = rows[index];
-      const created = parts.map((email) => ({ id: uid(), email, trees: base.trees }));
+      const created = parts.map((email) => ({
+        id: uid(),
+        email,
+        trees: base.trees,
+        message: base.message,
+      }));
       setRows([...rows.slice(0, index), ...created, ...rows.slice(index + 1)]);
+      setActiveId(created[created.length - 1].id);
       return;
     }
     update(id, { email: value, error: undefined });
   };
 
+  const remove = (id: string) => {
+    const next = rows.filter((r) => r.id !== id);
+    setRows(next);
+    if (activeId === id) setActiveId(next[next.length - 1].id);
+  };
+
+  const addCard = () => {
+    const previous = rows[rows.length - 1];
+    const created: Recipient = {
+      id: uid(),
+      email: "",
+      trees: 1,
+      message: previous?.message ?? "",
+    };
+    setRows([...rows, created]);
+    setActiveId(created.id);
+  };
+
   return (
     <div className="space-y-3">
-      <div className="hidden grid-cols-[1fr_120px_40px] gap-3 px-1 text-xs font-medium uppercase tracking-wide text-muted-foreground sm:grid">
-        <span>Recipient email</span>
-        <span>Trees</span>
-        <span />
-      </div>
+      {rows.map((row, index) => {
+        const expanded = row.id === activeId;
 
-      {rows.map((row) => (
-        <div key={row.id} className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_120px_40px]">
-          <div>
-            <Input
-              type="email"
-              placeholder="name@company.com"
-              value={row.email}
-              onChange={(e) => handleEmailChange(row.id, e.target.value)}
-              onBlur={() =>
-                update(row.id, {
-                  error:
-                    row.email.trim() && !isValidEmail(row.email)
-                      ? "Not a valid email address"
-                      : undefined,
-                })
-              }
-              className={cn(row.error && "border-destructive focus-visible:ring-destructive")}
-            />
-            {row.error && <p className="mt-1 text-xs text-destructive">{row.error}</p>}
+        if (!expanded) {
+          return (
+            <div
+              key={row.id}
+              className="flex items-center justify-between gap-3 rounded-lg border border-border bg-muted/40 px-3 py-2"
+            >
+              <p className="truncate text-sm text-foreground">
+                <span className="font-medium">Card {index + 1}</span>
+                <span className="text-muted-foreground">
+                  {" · "}
+                  {row.email || "No email yet"}
+                  {" · "}
+                  {row.trees} {row.trees === 1 ? "tree" : "trees"}
+                </span>
+              </p>
+              <div className="flex shrink-0 items-center gap-1">
+                <Button variant="ghost" size="sm" className="h-8" onClick={() => setActiveId(row.id)}>
+                  <Pencil className="mr-1.5 h-3.5 w-3.5" /> Edit
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  aria-label={`Delete card ${index + 1}`}
+                  disabled={rows.length === 1}
+                  onClick={() => remove(row.id)}
+                >
+                  <Trash2 className="h-4 w-4 text-muted-foreground" />
+                </Button>
+              </div>
+            </div>
+          );
+        }
+
+        return (
+          <div key={row.id} className="space-y-4 rounded-lg border border-primary bg-primary/[0.03] p-4">
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-semibold text-foreground">Card {index + 1}</p>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8"
+                aria-label={`Delete card ${index + 1}`}
+                disabled={rows.length === 1}
+                onClick={() => remove(row.id)}
+              >
+                <Trash2 className="h-4 w-4 text-muted-foreground" />
+              </Button>
+            </div>
+
+            <div>
+              <Label className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                Recipient email
+              </Label>
+              <Input
+                type="email"
+                placeholder="name@company.com"
+                value={row.email}
+                onChange={(e) => handleEmailChange(row.id, e.target.value)}
+                onBlur={() =>
+                  update(row.id, {
+                    error:
+                      row.email.trim() && !isValidEmail(row.email)
+                        ? "Not a valid email address"
+                        : undefined,
+                  })
+                }
+                className={cn(row.error && "border-destructive focus-visible:ring-destructive")}
+              />
+              {row.error && <p className="mt-1 text-xs text-destructive">{row.error}</p>}
+            </div>
+
+            <div className="sm:max-w-[160px]">
+              <Label className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                Trees
+              </Label>
+              <Input
+                type="number"
+                min={1}
+                value={row.trees}
+                onChange={(e) => update(row.id, { trees: Math.max(1, Number(e.target.value) || 1) })}
+              />
+            </div>
+
+            <div>
+              <Label className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                Message
+              </Label>
+              <MessageEditor
+                key={row.id}
+                value={row.message}
+                onChange={(html) => update(row.id, { message: html })}
+              />
+            </div>
           </div>
-          <Input
-            type="number"
-            min={1}
-            value={row.trees}
-            onChange={(e) => update(row.id, { trees: Math.max(1, Number(e.target.value) || 1) })}
-          />
-          <Button
-            variant="ghost"
-            size="icon"
-            aria-label="Remove recipient"
-            disabled={rows.length === 1}
-            onClick={() => setRows(rows.filter((r) => r.id !== row.id))}
-          >
-            <Trash2 className="h-4 w-4 text-muted-foreground" />
-          </Button>
-        </div>
-      ))}
+        );
+      })}
 
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => setRows([...rows, { id: uid(), email: "", trees: 1 }])}
-      >
-        <Plus className="mr-1.5 h-4 w-4" /> Add another recipient
+      <Button variant="outline" size="sm" onClick={addCard}>
+        <Plus className="mr-1.5 h-4 w-4" /> Add another card
       </Button>
 
       {rows.length > 10 && (
@@ -348,8 +438,14 @@ function CsvMode({
 /* ------------------------------------------------------------------ */
 /* Panel 2 — the card                                                  */
 /* ------------------------------------------------------------------ */
-function MessageEditor({ onChange }: { onChange: (html: string) => void }) {
+function MessageEditor({ value, onChange }: { value: string; onChange: (html: string) => void }) {
   const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (ref.current && ref.current.innerHTML !== value) ref.current.innerHTML = value;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
 
   const run = (command: string, value?: string) => {
     ref.current?.focus();
@@ -413,41 +509,58 @@ function MessageEditor({ onChange }: { onChange: (html: string) => void }) {
 /* Main tab                                                            */
 /* ------------------------------------------------------------------ */
 export default function SendCardsTab() {
+  const firstCard = useRef(uid()).current;
   const [mode, setMode] = useState<"manual" | "csv">("manual");
-  const [manualRows, setManualRows] = useState<Recipient[]>([{ id: uid(), email: "", trees: 1 }]);
+  const [manualRows, setManualRows] = useState<Recipient[]>([
+    { id: firstCard, email: "", trees: 1, message: "" },
+  ]);
+  const [activeCardId, setActiveCardId] = useState(firstCard);
   const [csvRows, setCsvRows] = useState<CsvRow[]>([]);
 
   const [design, setDesign] = useState<string>("");
   const [logo, setLogo] = useState<string>("");
   const [replyTo, setReplyTo] = useState("events@zeerogroup.com");
-  const [message, setMessage] = useState("");
 
   const [delivery, setDelivery] = useState<"now" | "later">("now");
   const [sendDate, setSendDate] = useState("");
   const [sendTime, setSendTime] = useState("09:00");
 
-  const valid = useMemo(() => {
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewIndex, setPreviewIndex] = useState(0);
+
+  const cards = useMemo(() => {
     if (mode === "manual") {
-      return manualRows
-        .filter((r) => isValidEmail(r.email))
-        .map((r) => ({ email: r.email, trees: r.trees }));
+      return manualRows.map((r) => ({ email: r.email, trees: r.trees, message: r.message }));
     }
     return csvRows
-      .filter((r) => !r.skipped && Object.keys(r.errors).length === 0)
-      .map((r) => ({ email: r.email, trees: Number(r.trees) }));
+      .filter((r) => !r.skipped)
+      .map((r) => ({ email: r.email, trees: Number(r.trees) || 0, message: r.message }));
   }, [mode, manualRows, csvRows]);
+
+  const valid = useMemo(() => cards.filter((c) => isValidEmail(c.email)), [cards]);
 
   const totalTrees = valid.reduce((sum, r) => sum + r.trees, 0);
   const total = totalTrees * PRICE_PER_TREE;
   const blocked =
     mode === "csv" && csvRows.some((r) => !r.skipped && Object.keys(r.errors).length > 0);
 
+  const anyMessage = cards.some((c) => (c.message ?? "").replace(/<[^>]*>/g, "").trim().length > 0);
+
   const checklist = [
     { label: "Recipients added", done: valid.length > 0 },
     { label: "Design chosen", done: !!design },
-    { label: "Message written", done: message.replace(/<[^>]*>/g, "").trim().length > 0 },
+    { label: "Message written", done: anyMessage },
     { label: "Delivery set", done: delivery === "now" || !!sendDate },
   ];
+
+  const previewCards = cards.length > 0 ? cards : [{ email: "", trees: 1, message: "" }];
+  const current = previewCards[Math.min(previewIndex, previewCards.length - 1)];
+  const resolve = (html: string) =>
+    (html || "<p class='text-muted-foreground'>Your message appears here…</p>")
+      .replace(/\{\{first_name\}\}/g, "Anna")
+      .replace(/\{\{company\}\}/g, logo || "Zeero Group")
+      .replace(/\{\{trees\}\}/g, String(current.trees));
+
 
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
@@ -479,7 +592,13 @@ export default function SendCardsTab() {
             </div>
 
             {mode === "manual" ? (
-              <OneByOne rows={manualRows} setRows={setManualRows} onSwitchToCsv={() => setMode("csv")} />
+              <OneByOne
+                rows={manualRows}
+                setRows={setManualRows}
+                activeId={activeCardId}
+                setActiveId={setActiveCardId}
+                onSwitchToCsv={() => setMode("csv")}
+              />
             ) : (
               <CsvMode rows={csvRows} setRows={setCsvRows} onSwitchToManual={() => setMode("manual")} />
             )}
@@ -543,13 +662,10 @@ export default function SendCardsTab() {
                 <Input id="reply-to" type="email" value={replyTo} onChange={(e) => setReplyTo(e.target.value)} />
               </div>
             </div>
-
-            <div>
-              <Label className="mb-2 block text-sm font-medium">Message</Label>
-              <MessageEditor onChange={setMessage} />
-            </div>
           </CardContent>
         </Card>
+
+
 
         <Card>
           <PanelHeader step={3} title="Delivery" />
@@ -641,9 +757,7 @@ export default function SendCardsTab() {
                 )}
                 <div
                   className="text-sm text-foreground [&_blockquote]:border-l-2 [&_blockquote]:border-border [&_blockquote]:pl-2 [&_h3]:font-semibold"
-                  dangerouslySetInnerHTML={{
-                    __html: message || "<p class='text-muted-foreground'>Your message appears here…</p>",
-                  }}
+                  dangerouslySetInnerHTML={{ __html: resolve(previewCards[0].message) }}
                 />
               </div>
             </div>
@@ -662,7 +776,7 @@ export default function SendCardsTab() {
                 <span className="font-medium text-foreground">{formatUsd(PRICE_PER_TREE)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Estimated CO₂e offset</span>
+                <span className="text-muted-foreground">Estimated CO₂</span>
                 <span className="font-medium text-foreground">
                   {(totalTrees * CO2E_PER_TREE).toFixed(2)} t
                 </span>
@@ -672,15 +786,6 @@ export default function SendCardsTab() {
                 <span>Total</span>
                 <span>{formatUsd(total)}</span>
               </div>
-            </div>
-
-            <div className="rounded-lg bg-muted px-3 py-2 text-sm">
-              <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">Payment method</span>
-                <button className="text-xs font-medium text-primary hover:underline">Change</button>
-              </div>
-              <p className="font-medium text-foreground">Invoice (30 days)</p>
-              <p className="text-xs text-muted-foreground">Inherited from Organisation Management</p>
             </div>
 
             <div className="space-y-1.5">
@@ -698,14 +803,17 @@ export default function SendCardsTab() {
 
             <div className="space-y-2">
               <Button
+                variant="outline"
                 className="w-full"
-                disabled={valid.length === 0 || blocked}
-                onClick={() => toast({ title: "Order ready to review", description: formatUsd(total) })}
+                onClick={() => {
+                  setPreviewIndex(0);
+                  setPreviewOpen(true);
+                }}
               >
-                Review & place order · {formatUsd(total)}
+                Preview card
               </Button>
-              <Button variant="outline" className="w-full" onClick={() => toast({ title: "Draft saved" })}>
-                Save as draft
+              <Button className="w-full" disabled={valid.length === 0 || blocked}>
+                Next
               </Button>
             </div>
 
@@ -715,6 +823,60 @@ export default function SendCardsTab() {
           </CardContent>
         </Card>
       </div>
+
+      <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Card preview</DialogTitle>
+          </DialogHeader>
+
+          <div className="overflow-hidden rounded-lg border border-border">
+            <div
+              className={cn("h-32 w-full", STOCK_DESIGNS.find((d) => d.id === design)?.swatch ?? "bg-muted")}
+            />
+            <div className="space-y-3 p-4">
+              {logo && (
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">{logo}</p>
+              )}
+              <div
+                className="text-sm text-foreground [&_blockquote]:border-l-2 [&_blockquote]:border-border [&_blockquote]:pl-2 [&_h3]:font-semibold"
+                dangerouslySetInnerHTML={{ __html: resolve(current.message) }}
+              />
+              <Separator />
+              <p className="text-sm font-medium text-foreground">
+                {current.trees} {current.trees === 1 ? "tree" : "trees"} planted in your name
+              </p>
+              {current.email && <p className="text-xs text-muted-foreground">To: {current.email}</p>}
+            </div>
+          </div>
+
+          {previewCards.length > 1 && (
+            <div className="flex items-center justify-between">
+              <Button
+                variant="outline"
+                size="icon"
+                aria-label="Previous card"
+                disabled={previewIndex === 0}
+                onClick={() => setPreviewIndex((i) => Math.max(0, i - 1))}
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+              <span className="text-sm text-muted-foreground">
+                Card {previewIndex + 1} of {previewCards.length}
+              </span>
+              <Button
+                variant="outline"
+                size="icon"
+                aria-label="Next card"
+                disabled={previewIndex >= previewCards.length - 1}
+                onClick={() => setPreviewIndex((i) => Math.min(previewCards.length - 1, i + 1))}
+              >
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
