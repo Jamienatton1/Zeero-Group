@@ -494,19 +494,17 @@ const GiftCardsCards = () => {
               )}
             </Card>
 
-            {/* Totals */}
-            <div className="flex justify-end">
-              <p className="text-base font-bold text-foreground">
-                Number of cards: {cards.length}
-                <span className="mx-2 text-muted-foreground">·</span>
-                {totalTrees} trees
-                <span className="mx-2 text-muted-foreground">·</span>
-                Total {formatUsd(totalCost)}
-              </p>
-            </div>
+            {/* Totals + action bar */}
+            <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-border bg-card p-4 shadow-sm">
+              <div className="text-sm text-muted-foreground">
+                <span className="font-semibold text-foreground">{cards.length}</span> cards
+                <span className="mx-2">·</span>
+                <span className="font-semibold text-foreground">{totalTrees}</span> trees
+                <span className="mx-2">·</span>
+                Total <span className="text-base font-bold text-primary">{formatUsd(totalCost)}</span>
+              </div>
 
-            {/* Action bar */}
-            <div className="flex flex-wrap items-center gap-3">
+              <div className="flex flex-wrap items-center gap-3">
               <Button variant="outline" onClick={() => navigate("/gift-cards")}>
                 Previous
               </Button>
@@ -521,6 +519,8 @@ const GiftCardsCards = () => {
                 Preview your card
               </Button>
               <Button disabled={cards.length === 0}>Next</Button>
+              </div>
+
 
               <TooltipProvider delayDuration={100}>
                 <Tooltip>
