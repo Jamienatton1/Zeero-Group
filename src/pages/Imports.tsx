@@ -233,71 +233,51 @@ function RowActions({ job }: { job: ImportJob }) {
   const canResume = job.status === "Queued" || job.status === "Failed";
   const inProgress = job.status === "Processing" || job.status === "Queued";
 
+  const btn =
+    "h-7 gap-1.5 px-2 text-xs font-normal";
+
   return (
-    <div className="flex items-center justify-end gap-1">
+    <div className="flex flex-wrap items-center gap-1.5">
       {job.hasQuote && (
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button variant="outline" size="icon" className="h-7 w-7">
-              <FileText className="h-3.5 w-3.5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="top">View quote</TooltipContent>
-        </Tooltip>
+        <Button variant="outline" size="sm" className={btn}>
+          <FileText className="h-3.5 w-3.5" />
+          View quote
+        </Button>
       )}
       {job.hasQuote && (
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button variant="outline" size="icon" className="h-7 w-7">
-              <FileDown className="h-3.5 w-3.5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="top">Download quote</TooltipContent>
-        </Tooltip>
+        <Button variant="outline" size="sm" className={btn}>
+          <FileDown className="h-3.5 w-3.5" />
+          Download quote
+        </Button>
       )}
       {canResume && (
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button variant="outline" size="icon" className="h-7 w-7">
-              <RefreshCw className="h-3.5 w-3.5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="top">Resume file processing</TooltipContent>
-        </Tooltip>
+        <Button variant="outline" size="sm" className={btn}>
+          <RefreshCw className="h-3.5 w-3.5" />
+          Resume
+        </Button>
       )}
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button variant="outline" size="icon" className="h-7 w-7">
-            <Download className="h-3.5 w-3.5" />
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent side="top">Download file</TooltipContent>
-      </Tooltip>
+      <Button variant="outline" size="sm" className={btn}>
+        <Download className="h-3.5 w-3.5" />
+        Download file
+      </Button>
       {inProgress && (
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button variant="outline" size="icon" className="h-7 w-7">
-              <CheckCircle2 className="h-3.5 w-3.5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="top">Mark as complete</TooltipContent>
-        </Tooltip>
+        <Button variant="outline" size="sm" className={btn}>
+          <CheckCircle2 className="h-3.5 w-3.5" />
+          Mark as complete
+        </Button>
       )}
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            variant="outline"
-            size="icon"
-            className="h-7 w-7 hover:border-destructive hover:text-destructive"
-          >
-            <Trash2 className="h-3.5 w-3.5" />
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent side="top">Remove import and file</TooltipContent>
-      </Tooltip>
+      <Button
+        variant="outline"
+        size="sm"
+        className={cn(btn, "hover:border-destructive hover:text-destructive")}
+      >
+        <Trash2 className="h-3.5 w-3.5" />
+        Remove
+      </Button>
     </div>
   );
 }
+
 
 const Imports = () => {
   return (
