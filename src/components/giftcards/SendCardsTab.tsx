@@ -518,6 +518,7 @@ function MessageEditor({ value, onChange }: { value: string; onChange: (html: st
 /* Main tab                                                            */
 /* ------------------------------------------------------------------ */
 export default function SendCardsTab() {
+  const navigate = useNavigate();
   const firstCard = useRef(uid()).current;
   const [mode, setMode] = useState<"manual" | "csv">("manual");
   const [manualRows, setManualRows] = useState<Recipient[]>([
