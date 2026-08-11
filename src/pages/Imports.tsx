@@ -181,13 +181,13 @@ function RecordsCell({ job }: { job: ImportJob }) {
   const pct = (n: number) => `${(n / total) * 100}%`;
 
   return (
-    <div className="w-[168px] space-y-1">
+    <div className="w-[196px] shrink-0 space-y-1">
       <div className="flex h-1.5 w-full overflow-hidden rounded-full bg-muted">
         <div className="bg-primary" style={{ width: pct(job.valid) }} />
         <div className="bg-amber-500" style={{ width: pct(job.skippedRule) }} />
         <div className="bg-muted-foreground/40" style={{ width: pct(job.duplicates) }} />
       </div>
-      <div className="flex items-center gap-2.5 text-[11px] leading-none">
+      <div className="flex items-center gap-2.5 whitespace-nowrap text-[11px] leading-none">
         <span className="flex items-center gap-1 text-foreground">
           <span className="h-1.5 w-1.5 rounded-full bg-primary" />
           {job.valid} valid
@@ -288,7 +288,7 @@ function RowActions({ job }: { job: ImportJob }) {
 const Imports = () => {
   return (
     <AdminLayout title="Imports" subtitle="Travel data files from TMCs and corporates">
-      <div className="max-w-[1280px]">
+      <div className="mx-auto max-w-[1280px]">
         <Card className="mb-4 rounded-xl shadow-card">
           <CardContent className="p-4">
             <div className="flex flex-wrap items-center gap-3">
@@ -360,7 +360,7 @@ const Imports = () => {
                   <TableHead className="h-9 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                     Agent / Corporate
                   </TableHead>
-                  <TableHead className="h-9 w-[440px] text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  <TableHead className="h-9 w-[430px] text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
                     Import health
                   </TableHead>
                   <TableHead className="h-9 w-[170px] text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
@@ -396,19 +396,19 @@ const Imports = () => {
                         </p>
                       </TableCell>
                       <TableCell className="py-2">
-                        <div className="flex items-center justify-end gap-5">
+                        <div className="ml-auto flex w-[400px] items-center justify-end gap-4">
                           <RecordsCell job={job} />
-                          <div className="w-[70px] text-right">
+                          <div className="w-[62px] shrink-0 text-right">
                             <p className="text-sm font-medium leading-none text-foreground">
                               {job.processed}
                             </p>
-                            <p className="mt-1 text-[10px] uppercase tracking-wide text-muted-foreground">
-                              Processed
+                            <p className="mt-1 text-[10px] leading-none text-muted-foreground">
+                              processed
                             </p>
                           </div>
                           <Badge
                             variant="outline"
-                            className={cn("w-[92px] justify-center font-medium", statusStyles[job.status])}
+                            className={cn("w-[92px] shrink-0 justify-center font-medium", statusStyles[job.status])}
                           >
                             {job.status}
                           </Badge>
