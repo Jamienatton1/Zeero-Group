@@ -76,10 +76,14 @@ function PanelHeader({ step, title, hint }: { step: number; title: string; hint?
 function OneByOne({
   rows,
   setRows,
+  activeId,
+  setActiveId,
   onSwitchToCsv,
 }: {
   rows: Recipient[];
   setRows: (r: Recipient[]) => void;
+  activeId: string;
+  setActiveId: (id: string) => void;
   onSwitchToCsv: () => void;
 }) {
   const update = (id: string, patch: Partial<Recipient>) =>
@@ -90,65 +94,142 @@ function OneByOne({
     if (parts.length > 1) {
       const index = rows.findIndex((r) => r.id === id);
       const base = rows[index];
-      const created = parts.map((email) => ({ id: uid(), email, trees: base.trees }));
+      const created = parts.map((email) => ({
+        id: uid(),
+        email,
+        trees: base.trees,
+        message: base.message,
+      }));
       setRows([...rows.slice(0, index), ...created, ...rows.slice(index + 1)]);
+      setActiveId(created[created.length - 1].id);
       return;
     }
     update(id, { email: value, error: undefined });
   };
 
+  const remove = (id: string) => {
+    const next = rows.filter((r) => r.id !== id);
+    setRows(next);
+    if (activeId === id) setActiveId(next[next.length - 1].id);
+  };
+
+  const addCard = () => {
+    const previous = rows[rows.length - 1];
+    const created: Recipient = {
+      id: uid(),
+      email: "",
+      trees: 1,
+      message: previous?.message ?? "",
+    };
+    setRows([...rows, created]);
+    setActiveId(created.id);
+  };
+
   return (
     <div className="space-y-3">
-      <div className="hidden grid-cols-[1fr_120px_40px] gap-3 px-1 text-xs font-medium uppercase tracking-wide text-muted-foreground sm:grid">
-        <span>Recipient email</span>
-        <span>Trees</span>
-        <span />
-      </div>
+      {rows.map((row, index) => {
+        const expanded = row.id === activeId;
 
-      {rows.map((row) => (
-        <div key={row.id} className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_120px_40px]">
-          <div>
-            <Input
-              type="email"
-              placeholder="name@company.com"
-              value={row.email}
-              onChange={(e) => handleEmailChange(row.id, e.target.value)}
-              onBlur={() =>
-                update(row.id, {
-                  error:
-                    row.email.trim() && !isValidEmail(row.email)
-                      ? "Not a valid email address"
-                      : undefined,
-                })
-              }
-              className={cn(row.error && "border-destructive focus-visible:ring-destructive")}
-            />
-            {row.error && <p className="mt-1 text-xs text-destructive">{row.error}</p>}
+        if (!expanded) {
+          return (
+            <div
+              key={row.id}
+              className="flex items-center justify-between gap-3 rounded-lg border border-border bg-muted/40 px-3 py-2"
+            >
+              <p className="truncate text-sm text-foreground">
+                <span className="font-medium">Card {index + 1}</span>
+                <span className="text-muted-foreground">
+                  {" · "}
+                  {row.email || "No email yet"}
+                  {" · "}
+                  {row.trees} {row.trees === 1 ? "tree" : "trees"}
+                </span>
+              </p>
+              <div className="flex shrink-0 items-center gap-1">
+                <Button variant="ghost" size="sm" className="h-8" onClick={() => setActiveId(row.id)}>
+                  <Pencil className="mr-1.5 h-3.5 w-3.5" /> Edit
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  aria-label={`Delete card ${index + 1}`}
+                  disabled={rows.length === 1}
+                  onClick={() => remove(row.id)}
+                >
+                  <Trash2 className="h-4 w-4 text-muted-foreground" />
+                </Button>
+              </div>
+            </div>
+          );
+        }
+
+        return (
+          <div key={row.id} className="space-y-4 rounded-lg border border-primary bg-primary/[0.03] p-4">
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-semibold text-foreground">Card {index + 1}</p>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8"
+                aria-label={`Delete card ${index + 1}`}
+                disabled={rows.length === 1}
+                onClick={() => remove(row.id)}
+              >
+                <Trash2 className="h-4 w-4 text-muted-foreground" />
+              </Button>
+            </div>
+
+            <div>
+              <Label className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                Recipient email
+              </Label>
+              <Input
+                type="email"
+                placeholder="name@company.com"
+                value={row.email}
+                onChange={(e) => handleEmailChange(row.id, e.target.value)}
+                onBlur={() =>
+                  update(row.id, {
+                    error:
+                      row.email.trim() && !isValidEmail(row.email)
+                        ? "Not a valid email address"
+                        : undefined,
+                  })
+                }
+                className={cn(row.error && "border-destructive focus-visible:ring-destructive")}
+              />
+              {row.error && <p className="mt-1 text-xs text-destructive">{row.error}</p>}
+            </div>
+
+            <div className="sm:max-w-[160px]">
+              <Label className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                Trees
+              </Label>
+              <Input
+                type="number"
+                min={1}
+                value={row.trees}
+                onChange={(e) => update(row.id, { trees: Math.max(1, Number(e.target.value) || 1) })}
+              />
+            </div>
+
+            <div>
+              <Label className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                Message
+              </Label>
+              <MessageEditor
+                key={row.id}
+                value={row.message}
+                onChange={(html) => update(row.id, { message: html })}
+              />
+            </div>
           </div>
-          <Input
-            type="number"
-            min={1}
-            value={row.trees}
-            onChange={(e) => update(row.id, { trees: Math.max(1, Number(e.target.value) || 1) })}
-          />
-          <Button
-            variant="ghost"
-            size="icon"
-            aria-label="Remove recipient"
-            disabled={rows.length === 1}
-            onClick={() => setRows(rows.filter((r) => r.id !== row.id))}
-          >
-            <Trash2 className="h-4 w-4 text-muted-foreground" />
-          </Button>
-        </div>
-      ))}
+        );
+      })}
 
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => setRows([...rows, { id: uid(), email: "", trees: 1 }])}
-      >
-        <Plus className="mr-1.5 h-4 w-4" /> Add another recipient
+      <Button variant="outline" size="sm" onClick={addCard}>
+        <Plus className="mr-1.5 h-4 w-4" /> Add another card
       </Button>
 
       {rows.length > 10 && (
