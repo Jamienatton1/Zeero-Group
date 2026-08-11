@@ -235,65 +235,66 @@ function RowActions({ job }: { job: ImportJob }) {
 
   return (
     <div className="flex items-center justify-end gap-1">
-      {job.hasQuote ? (
-        <Button variant="outline" size="sm" className="h-7 text-xs">
-          <FileText className="mr-1.5 h-3.5 w-3.5" />
-          View quote
-        </Button>
-      ) : canResume ? (
-        <Button variant="outline" size="sm" className="h-7 text-xs">
-          <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
-          Resume
-        </Button>
-      ) : (
-        <Button variant="outline" size="sm" className="h-7 text-xs">
-          <Download className="mr-1.5 h-3.5 w-3.5" />
-          File
-        </Button>
+      {job.hasQuote && (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="outline" size="icon" className="h-7 w-7">
+              <FileText className="h-3.5 w-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="top">View quote</TooltipContent>
+        </Tooltip>
       )}
-
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="h-7 w-7">
-            <MoreHorizontal className="h-4 w-4" />
+      {job.hasQuote && (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="outline" size="icon" className="h-7 w-7">
+              <FileDown className="h-3.5 w-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="top">Download quote</TooltipContent>
+        </Tooltip>
+      )}
+      {canResume && (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="outline" size="icon" className="h-7 w-7">
+              <RefreshCw className="h-3.5 w-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="top">Resume file processing</TooltipContent>
+        </Tooltip>
+      )}
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button variant="outline" size="icon" className="h-7 w-7">
+            <Download className="h-3.5 w-3.5" />
           </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-56 bg-popover">
-          {job.hasQuote && (
-            <>
-              <DropdownMenuItem>
-                <FileText className="mr-2 h-4 w-4" />
-                View quote
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Download className="mr-2 h-4 w-4" />
-                Download quote
-              </DropdownMenuItem>
-            </>
-          )}
-          {canResume && (
-            <DropdownMenuItem>
-              <RefreshCw className="mr-2 h-4 w-4" />
-              Resume file processing
-            </DropdownMenuItem>
-          )}
-          <DropdownMenuItem>
-            <Download className="mr-2 h-4 w-4" />
-            Download file
-          </DropdownMenuItem>
-          {inProgress && (
-            <DropdownMenuItem>
-              <CheckCircle2 className="mr-2 h-4 w-4" />
-              Mark as complete
-            </DropdownMenuItem>
-          )}
-          <DropdownMenuSeparator />
-          <DropdownMenuItem className="text-destructive focus:text-destructive">
-            <Trash2 className="mr-2 h-4 w-4" />
-            Remove import and file
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+        </TooltipTrigger>
+        <TooltipContent side="top">Download file</TooltipContent>
+      </Tooltip>
+      {inProgress && (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="outline" size="icon" className="h-7 w-7">
+              <CheckCircle2 className="h-3.5 w-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="top">Mark as complete</TooltipContent>
+        </Tooltip>
+      )}
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-7 w-7 hover:border-destructive hover:text-destructive"
+          >
+            <Trash2 className="h-3.5 w-3.5" />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent side="top">Remove import and file</TooltipContent>
+      </Tooltip>
     </div>
   );
 }
