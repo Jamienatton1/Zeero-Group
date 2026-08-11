@@ -366,7 +366,7 @@ const Imports = () => {
                             {job.source}
                           </p>
                         </TableCell>
-                        <TableCell className="w-[28%] py-2">
+                        <TableCell className="w-[26%] py-2">
                           <p className="text-sm leading-tight text-foreground">
                             {job.partner && (
                               <span className="text-muted-foreground">{job.partner} · </span>
@@ -377,10 +377,26 @@ const Imports = () => {
                             {job.file}
                           </p>
                         </TableCell>
-                        <TableCell className="w-[25%] py-2">
+                        <TableCell className="w-[16%] py-2">
                           <RecordsHealthCell job={job} />
                         </TableCell>
-                        <TableCell className="w-[35%] py-2">
+                        <TableCell className="w-[7%] py-2 text-right">
+                          <p className="text-sm font-medium leading-none text-foreground">
+                            {job.processed}
+                          </p>
+                        </TableCell>
+                        <TableCell className="w-[9%] py-2 text-center">
+                          <Badge
+                            variant="outline"
+                            className={cn(
+                              "w-[80px] justify-center font-medium",
+                              statusStyles[job.status]
+                            )}
+                          >
+                            {job.status}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="w-[30%] py-2">
                           <RowActions job={job} />
                         </TableCell>
                       </TableRow>
