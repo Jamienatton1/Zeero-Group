@@ -509,41 +509,58 @@ function MessageEditor({ value, onChange }: { value: string; onChange: (html: st
 /* Main tab                                                            */
 /* ------------------------------------------------------------------ */
 export default function SendCardsTab() {
+  const firstCard = useRef(uid()).current;
   const [mode, setMode] = useState<"manual" | "csv">("manual");
-  const [manualRows, setManualRows] = useState<Recipient[]>([{ id: uid(), email: "", trees: 1 }]);
+  const [manualRows, setManualRows] = useState<Recipient[]>([
+    { id: firstCard, email: "", trees: 1, message: "" },
+  ]);
+  const [activeCardId, setActiveCardId] = useState(firstCard);
   const [csvRows, setCsvRows] = useState<CsvRow[]>([]);
 
   const [design, setDesign] = useState<string>("");
   const [logo, setLogo] = useState<string>("");
   const [replyTo, setReplyTo] = useState("events@zeerogroup.com");
-  const [message, setMessage] = useState("");
 
   const [delivery, setDelivery] = useState<"now" | "later">("now");
   const [sendDate, setSendDate] = useState("");
   const [sendTime, setSendTime] = useState("09:00");
 
-  const valid = useMemo(() => {
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewIndex, setPreviewIndex] = useState(0);
+
+  const cards = useMemo(() => {
     if (mode === "manual") {
-      return manualRows
-        .filter((r) => isValidEmail(r.email))
-        .map((r) => ({ email: r.email, trees: r.trees }));
+      return manualRows.map((r) => ({ email: r.email, trees: r.trees, message: r.message }));
     }
     return csvRows
-      .filter((r) => !r.skipped && Object.keys(r.errors).length === 0)
-      .map((r) => ({ email: r.email, trees: Number(r.trees) }));
+      .filter((r) => !r.skipped)
+      .map((r) => ({ email: r.email, trees: Number(r.trees) || 0, message: r.message }));
   }, [mode, manualRows, csvRows]);
+
+  const valid = useMemo(() => cards.filter((c) => isValidEmail(c.email)), [cards]);
 
   const totalTrees = valid.reduce((sum, r) => sum + r.trees, 0);
   const total = totalTrees * PRICE_PER_TREE;
   const blocked =
     mode === "csv" && csvRows.some((r) => !r.skipped && Object.keys(r.errors).length > 0);
 
+  const anyMessage = cards.some((c) => (c.message ?? "").replace(/<[^>]*>/g, "").trim().length > 0);
+
   const checklist = [
     { label: "Recipients added", done: valid.length > 0 },
     { label: "Design chosen", done: !!design },
-    { label: "Message written", done: message.replace(/<[^>]*>/g, "").trim().length > 0 },
+    { label: "Message written", done: anyMessage },
     { label: "Delivery set", done: delivery === "now" || !!sendDate },
   ];
+
+  const previewCards = cards.length > 0 ? cards : [{ email: "", trees: 1, message: "" }];
+  const current = previewCards[Math.min(previewIndex, previewCards.length - 1)];
+  const resolve = (html: string) =>
+    (html || "<p class='text-muted-foreground'>Your message appears here…</p>")
+      .replace(/\{\{first_name\}\}/g, "Anna")
+      .replace(/\{\{company\}\}/g, logo || "Zeero Group")
+      .replace(/\{\{trees\}\}/g, String(current.trees));
+
 
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
