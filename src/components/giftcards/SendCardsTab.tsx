@@ -592,7 +592,13 @@ export default function SendCardsTab() {
             </div>
 
             {mode === "manual" ? (
-              <OneByOne rows={manualRows} setRows={setManualRows} onSwitchToCsv={() => setMode("csv")} />
+              <OneByOne
+                rows={manualRows}
+                setRows={setManualRows}
+                activeId={activeCardId}
+                setActiveId={setActiveCardId}
+                onSwitchToCsv={() => setMode("csv")}
+              />
             ) : (
               <CsvMode rows={csvRows} setRows={setCsvRows} onSwitchToManual={() => setMode("manual")} />
             )}
