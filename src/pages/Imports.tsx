@@ -348,7 +348,7 @@ const Imports = () => {
                     <TableHead className="h-9 w-[28%] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                       Agent / Corporate
                     </TableHead>
-                    <TableHead className="h-9 w-[25%] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    <TableHead className="h-9 w-[25%] whitespace-nowrap py-2 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
                       Import health
                     </TableHead>
                     <TableHead className="h-9 w-[35%] text-right whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
