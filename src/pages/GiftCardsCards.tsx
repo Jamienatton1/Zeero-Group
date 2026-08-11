@@ -416,8 +416,8 @@ const GiftCardsCards = () => {
 
                             {expandedId === row.id && (
                               <TableRow className="border-border/60 bg-muted/40 hover:bg-muted/40">
+                                <TableCell colSpan={5} className="p-4">
 
-                                <TableCell colSpan={6} className="p-4">
                                   <div className="grid gap-4 md:grid-cols-[2fr_120px]">
                                     <div className="space-y-1.5">
                                       <Label className="text-xs">Recipient email</Label>
