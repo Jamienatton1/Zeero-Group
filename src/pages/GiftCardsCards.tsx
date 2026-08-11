@@ -529,24 +529,6 @@ const GiftCardsCards = () => {
               )}
             </Card>
 
-            <div className="space-y-2">
-              <p className="max-w-3xl text-xs text-muted-foreground">
-                We do not store recipient email addresses or names, and we will not send anything other than the
-                greeting card. The list is uploaded to our mailing software to send the emails and the local data is
-                then deleted in line with GDPR. Our mailing provider is SOC 2 accredited.
-              </p>
-              <p className="max-w-3xl text-xs text-muted-foreground">
-                Prefer to use your own email system and designs? We can supply tree codes to add to your own gift
-                cards — contact{" "}
-                <a
-                  href="mailto:gifts@zeerogroup.com"
-                  className="font-medium text-primary underline underline-offset-2"
-                >
-                  gifts@zeerogroup.com
-                </a>
-                .
-              </p>
-            </div>
           </div>
         </main>
 
