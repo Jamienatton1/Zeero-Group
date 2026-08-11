@@ -757,9 +757,7 @@ export default function SendCardsTab() {
                 )}
                 <div
                   className="text-sm text-foreground [&_blockquote]:border-l-2 [&_blockquote]:border-border [&_blockquote]:pl-2 [&_h3]:font-semibold"
-                  dangerouslySetInnerHTML={{
-                    __html: message || "<p class='text-muted-foreground'>Your message appears here…</p>",
-                  }}
+                  dangerouslySetInnerHTML={{ __html: resolve(previewCards[0].message) }}
                 />
               </div>
             </div>
@@ -778,7 +776,7 @@ export default function SendCardsTab() {
                 <span className="font-medium text-foreground">{formatUsd(PRICE_PER_TREE)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Estimated CO₂e offset</span>
+                <span className="text-muted-foreground">Estimated CO₂</span>
                 <span className="font-medium text-foreground">
                   {(totalTrees * CO2E_PER_TREE).toFixed(2)} t
                 </span>
@@ -788,15 +786,6 @@ export default function SendCardsTab() {
                 <span>Total</span>
                 <span>{formatUsd(total)}</span>
               </div>
-            </div>
-
-            <div className="rounded-lg bg-muted px-3 py-2 text-sm">
-              <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">Payment method</span>
-                <button className="text-xs font-medium text-primary hover:underline">Change</button>
-              </div>
-              <p className="font-medium text-foreground">Invoice (30 days)</p>
-              <p className="text-xs text-muted-foreground">Inherited from Organisation Management</p>
             </div>
 
             <div className="space-y-1.5">
@@ -814,14 +803,17 @@ export default function SendCardsTab() {
 
             <div className="space-y-2">
               <Button
+                variant="outline"
                 className="w-full"
-                disabled={valid.length === 0 || blocked}
-                onClick={() => toast({ title: "Order ready to review", description: formatUsd(total) })}
+                onClick={() => {
+                  setPreviewIndex(0);
+                  setPreviewOpen(true);
+                }}
               >
-                Review & place order · {formatUsd(total)}
+                Preview card
               </Button>
-              <Button variant="outline" className="w-full" onClick={() => toast({ title: "Draft saved" })}>
-                Save as draft
+              <Button className="w-full" disabled={valid.length === 0 || blocked}>
+                Next
               </Button>
             </div>
 
@@ -831,6 +823,60 @@ export default function SendCardsTab() {
           </CardContent>
         </Card>
       </div>
+
+      <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Card preview</DialogTitle>
+          </DialogHeader>
+
+          <div className="overflow-hidden rounded-lg border border-border">
+            <div
+              className={cn("h-32 w-full", STOCK_DESIGNS.find((d) => d.id === design)?.swatch ?? "bg-muted")}
+            />
+            <div className="space-y-3 p-4">
+              {logo && (
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">{logo}</p>
+              )}
+              <div
+                className="text-sm text-foreground [&_blockquote]:border-l-2 [&_blockquote]:border-border [&_blockquote]:pl-2 [&_h3]:font-semibold"
+                dangerouslySetInnerHTML={{ __html: resolve(current.message) }}
+              />
+              <Separator />
+              <p className="text-sm font-medium text-foreground">
+                {current.trees} {current.trees === 1 ? "tree" : "trees"} planted in your name
+              </p>
+              {current.email && <p className="text-xs text-muted-foreground">To: {current.email}</p>}
+            </div>
+          </div>
+
+          {previewCards.length > 1 && (
+            <div className="flex items-center justify-between">
+              <Button
+                variant="outline"
+                size="icon"
+                aria-label="Previous card"
+                disabled={previewIndex === 0}
+                onClick={() => setPreviewIndex((i) => Math.max(0, i - 1))}
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+              <span className="text-sm text-muted-foreground">
+                Card {previewIndex + 1} of {previewCards.length}
+              </span>
+              <Button
+                variant="outline"
+                size="icon"
+                aria-label="Next card"
+                disabled={previewIndex >= previewCards.length - 1}
+                onClick={() => setPreviewIndex((i) => Math.min(previewCards.length - 1, i + 1))}
+              >
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
