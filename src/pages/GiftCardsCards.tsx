@@ -86,6 +86,12 @@ const MESSAGES = [
   "Thanks for a brilliant year of partnership. These trees are planted in your name as our way of saying thank you.",
 ];
 
+const STEPS: { label: string; to?: string }[] = [
+  { label: "Create cards", to: "/gift-cards" },
+  { label: "Your cards" },
+  { label: "Pay & send" },
+];
+
 const MOCK_CARDS: CardRow[] = NAMES.map((n, i) => ({
   id: uid(),
   email: `${n}@example.com`,
