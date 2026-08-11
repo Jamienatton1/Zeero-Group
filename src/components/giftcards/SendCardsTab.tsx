@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Bold,
   Italic,
@@ -841,7 +842,11 @@ export default function SendCardsTab() {
               >
                 Preview card
               </Button>
-              <Button className="w-full" disabled={valid.length === 0 || blocked}>
+              <Button
+                className="w-full"
+                disabled={valid.length === 0 || blocked}
+                onClick={() => navigate("/gift-cards/cards")}
+              >
                 Next
               </Button>
             </div>
