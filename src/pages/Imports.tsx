@@ -235,7 +235,7 @@ function RowActions({ job }: { job: ImportJob }) {
   const inProgress = job.status === "Processing" || job.status === "Queued";
 
   return (
-    <div className="flex items-center justify-end gap-1">
+    <div className="flex items-center gap-1">
       {job.hasQuote ? (
         <Button variant="outline" size="sm" className="h-7 text-xs">
           <FileText className="mr-1.5 h-3.5 w-3.5" />
