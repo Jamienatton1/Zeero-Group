@@ -22,6 +22,7 @@ import DataCollectionStatus from "./pages/DataCollectionStatus";
 import CompensationReport from "./pages/CompensationReport";
 import QuestionnaireResponses from "./pages/QuestionnaireResponses";
 import TreeSwag from "./pages/TreeSwag";
+import GiftCards from "./pages/GiftCards";
 import NotFound from "./pages/NotFound";
 import OrganisationSettings from "./pages/OrganisationSettings";
 import Balance from "./pages/Balance";
@@ -63,6 +64,7 @@ const App = () => (
           <Route path="/events/compensation-report" element={<CompensationReport />} />
           <Route path="/events/questionnaire-responses" element={<QuestionnaireResponses />} />
           <Route path="/tree-swag" element={<TreeSwag />} />
+          <Route path="/gift-cards" element={<GiftCards />} />
           <Route path="/balance" element={<Balance />} />
           <Route path="/trees" element={<Trees />} />
           <Route path="/co2-calculator" element={<CO2Calculator />} />
