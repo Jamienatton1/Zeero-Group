@@ -182,21 +182,103 @@ const GiftCardsCards = () => {
 
         <main className="flex-1 overflow-auto p-8">
           <div className="mx-auto max-w-6xl space-y-6">
-            {/* Step indicator */}
-            <div className="flex items-center gap-3">
-              <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-                Step 2 of 3
-              </span>
-              <span className="text-sm font-medium text-foreground">Your cards</span>
-              <div className="flex flex-1 items-center gap-1.5">
-                <span className="h-1 flex-1 rounded-full bg-primary" />
-                <span className="h-1 flex-1 rounded-full bg-primary" />
-                <span className="h-1 flex-1 rounded-full bg-muted" />
+            {/* Hero */}
+            <div className="overflow-hidden rounded-xl border border-border bg-primary/5">
+              <div className="flex flex-col gap-4 p-6 md:flex-row md:items-center md:justify-between">
+                <div className="flex items-start gap-3">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <TreePine className="h-5 w-5" />
+                  </span>
+                  <div>
+                    <h1 className="text-2xl font-bold tracking-tight text-foreground">
+                      Give A Gift Of Planting A Tree For Our Planet
+                    </h1>
+                    <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+                      Review your cards, edit any details, then continue to checkout.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex shrink-0 gap-6 rounded-lg border border-border bg-card px-5 py-3">
+                  <div>
+                    <p className="text-xs uppercase tracking-wide text-muted-foreground">Cards</p>
+                    <p className="text-lg font-bold text-foreground">{cards.length}</p>
+                  </div>
+                  <Separator orientation="vertical" className="h-auto" />
+                  <div>
+                    <p className="text-xs uppercase tracking-wide text-muted-foreground">Trees</p>
+                    <p className="text-lg font-bold text-foreground">{totalTrees}</p>
+                  </div>
+                  <Separator orientation="vertical" className="h-auto" />
+                  <div>
+                    <p className="text-xs uppercase tracking-wide text-muted-foreground">Total</p>
+                    <p className="text-lg font-bold text-primary">{formatUsd(totalCost)}</p>
+                  </div>
+                </div>
               </div>
             </div>
 
+            {/* Stepper */}
+            <div className="flex items-center gap-3">
+              {["Send cards", "Your cards", "Checkout"].map((label, i) => {
+                const state = i < 1 ? "done" : i === 1 ? "current" : "todo";
+                return (
+                  <Fragment key={label}>
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={cn(
+                          "flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold",
+                          state === "todo"
+                            ? "bg-muted text-muted-foreground"
+                            : "bg-primary text-primary-foreground",
+                        )}
+                      >
+                        {i + 1}
+                      </span>
+                      <span
+                        className={cn(
+                          "text-sm",
+                          state === "current"
+                            ? "font-semibold text-foreground"
+                            : "text-muted-foreground",
+                        )}
+                      >
+                        {label}
+                      </span>
+                    </div>
+                    {i < 2 && (
+                      <span
+                        className={cn(
+                          "h-px flex-1 rounded-full",
+                          i === 0 ? "bg-primary" : "bg-border",
+                        )}
+                      />
+                    )}
+                  </Fragment>
+                );
+              })}
+            </div>
+
             <Card>
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-4">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3">
+                <div>
+                  <h2 className="text-sm font-semibold text-foreground">Your cards</h2>
+                  <p className="text-xs text-muted-foreground">
+                    {cards.length} {cards.length === 1 ? "card" : "cards"} ready to send · click a row to edit
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center gap-3">
+                  <div className="relative">
+                    <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+                    <Input
+                      value={search}
+                      onChange={(e) => {
+                        setSearch(e.target.value);
+                        setPage(1);
+                      }}
+                      placeholder="Search cards"
+                      className="h-8 w-56 pl-8"
+                    />
+                  </div>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <span>Show</span>
                   <Select
