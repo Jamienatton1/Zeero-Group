@@ -231,7 +231,7 @@ function RowActions({ job }: { job: ImportJob }) {
     "h-7 gap-1.5 px-2 text-xs font-normal";
 
   return (
-    <div className="flex flex-wrap items-center gap-1.5">
+    <div className="flex flex-nowrap items-center gap-1.5">
       {job.hasQuote && (
         <Button variant="outline" size="sm" className={btn}>
           <FileText className="h-3.5 w-3.5" />
@@ -345,13 +345,13 @@ const Imports = () => {
                     <TableHead className="h-9 w-[180px] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                       Added
                     </TableHead>
-                    <TableHead className="h-9 w-auto whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    <TableHead className="h-9 w-[420px] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                       Agent / Corporate
                     </TableHead>
                     <TableHead className="h-9 w-[360px] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                       Import health
                     </TableHead>
-                    <TableHead className="h-9 w-[320px] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    <TableHead className="h-9 w-auto whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                       Actions
                     </TableHead>
                   </TableRow>
@@ -372,7 +372,7 @@ const Imports = () => {
                             {job.source}
                           </p>
                         </TableCell>
-                        <TableCell className="w-auto py-2">
+                        <TableCell className="w-[420px] py-2">
                           <p className="text-sm leading-tight text-foreground">
                             {job.partner && (
                               <span className="text-muted-foreground">{job.partner} · </span>
@@ -386,7 +386,7 @@ const Imports = () => {
                         <TableCell className="w-[360px] py-2">
                           <RecordsHealthCell job={job} />
                         </TableCell>
-                        <TableCell className="w-[320px] py-2">
+                        <TableCell className="w-auto py-2">
                           <RowActions job={job} />
                         </TableCell>
                       </TableRow>
