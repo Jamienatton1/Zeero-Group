@@ -363,100 +363,102 @@ const Imports = () => {
           </CardContent>
         </Card>
 
-        <Card className="rounded-xl shadow-card">
-          <CardContent className="p-0">
-            <Table className="w-full table-fixed">
-              <TableHeader>
-                <TableRow className="hover:bg-transparent">
-                  <TableHead className="h-9 w-[180px] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                    Added
-                  </TableHead>
-                  <TableHead className="h-9 w-auto whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                    Agent / Corporate
-                  </TableHead>
-                  <TableHead className="h-9 w-[340px] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                    Import health
-                  </TableHead>
-                  <TableHead className="h-9 w-[150px] whitespace-nowrap py-2 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                    Actions
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {jobs.map((job) => {
-                  const problem = job.status === "Failed";
-                  return (
-                    <TableRow
-                      key={job.id}
-                      className={cn("align-middle", problem && "bg-destructive/[0.04]")}
-                    >
-                      <TableCell className="w-[180px] whitespace-nowrap py-2">
-                        <p className="text-sm font-medium leading-tight text-foreground">
-                          {job.added}
-                        </p>
-                        <p className="truncate text-xs leading-tight text-muted-foreground">
-                          {job.source}
-                        </p>
-                      </TableCell>
-                      <TableCell className="w-auto py-2">
-                        <p className="text-sm leading-tight text-foreground">
-                          {job.partner && (
-                            <span className="text-muted-foreground">{job.partner} · </span>
-                          )}
-                          {job.corporate}
-                        </p>
-                        <p className="truncate text-xs leading-tight text-muted-foreground">
-                          {job.file}
-                        </p>
-                      </TableCell>
-                      <TableCell className="w-[340px] py-2">
-                        <RecordsHealthCell job={job} />
-                      </TableCell>
-                      <TableCell className="w-[150px] py-2">
-                        <RowActions job={job} />
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
+        <TooltipProvider>
+          <Card className="rounded-xl shadow-card">
+            <CardContent className="p-0">
+              <Table className="w-full table-fixed">
+                <TableHeader>
+                  <TableRow className="hover:bg-transparent">
+                    <TableHead className="h-9 w-[180px] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      Added
+                    </TableHead>
+                    <TableHead className="h-9 w-auto whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      Agent / Corporate
+                    </TableHead>
+                    <TableHead className="h-9 w-[340px] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      Import health
+                    </TableHead>
+                    <TableHead className="h-9 w-[150px] whitespace-nowrap py-2 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      Actions
+                    </TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {jobs.map((job) => {
+                    const problem = job.status === "Failed";
+                    return (
+                      <TableRow
+                        key={job.id}
+                        className={cn("align-middle", problem && "bg-destructive/[0.04]")}
+                      >
+                        <TableCell className="w-[180px] whitespace-nowrap py-2">
+                          <p className="text-sm font-medium leading-tight text-foreground">
+                            {job.added}
+                          </p>
+                          <p className="truncate text-xs leading-tight text-muted-foreground">
+                            {job.source}
+                          </p>
+                        </TableCell>
+                        <TableCell className="w-auto py-2">
+                          <p className="text-sm leading-tight text-foreground">
+                            {job.partner && (
+                              <span className="text-muted-foreground">{job.partner} · </span>
+                            )}
+                            {job.corporate}
+                          </p>
+                          <p className="truncate text-xs leading-tight text-muted-foreground">
+                            {job.file}
+                          </p>
+                        </TableCell>
+                        <TableCell className="w-[340px] py-2">
+                          <RecordsHealthCell job={job} />
+                        </TableCell>
+                        <TableCell className="w-[150px] py-2">
+                          <RowActions job={job} />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
 
-            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border px-4 py-3">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <span>Show</span>
-                <Select defaultValue="10">
-                  <SelectTrigger className="h-8 w-[72px]">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="bg-popover">
-                    <SelectItem value="10">10</SelectItem>
-                    <SelectItem value="25">25</SelectItem>
-                    <SelectItem value="50">50</SelectItem>
-                  </SelectContent>
-                </Select>
-                <span>entries · Showing 1 to 10 of 1,248</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Button variant="outline" size="sm" className="h-8">
-                  Previous
-                </Button>
-                {["1", "2", "3", "…", "125"].map((p, i) => (
-                  <Button
-                    key={`${p}-${i}`}
-                    variant={p === "1" ? "default" : "outline"}
-                    size="sm"
-                    className="h-8 w-8 p-0"
-                  >
-                    {p}
+              <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border px-4 py-3">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <span>Show</span>
+                  <Select defaultValue="10">
+                    <SelectTrigger className="h-8 w-[72px]">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-popover">
+                      <SelectItem value="10">10</SelectItem>
+                      <SelectItem value="25">25</SelectItem>
+                      <SelectItem value="50">50</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <span>entries · Showing 1 to 10 of 1,248</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Button variant="outline" size="sm" className="h-8">
+                    Previous
                   </Button>
-                ))}
-                <Button variant="outline" size="sm" className="h-8">
-                  Next
-                </Button>
+                  {["1", "2", "3", "…", "125"].map((p, i) => (
+                    <Button
+                      key={`${p}-${i}`}
+                      variant={p === "1" ? "default" : "outline"}
+                      size="sm"
+                      className="h-8 w-8 p-0"
+                    >
+                      {p}
+                    </Button>
+                  ))}
+                  <Button variant="outline" size="sm" className="h-8">
+                    Next
+                  </Button>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </TooltipProvider>
       </div>
     </AdminLayout>
   );
