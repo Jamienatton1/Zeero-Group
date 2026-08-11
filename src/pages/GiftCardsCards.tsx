@@ -301,15 +301,8 @@ const GiftCardsCards = () => {
                   </Select>
                   <span>entries</span>
                 </div>
-                <Input
-                  value={search}
-                  onChange={(e) => {
-                    setSearch(e.target.value);
-                    setPage(1);
-                  }}
-                  placeholder="Search cards"
-                  className="h-8 w-full max-w-xs"
-                />
+                </div>
+
               </div>
 
               <CardContent className="p-0">
