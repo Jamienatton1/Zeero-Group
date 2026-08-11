@@ -22,6 +22,7 @@ import DataCollectionStatus from "./pages/DataCollectionStatus";
 import CompensationReport from "./pages/CompensationReport";
 import QuestionnaireResponses from "./pages/QuestionnaireResponses";
 import TreeSwag from "./pages/TreeSwag";
+import GiftCardsCheckout from "./pages/GiftCardsCheckout";
 import GiftCardsCards from "./pages/GiftCardsCards";
 import GiftCards from "./pages/GiftCards";
 import NotFound from "./pages/NotFound";
@@ -67,6 +68,7 @@ const App = () => (
           <Route path="/tree-swag" element={<TreeSwag />} />
           <Route path="/gift-cards" element={<GiftCards />} />
           <Route path="/gift-cards/cards" element={<GiftCardsCards />} />
+          <Route path="/gift-cards/checkout" element={<GiftCardsCheckout />} />
           <Route path="/balance" element={<Balance />} />
           <Route path="/trees" element={<Trees />} />
           <Route path="/co2-calculator" element={<CO2Calculator />} />

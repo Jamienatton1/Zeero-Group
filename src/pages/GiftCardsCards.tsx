@@ -64,6 +64,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { cn } from "@/lib/utils";
 import { PRICE_PER_TREE, formatUsd, uid } from "@/components/giftcards/types";
+import { PrivacyInfo } from "@/components/giftcards/PrivacyInfo";
 
 interface CardRow {
   id: string;
@@ -298,39 +299,6 @@ const GiftCardsCards = () => {
                   <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
                     {cards.length}
                   </span>
-                  <TooltipProvider delayDuration={100}>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <button
-                          type="button"
-                          className="text-muted-foreground hover:text-foreground"
-                          aria-label="Data and privacy information"
-                        >
-                          <Info className="h-4 w-4" />
-                        </button>
-                      </TooltipTrigger>
-                      <TooltipContent side="top" className="max-w-sm">
-                        <div className="space-y-2">
-                          <p>
-                            We do not store recipient email addresses or names, and we will not send anything other than the
-                            greeting card. The list is uploaded to our mailing software to send the emails and the local data is
-                            then deleted in line with GDPR. Our mailing provider is SOC 2 accredited.
-                          </p>
-                          <p>
-                            Prefer to use your own email system and designs? We can supply tree codes to add to your own gift
-                            cards — contact{" "}
-                            <a
-                              href="mailto:gifts@zeerogroup.com"
-                              className="font-medium text-primary underline underline-offset-2"
-                            >
-                              gifts@zeerogroup.com
-                            </a>
-                            .
-                          </p>
-                        </div>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
                 </div>
                 <div className="flex flex-wrap items-center gap-3">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -588,7 +556,10 @@ const GiftCardsCards = () => {
               >
                 Preview your card
               </Button>
-              <Button disabled={cards.length === 0}>Next</Button>
+              <Button disabled={cards.length === 0} onClick={() => navigate("/gift-cards/checkout")}>
+                Next
+              </Button>
+              <PrivacyInfo />
             </div>
           </div>
         </div>
