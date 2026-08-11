@@ -365,7 +365,7 @@ const Imports = () => {
 
         <Card className="rounded-xl shadow-card">
           <CardContent className="p-0">
-            <Table className="table-fixed">
+            <Table className="w-full table-fixed">
               <TableHeader>
                 <TableRow className="hover:bg-transparent">
                   <TableHead className="h-9 w-[180px] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
@@ -390,7 +390,7 @@ const Imports = () => {
                       key={job.id}
                       className={cn("align-middle", problem && "bg-destructive/[0.04]")}
                     >
-                      <TableCell className="whitespace-nowrap py-2">
+                      <TableCell className="w-[180px] whitespace-nowrap py-2">
                         <p className="text-sm font-medium leading-tight text-foreground">
                           {job.added}
                         </p>
@@ -398,7 +398,7 @@ const Imports = () => {
                           {job.source}
                         </p>
                       </TableCell>
-                      <TableCell className="py-2">
+                      <TableCell className="w-auto py-2">
                         <p className="text-sm leading-tight text-foreground">
                           {job.partner && (
                             <span className="text-muted-foreground">{job.partner} · </span>
@@ -409,10 +409,10 @@ const Imports = () => {
                           {job.file}
                         </p>
                       </TableCell>
-                      <TableCell className="py-2">
+                      <TableCell className="w-[340px] py-2">
                         <RecordsHealthCell job={job} />
                       </TableCell>
-                      <TableCell className="py-2">
+                      <TableCell className="w-[140px] py-2">
                         <RowActions job={job} />
                       </TableCell>
                     </TableRow>
