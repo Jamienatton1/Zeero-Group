@@ -71,6 +71,9 @@ const GiftCardsCheckout = () => {
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [countryOpen, setCountryOpen] = useState(false);
 
+  // TEMPORARY DEMO SCAFFOLDING — replace with ORGANISATION.paymentMethod from the backend
+  const [paymentMethod, setPaymentMethod] = useState<"invoice" | "card">("invoice");
+
   const [payment, setPayment] = useState({ number: "", expiry: "", cvc: "", name: "" });
   const [poNumber, setPoNumber] = useState("");
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -88,8 +91,16 @@ const GiftCardsCheckout = () => {
     return e;
   }, [billing]);
 
+  const detectedBrand = useMemo(() => {
+    const d = payment.number.replace(/\D/g, "");
+    if (/^4/.test(d)) return "Visa";
+    if (/^(5[1-5]|2[2-7])/.test(d)) return "MC";
+    if (/^3[47]/.test(d)) return "Amex";
+    return null;
+  }, [payment.number]);
+
   const paymentErrors = useMemo(() => {
-    if (ORGANISATION.paymentMethod !== "card") return {} as Record<string, string>;
+    if (paymentMethod !== "card") return {} as Record<string, string>;
     const e: Record<string, string> = {};
     const digits = payment.number.replace(/\s/g, "");
     if (!/^\d{13,19}$/.test(digits)) e.number = "Enter a valid card number";
@@ -97,10 +108,11 @@ const GiftCardsCheckout = () => {
     if (!/^\d{3,4}$/.test(payment.cvc.trim())) e.cvc = "3 or 4 digits";
     if (!payment.name.trim()) e.name = "Name on card is required";
     return e;
-  }, [payment]);
+  }, [payment, paymentMethod]);
 
   const canCheckout =
     Object.keys(billingErrors).length === 0 && Object.keys(paymentErrors).length === 0;
+
 
   const markTouched = (key: string) => setTouched((t) => ({ ...t, [key]: true }));
   const errorFor = (key: string, errors: Record<string, string | undefined>) =>
