@@ -326,15 +326,14 @@ const GiftCardsCards = () => {
                   </div>
                 ) : (
                   <TooltipProvider delayDuration={100}>
-                    <Table>
+                    <Table className="table-fixed">
                       <TableHeader>
-                        <TableRow>
-                          <SortHead label="To email" sortField="email" />
-                          <SortHead label="Message" sortField="message" />
-                          <SortHead label="From company" sortField="fromCompany" />
-                          <SortHead label="From email" sortField="fromEmail" />
-                          <SortHead label="Trees" sortField="trees" className="text-right" />
-                          <TableHead className="w-24 text-right text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                        <TableRow className="border-border/60 hover:bg-transparent">
+                          <SortHead label="To email" sortField="email" className="w-[22%]" />
+                          <SortHead label="Message" sortField="message" className="w-[40%]" />
+                          <SortHead label="From" sortField="fromCompany" className="w-[20%]" />
+                          <SortHead label="Trees" sortField="trees" className="w-[10%] text-right" />
+                          <TableHead className="w-[8%] text-right text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                             Actions
                           </TableHead>
                         </TableRow>
@@ -342,7 +341,7 @@ const GiftCardsCards = () => {
                       <TableBody>
                         {pageRows.length === 0 && (
                           <TableRow>
-                            <TableCell colSpan={6} className="py-10 text-center text-sm text-muted-foreground">
+                            <TableCell colSpan={5} className="py-10 text-center text-sm text-muted-foreground">
                               No cards match “{search}”.
                             </TableCell>
                           </TableRow>
@@ -350,11 +349,13 @@ const GiftCardsCards = () => {
                         {pageRows.map((row) => (
                           <Fragment key={row.id}>
                             <TableRow
-                              className="cursor-pointer"
+                              className="cursor-pointer border-border/60 transition-colors hover:bg-muted/50"
                               onClick={() => setExpandedId((id) => (id === row.id ? null : row.id))}
                             >
-                              <TableCell className="text-sm font-medium text-foreground">{row.email}</TableCell>
-                              <TableCell className="max-w-[260px] text-sm text-muted-foreground">
+                              <TableCell className="py-4 text-sm font-medium text-foreground">
+                                <span className="block truncate">{row.email}</span>
+                              </TableCell>
+                              <TableCell className="py-4 text-sm text-muted-foreground">
                                 <Tooltip>
                                   <TooltipTrigger asChild>
                                     <span className="block truncate">{row.message}</span>
@@ -364,19 +365,23 @@ const GiftCardsCards = () => {
                                   </TooltipContent>
                                 </Tooltip>
                               </TableCell>
-                              <TableCell className="text-sm text-foreground">{row.fromCompany}</TableCell>
-                              <TableCell className="text-sm text-muted-foreground">{row.fromEmail}</TableCell>
-                              <TableCell className="text-right text-sm font-medium text-foreground">
-                                {row.trees}
+                              <TableCell className="py-4">
+                                <span className="block truncate text-sm text-foreground">{row.fromCompany}</span>
+                                <span className="block truncate text-xs text-muted-foreground">{row.fromEmail}</span>
                               </TableCell>
-                              <TableCell className="text-right">
+                              <TableCell className="py-4 text-right">
+                                <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
+                                  {row.trees} {row.trees === 1 ? "tree" : "trees"}
+                                </span>
+                              </TableCell>
+                              <TableCell className="py-4 text-right">
                                 <div className="flex items-center justify-end gap-1">
                                   <Tooltip>
                                     <TooltipTrigger asChild>
                                       <Button
                                         variant="ghost"
                                         size="icon"
-                                        className="h-8 w-8"
+                                        className="h-8 w-8 text-muted-foreground hover:text-primary"
                                         aria-label="Preview card"
                                         onClick={(e) => {
                                           e.stopPropagation();
@@ -386,15 +391,15 @@ const GiftCardsCards = () => {
                                         <Eye className="h-4 w-4" />
                                       </Button>
                                     </TooltipTrigger>
-                                    <TooltipContent>Preview</TooltipContent>
+                                    <TooltipContent>Preview card</TooltipContent>
                                   </Tooltip>
                                   <Tooltip>
                                     <TooltipTrigger asChild>
                                       <Button
                                         variant="ghost"
                                         size="icon"
-                                        className="h-8 w-8 text-destructive hover:text-destructive"
-                                        aria-label="Delete card"
+                                        className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                                        aria-label="Remove card"
                                         onClick={(e) => {
                                           e.stopPropagation();
                                           setPendingDelete(row);
@@ -403,14 +408,15 @@ const GiftCardsCards = () => {
                                         <Trash2 className="h-4 w-4" />
                                       </Button>
                                     </TooltipTrigger>
-                                    <TooltipContent>Delete</TooltipContent>
+                                    <TooltipContent>Remove card</TooltipContent>
                                   </Tooltip>
                                 </div>
                               </TableCell>
                             </TableRow>
 
                             {expandedId === row.id && (
-                              <TableRow className="bg-muted/40 hover:bg-muted/40">
+                              <TableRow className="border-border/60 bg-muted/40 hover:bg-muted/40">
+
                                 <TableCell colSpan={6} className="p-4">
                                   <div className="grid gap-4 md:grid-cols-[2fr_120px]">
                                     <div className="space-y-1.5">
