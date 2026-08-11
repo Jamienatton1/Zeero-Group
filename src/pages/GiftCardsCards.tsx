@@ -64,6 +64,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { cn } from "@/lib/utils";
 import { PRICE_PER_TREE, formatUsd, uid } from "@/components/giftcards/types";
+import { PrivacyInfo } from "@/components/giftcards/PrivacyInfo";
 
 interface CardRow {
   id: string;
