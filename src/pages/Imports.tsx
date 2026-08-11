@@ -288,7 +288,7 @@ function RowActions({ job }: { job: ImportJob }) {
 const Imports = () => {
   return (
     <AdminLayout title="Imports" subtitle="Travel data files from TMCs and corporates">
-      <div className="mx-auto max-w-[1280px]">
+      <div className="w-full">
         <Card className="mb-4 rounded-xl shadow-card">
           <CardContent className="p-4">
             <div className="flex flex-wrap items-center gap-3">
