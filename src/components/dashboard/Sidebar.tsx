@@ -12,7 +12,8 @@ import {
   Megaphone,
   Building,
   ShoppingBag,
-  Settings2
+  Settings2,
+  Gift
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLocation } from "react-router-dom";
@@ -23,6 +24,7 @@ const navigationItems = [
   { icon: Scale, label: "Balance", path: "/balance" },
   { icon: TreePine, label: "Trees", path: "/trees" },
   { icon: ShoppingBag, label: "Tree Swag", path: "/tree-swag" },
+  { icon: Gift, label: "Gift Cards", path: "/gift-cards" },
   { icon: FileText, label: "Reports", path: "/reports" },
 
   { icon: Package, label: "Packages", path: "/packages" },
