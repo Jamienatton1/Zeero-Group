@@ -3,8 +3,6 @@ import { Header } from "@/components/dashboard/Header";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SendCardsTab from "@/components/giftcards/SendCardsTab";
 import OrdersTab from "@/components/giftcards/OrdersTab";
-import CardDesignsTab from "@/components/giftcards/CardDesignsTab";
-import GiftCardSettingsTab from "@/components/giftcards/GiftCardSettingsTab";
 
 const GiftCards = () => {
   return (
@@ -19,8 +17,6 @@ const GiftCards = () => {
             <TabsList className="mb-6">
               <TabsTrigger value="send">Send cards</TabsTrigger>
               <TabsTrigger value="orders">Orders</TabsTrigger>
-              <TabsTrigger value="designs">Card designs</TabsTrigger>
-              <TabsTrigger value="settings">Settings</TabsTrigger>
             </TabsList>
 
             <TabsContent value="send">
@@ -28,12 +24,6 @@ const GiftCards = () => {
             </TabsContent>
             <TabsContent value="orders">
               <OrdersTab />
-            </TabsContent>
-            <TabsContent value="designs">
-              <CardDesignsTab />
-            </TabsContent>
-            <TabsContent value="settings">
-              <GiftCardSettingsTab />
             </TabsContent>
           </Tabs>
         </main>
