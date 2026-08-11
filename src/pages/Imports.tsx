@@ -333,13 +333,19 @@ const Imports = () => {
                     <TableHead className="h-9 w-[12%] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                       Added
                     </TableHead>
-                    <TableHead className="h-9 w-[28%] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    <TableHead className="h-9 w-[26%] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                       Agent / Corporate
                     </TableHead>
-                    <TableHead className="h-9 w-[25%] whitespace-nowrap py-2 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    <TableHead className="h-9 w-[16%] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                       Import health
                     </TableHead>
-                    <TableHead className="h-9 w-[35%] text-right whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    <TableHead className="h-9 w-[7%] whitespace-nowrap py-2 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      Processed
+                    </TableHead>
+                    <TableHead className="h-9 w-[9%] whitespace-nowrap py-2 text-center text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      Status
+                    </TableHead>
+                    <TableHead className="h-9 w-[30%] text-right whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                       Actions
                     </TableHead>
                   </TableRow>
