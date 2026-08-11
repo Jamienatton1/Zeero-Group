@@ -5,7 +5,9 @@ import {
   BarChart3,
   Bell,
   ReceiptText,
+  FileDown,
   ArrowLeft,
+
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
@@ -32,7 +34,10 @@ const groups = [
   },
   {
     label: "Operations",
-    items: [{ icon: ReceiptText, label: "Quotes", to: "/operations/quotes", match: "quotes" }],
+    items: [
+      { icon: ReceiptText, label: "Quotes", to: "/operations/quotes", match: "quotes" },
+      { icon: FileDown, label: "Imports", to: "/operations/imports", match: "imports" },
+    ],
   },
 ];
 
@@ -40,7 +45,12 @@ export function AdminSidebar() {
   const { pathname } = useLocation();
   const [searchParams] = useSearchParams();
   const active =
-    pathname === "/operations/quotes" ? "quotes" : searchParams.get("tab") ?? "dashboard";
+    pathname === "/operations/quotes"
+      ? "quotes"
+      : pathname === "/operations/imports"
+        ? "imports"
+        : searchParams.get("tab") ?? "dashboard";
+
 
   return (
     <aside className="w-64 shrink-0 bg-admin-nav min-h-screen flex flex-col">
