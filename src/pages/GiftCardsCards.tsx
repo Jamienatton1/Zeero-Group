@@ -555,7 +555,10 @@ const GiftCardsCards = () => {
               >
                 Preview your card
               </Button>
-              <Button disabled={cards.length === 0}>Next</Button>
+              <Button disabled={cards.length === 0} onClick={() => navigate("/gift-cards/checkout")}>
+                Next
+              </Button>
+              <PrivacyInfo />
             </div>
           </div>
         </div>
