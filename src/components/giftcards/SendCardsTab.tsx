@@ -72,7 +72,7 @@ const SEND_TIMES = ["08:00", "09:00", "12:00", "15:00", "18:00"];
 /* ------------------------------------------------------------------ */
 /* Panel heading                                                       */
 /* ------------------------------------------------------------------ */
-function PanelHeader({ step, title, hint }: { step: number; title: string; hint?: string }) {
+function PanelHeader({ step, title, hint, suffix }: { step: number; title: string; hint?: string; suffix?: React.ReactNode }) {
   return (
     <CardHeader className="pb-4">
       <CardTitle className="flex items-center gap-3 text-lg">
@@ -80,6 +80,7 @@ function PanelHeader({ step, title, hint }: { step: number; title: string; hint?
           {step}
         </span>
         {title}
+        {suffix && <span className="ml-auto">{suffix}</span>}
       </CardTitle>
       {hint && <p className="pl-10 text-sm text-muted-foreground">{hint}</p>}
     </CardHeader>
