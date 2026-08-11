@@ -26,6 +26,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -53,6 +59,7 @@ import {
   uid,
 } from "./types";
 
+
 export const STOCK_DESIGNS = [
   { id: "forest", name: "Forest Canopy", swatch: "bg-gradient-hero" },
   { id: "sapling", name: "New Sapling", swatch: "bg-accent" },
@@ -65,7 +72,7 @@ const SEND_TIMES = ["08:00", "09:00", "12:00", "15:00", "18:00"];
 /* ------------------------------------------------------------------ */
 /* Panel heading                                                       */
 /* ------------------------------------------------------------------ */
-function PanelHeader({ step, title, hint }: { step: number; title: string; hint?: string }) {
+function PanelHeader({ step, title, hint, suffix }: { step: number; title: string; hint?: string; suffix?: React.ReactNode }) {
   return (
     <CardHeader className="pb-4">
       <CardTitle className="flex items-center gap-3 text-lg">
@@ -73,6 +80,7 @@ function PanelHeader({ step, title, hint }: { step: number; title: string; hint?
           {step}
         </span>
         {title}
+        {suffix && <span className="ml-auto">{suffix}</span>}
       </CardTitle>
       {hint && <p className="pl-10 text-sm text-muted-foreground">{hint}</p>}
     </CardHeader>
@@ -567,7 +575,28 @@ export default function SendCardsTab() {
       {/* ---------------- form ---------------- */}
       <div className="space-y-6">
         <Card>
-          <PanelHeader step={1} title="Who's receiving?" />
+          <PanelHeader
+            step={1}
+            title="Who's receiving?"
+            suffix={
+              <TooltipProvider delayDuration={100}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      type="button"
+                      className="inline-flex items-center justify-center rounded-full p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                      aria-label="Privacy information"
+                    >
+                      <Info className="h-4 w-4" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" align="end" className="max-w-sm">
+                    Please note, we do not store or keep email addresses or names that are shared with us & neither will we send anything other than the greeting card to the recipient. The list is uploaded to our mailing software, in order to send the emails - the local data is then deleted according to GDPR regulations. Sendgrid (our mailing software provider) is SOC2 type reports (similar to ISO27001 accreditation) provides all the physical security protection measures you would expect.
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            }
+          />
           <CardContent className="space-y-5">
             <div className="inline-flex rounded-lg bg-muted p-1">
               {(
