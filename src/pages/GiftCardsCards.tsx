@@ -184,75 +184,72 @@ const GiftCardsCards = () => {
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header title="Gift Cards" subtitle="Send trees as a gift — one recipient or thousands" />
 
-        <main className="flex-1 overflow-auto p-8">
-          <div className="mx-auto max-w-6xl space-y-6">
-            {/* Hero */}
-            <div className="overflow-hidden rounded-xl border border-border bg-primary/5">
-              <div className="flex flex-col gap-4 p-6 md:flex-row md:items-center md:justify-between">
-                <div className="flex items-start gap-3">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                    <TreePine className="h-5 w-5" />
-                  </span>
-                  <div>
-                    <h1 className="text-2xl font-bold tracking-tight text-foreground">
-                      Give A Gift Of Planting A Tree For Our Planet
-                    </h1>
-                    <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-                      Review your cards, edit any details, then continue to checkout.
-                    </p>
-                  </div>
-                </div>
-                <div className="flex shrink-0 gap-6 rounded-lg border border-border bg-card px-5 py-3">
-                  <div>
-                    <p className="text-xs uppercase tracking-wide text-muted-foreground">Cards</p>
-                    <p className="text-lg font-bold text-foreground">{cards.length}</p>
-                  </div>
-                  <Separator orientation="vertical" className="h-auto" />
-                  <div>
-                    <p className="text-xs uppercase tracking-wide text-muted-foreground">Trees</p>
-                    <p className="text-lg font-bold text-foreground">{totalTrees}</p>
-                  </div>
-                  <Separator orientation="vertical" className="h-auto" />
-                  <div>
-                    <p className="text-xs uppercase tracking-wide text-muted-foreground">Total</p>
-                    <p className="text-lg font-bold text-primary">{formatUsd(totalCost)}</p>
-                  </div>
-                </div>
-              </div>
+        <main className="flex-1 overflow-auto px-8 pb-32 pt-8">
+          <div className="mx-auto max-w-6xl space-y-4">
+            {/* Page header */}
+            <div className="mx-auto max-w-3xl pb-4 text-center">
+              <h1 className="text-3xl font-bold tracking-tight text-foreground">
+                Give a gift of planting a tree for our planet
+              </h1>
+              <p className="mt-3 text-sm text-foreground">
+                Price per tree {formatUsd(PRICE_PER_TREE)} — put as many trees in a card as you wish.
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Every tree we plant comes with a United Nations certified investment in renewable energy.
+              </p>
             </div>
 
             {/* Stepper */}
-            <div className="flex items-center gap-3">
-              {["Send cards", "Your cards", "Checkout"].map((label, i) => {
+            <div className="mx-auto flex max-w-[720px] items-center pb-2">
+              {STEPS.map((step, i) => {
                 const state = i < 1 ? "done" : i === 1 ? "current" : "todo";
+                const circle = (
+                  <span
+                    className={cn(
+                      "flex h-8 w-8 items-center justify-center rounded-full border text-xs font-semibold",
+                      state === "todo"
+                        ? "border-border bg-transparent text-muted-foreground"
+                        : "border-primary bg-primary text-primary-foreground",
+                    )}
+                  >
+                    {state === "done" ? <Check className="h-4 w-4" /> : i + 1}
+                  </span>
+                );
+                const label = (
+                  <span
+                    className={cn(
+                      "text-sm whitespace-nowrap",
+                      state === "current"
+                        ? "font-semibold text-foreground"
+                        : state === "done"
+                          ? "text-foreground"
+                          : "text-muted-foreground",
+                    )}
+                  >
+                    {step.label}
+                  </span>
+                );
                 return (
-                  <Fragment key={label}>
-                    <div className="flex items-center gap-2">
-                      <span
-                        className={cn(
-                          "flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold",
-                          state === "todo"
-                            ? "bg-muted text-muted-foreground"
-                            : "bg-primary text-primary-foreground",
-                        )}
+                  <Fragment key={step.label}>
+                    {state === "done" && step.to ? (
+                      <button
+                        type="button"
+                        onClick={() => navigate(step.to!)}
+                        className="flex items-center gap-2 rounded-md transition-opacity hover:opacity-80"
                       >
-                        {i + 1}
-                      </span>
-                      <span
-                        className={cn(
-                          "text-sm",
-                          state === "current"
-                            ? "font-semibold text-foreground"
-                            : "text-muted-foreground",
-                        )}
-                      >
+                        {circle}
                         {label}
-                      </span>
-                    </div>
-                    {i < 2 && (
+                      </button>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        {circle}
+                        {label}
+                      </div>
+                    )}
+                    {i < STEPS.length - 1 && (
                       <span
                         className={cn(
-                          "h-px flex-1 rounded-full",
+                          "mx-3 h-px flex-1",
                           i === 0 ? "bg-primary" : "bg-border",
                         )}
                       />
@@ -262,15 +259,37 @@ const GiftCardsCards = () => {
               })}
             </div>
 
-            <Card>
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3">
-                <div>
+            <Card className="shadow-sm">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 px-4 py-3">
+                <div className="flex items-center gap-2">
                   <h2 className="text-sm font-semibold text-foreground">Your cards</h2>
-                  <p className="text-xs text-muted-foreground">
-                    {cards.length} {cards.length === 1 ? "card" : "cards"} ready to send · click a row to edit
-                  </p>
+                  <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
+                    {cards.length}
+                  </span>
                 </div>
                 <div className="flex flex-wrap items-center gap-3">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <span>Show</span>
+                    <Select
+                      value={String(pageSize)}
+                      onValueChange={(v) => {
+                        setPageSize(Number(v));
+                        setPage(1);
+                      }}
+                    >
+                      <SelectTrigger className="h-8 w-[72px]">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {[10, 25, 50, 100].map((n) => (
+                          <SelectItem key={n} value={String(n)}>
+                            {n}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <span>entries</span>
+                  </div>
                   <div className="relative">
                     <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
                     <Input
@@ -283,31 +302,9 @@ const GiftCardsCards = () => {
                       className="h-8 w-56 pl-8"
                     />
                   </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <span>Show</span>
-                  <Select
-                    value={String(pageSize)}
-                    onValueChange={(v) => {
-                      setPageSize(Number(v));
-                      setPage(1);
-                    }}
-                  >
-                    <SelectTrigger className="h-8 w-[72px]">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {[10, 25, 50, 100].map((n) => (
-                        <SelectItem key={n} value={String(n)}>
-                          {n}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <span>entries</span>
                 </div>
-                </div>
-
               </div>
+
 
               <CardContent className="p-0">
                 {cards.length === 0 ? (
