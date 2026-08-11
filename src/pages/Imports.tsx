@@ -355,10 +355,10 @@ const Imports = () => {
                     <TableHead className="h-9 w-auto whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                       Agent / Corporate
                     </TableHead>
-                    <TableHead className="h-9 w-[340px] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    <TableHead className="h-9 w-[360px] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                       Import health
                     </TableHead>
-                    <TableHead className="h-9 w-[150px] whitespace-nowrap py-2 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    <TableHead className="h-9 w-[320px] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                       Actions
                     </TableHead>
                   </TableRow>
@@ -390,10 +390,10 @@ const Imports = () => {
                             {job.file}
                           </p>
                         </TableCell>
-                        <TableCell className="w-[340px] py-2">
+                        <TableCell className="w-[360px] py-2">
                           <RecordsHealthCell job={job} />
                         </TableCell>
-                        <TableCell className="w-[150px] py-2">
+                        <TableCell className="w-[320px] py-2">
                           <RowActions job={job} />
                         </TableCell>
                       </TableRow>
