@@ -26,6 +26,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -52,6 +58,7 @@ import {
   isValidEmail,
   uid,
 } from "./types";
+
 
 export const STOCK_DESIGNS = [
   { id: "forest", name: "Forest Canopy", swatch: "bg-gradient-hero" },
