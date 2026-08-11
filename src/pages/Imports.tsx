@@ -207,18 +207,6 @@ function RecordsHealthCell({ job }: { job: ImportJob }) {
         </div>
         {job.total === 0 && <p className="text-[11px] text-destructive">No records read from file</p>}
       </div>
-
-      <div className="w-[56px] shrink-0 text-right">
-        <p className="text-sm font-medium leading-none text-foreground">{job.processed}</p>
-        <p className="mt-1 text-[10px] leading-none text-muted-foreground">processed</p>
-      </div>
-
-      <Badge
-        variant="outline"
-        className={cn("w-[80px] shrink-0 justify-center font-medium", statusStyles[job.status])}
-      >
-        {job.status}
-      </Badge>
     </div>
   );
 }
