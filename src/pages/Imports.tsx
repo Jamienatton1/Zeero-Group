@@ -174,8 +174,8 @@ function RecordsHealthCell({ job }: { job: ImportJob }) {
   const pct = (n: number) => `${(n / total) * 100}%`;
 
   return (
-    <div className="flex items-center justify-end gap-3">
-      <div className="w-[150px] shrink-0 space-y-1">
+    <div className="flex items-center">
+      <div className="w-full space-y-1">
         <div className="flex h-1.5 w-full overflow-hidden rounded-full bg-muted">
           <div className="bg-primary" style={{ width: pct(job.valid) }} />
           <div className="bg-amber-500" style={{ width: pct(job.skippedRule) }} />
