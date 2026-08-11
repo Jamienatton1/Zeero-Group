@@ -174,8 +174,8 @@ function RecordsHealthCell({ job }: { job: ImportJob }) {
   const pct = (n: number) => `${(n / total) * 100}%`;
 
   return (
-    <div className="flex items-center justify-end gap-3">
-      <div className="w-[150px] shrink-0 space-y-1">
+    <div className="flex items-center">
+      <div className="w-full space-y-1">
         <div className="flex h-1.5 w-full overflow-hidden rounded-full bg-muted">
           <div className="bg-primary" style={{ width: pct(job.valid) }} />
           <div className="bg-amber-500" style={{ width: pct(job.skippedRule) }} />
@@ -207,18 +207,6 @@ function RecordsHealthCell({ job }: { job: ImportJob }) {
         </div>
         {job.total === 0 && <p className="text-[11px] text-destructive">No records read from file</p>}
       </div>
-
-      <div className="w-[56px] shrink-0 text-right">
-        <p className="text-sm font-medium leading-none text-foreground">{job.processed}</p>
-        <p className="mt-1 text-[10px] leading-none text-muted-foreground">processed</p>
-      </div>
-
-      <Badge
-        variant="outline"
-        className={cn("w-[80px] shrink-0 justify-center font-medium", statusStyles[job.status])}
-      >
-        {job.status}
-      </Badge>
     </div>
   );
 }
@@ -345,13 +333,19 @@ const Imports = () => {
                     <TableHead className="h-9 w-[12%] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                       Added
                     </TableHead>
-                    <TableHead className="h-9 w-[28%] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    <TableHead className="h-9 w-[26%] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                       Agent / Corporate
                     </TableHead>
-                    <TableHead className="h-9 w-[25%] whitespace-nowrap py-2 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    <TableHead className="h-9 w-[16%] whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                       Import health
                     </TableHead>
-                    <TableHead className="h-9 w-[35%] text-right whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    <TableHead className="h-9 w-[7%] whitespace-nowrap py-2 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      Processed
+                    </TableHead>
+                    <TableHead className="h-9 w-[9%] whitespace-nowrap py-2 text-center text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      Status
+                    </TableHead>
+                    <TableHead className="h-9 w-[30%] text-right whitespace-nowrap py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                       Actions
                     </TableHead>
                   </TableRow>
@@ -372,7 +366,7 @@ const Imports = () => {
                             {job.source}
                           </p>
                         </TableCell>
-                        <TableCell className="w-[28%] py-2">
+                        <TableCell className="w-[26%] py-2">
                           <p className="text-sm leading-tight text-foreground">
                             {job.partner && (
                               <span className="text-muted-foreground">{job.partner} · </span>
@@ -383,10 +377,26 @@ const Imports = () => {
                             {job.file}
                           </p>
                         </TableCell>
-                        <TableCell className="w-[25%] py-2">
+                        <TableCell className="w-[16%] py-2">
                           <RecordsHealthCell job={job} />
                         </TableCell>
-                        <TableCell className="w-[35%] py-2">
+                        <TableCell className="w-[7%] py-2 text-right">
+                          <p className="text-sm font-medium leading-none text-foreground">
+                            {job.processed}
+                          </p>
+                        </TableCell>
+                        <TableCell className="w-[9%] py-2 text-center">
+                          <Badge
+                            variant="outline"
+                            className={cn(
+                              "w-[80px] justify-center font-medium",
+                              statusStyles[job.status]
+                            )}
+                          >
+                            {job.status}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="w-[30%] py-2">
                           <RowActions job={job} />
                         </TableCell>
                       </TableRow>
