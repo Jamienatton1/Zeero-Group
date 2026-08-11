@@ -662,12 +662,9 @@ export default function SendCardsTab() {
                 <Input id="reply-to" type="email" value={replyTo} onChange={(e) => setReplyTo(e.target.value)} />
               </div>
             </div>
-
-            <div>
-              <Label className="mb-2 block text-sm font-medium">Message</Label>
-              <MessageEditor onChange={setMessage} />
-            </div>
           </CardContent>
+        </Card>
+
         </Card>
 
         <Card>
