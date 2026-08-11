@@ -176,42 +176,56 @@ const statusStyles: Record<ImportStatus, string> = {
   Failed: "bg-destructive/10 text-destructive border-destructive/20",
 };
 
-function RecordsCell({ job }: { job: ImportJob }) {
+function RecordsHealthCell({ job }: { job: ImportJob }) {
   const total = Math.max(job.total, job.valid + job.skippedRule + job.duplicates, 1);
   const pct = (n: number) => `${(n / total) * 100}%`;
 
   return (
-    <div className="w-[196px] shrink-0 space-y-1">
-      <div className="flex h-1.5 w-full overflow-hidden rounded-full bg-muted">
-        <div className="bg-primary" style={{ width: pct(job.valid) }} />
-        <div className="bg-amber-500" style={{ width: pct(job.skippedRule) }} />
-        <div className="bg-muted-foreground/40" style={{ width: pct(job.duplicates) }} />
+    <div className="flex items-center justify-end gap-4">
+      <div className="w-[176px] shrink-0 space-y-1">
+        <div className="flex h-1.5 w-full overflow-hidden rounded-full bg-muted">
+          <div className="bg-primary" style={{ width: pct(job.valid) }} />
+          <div className="bg-amber-500" style={{ width: pct(job.skippedRule) }} />
+          <div className="bg-muted-foreground/40" style={{ width: pct(job.duplicates) }} />
+        </div>
+        <div className="flex items-center justify-between whitespace-nowrap text-[11px] leading-none">
+          <span className="flex items-center gap-1 text-foreground">
+            <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+            {job.valid} valid
+          </span>
+          <span
+            className={cn(
+              "flex items-center gap-1",
+              job.skippedRule > 0 ? "font-medium text-amber-700" : "text-muted-foreground"
+            )}
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
+            {job.skippedRule} rule
+          </span>
+          <span
+            className={cn(
+              "flex items-center gap-1",
+              job.duplicates > 0 ? "font-medium text-foreground" : "text-muted-foreground"
+            )}
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground/40" />
+            {job.duplicates} dupes
+          </span>
+        </div>
+        {job.total === 0 && <p className="text-[11px] text-destructive">No records read from file</p>}
       </div>
-      <div className="flex items-center gap-2.5 whitespace-nowrap text-[11px] leading-none">
-        <span className="flex items-center gap-1 text-foreground">
-          <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-          {job.valid} valid
-        </span>
-        <span
-          className={cn(
-            "flex items-center gap-1",
-            job.skippedRule > 0 ? "font-medium text-amber-700" : "text-muted-foreground"
-          )}
-        >
-          <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-          {job.skippedRule} rule
-        </span>
-        <span
-          className={cn(
-            "flex items-center gap-1",
-            job.duplicates > 0 ? "font-medium text-foreground" : "text-muted-foreground"
-          )}
-        >
-          <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground/40" />
-          {job.duplicates} dupes
-        </span>
+
+      <div className="w-[56px] shrink-0 text-right">
+        <p className="text-sm font-medium leading-none text-foreground">{job.processed}</p>
+        <p className="mt-1 text-[10px] leading-none text-muted-foreground">processed</p>
       </div>
-      {job.total === 0 && <p className="text-[11px] text-destructive">No records read from file</p>}
+
+      <Badge
+        variant="outline"
+        className={cn("w-[80px] shrink-0 justify-center font-medium", statusStyles[job.status])}
+      >
+        {job.status}
+      </Badge>
     </div>
   );
 }
