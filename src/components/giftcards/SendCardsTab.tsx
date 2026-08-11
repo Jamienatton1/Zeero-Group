@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Bold,
   Italic,
@@ -517,6 +518,7 @@ function MessageEditor({ value, onChange }: { value: string; onChange: (html: st
 /* Main tab                                                            */
 /* ------------------------------------------------------------------ */
 export default function SendCardsTab() {
+  const navigate = useNavigate();
   const firstCard = useRef(uid()).current;
   const [mode, setMode] = useState<"manual" | "csv">("manual");
   const [manualRows, setManualRows] = useState<Recipient[]>([
@@ -841,7 +843,11 @@ export default function SendCardsTab() {
               >
                 Preview card
               </Button>
-              <Button className="w-full" disabled={valid.length === 0 || blocked}>
+              <Button
+                className="w-full"
+                disabled={valid.length === 0 || blocked}
+                onClick={() => navigate("/gift-cards/cards")}
+              >
                 Next
               </Button>
             </div>
