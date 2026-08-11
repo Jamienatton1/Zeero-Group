@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   ChevronDown,
@@ -265,9 +265,8 @@ const GiftCardsCards = () => {
                           </TableRow>
                         )}
                         {pageRows.map((row) => (
-                          <>
+                          <Fragment key={row.id}>
                             <TableRow
-                              key={row.id}
                               className="cursor-pointer"
                               onClick={() => setExpandedId((id) => (id === row.id ? null : row.id))}
                             >
@@ -328,7 +327,7 @@ const GiftCardsCards = () => {
                             </TableRow>
 
                             {expandedId === row.id && (
-                              <TableRow key={`${row.id}-edit`} className="bg-muted/40 hover:bg-muted/40">
+                              <TableRow className="bg-muted/40 hover:bg-muted/40">
                                 <TableCell colSpan={6} className="p-4">
                                   <div className="grid gap-4 md:grid-cols-[2fr_120px]">
                                     <div className="space-y-1.5">
@@ -366,7 +365,7 @@ const GiftCardsCards = () => {
                                 </TableCell>
                               </TableRow>
                             )}
-                          </>
+                          </Fragment>
                         ))}
                       </TableBody>
                     </Table>
