@@ -504,17 +504,37 @@ const GiftCardsCards = () => {
               )}
             </Card>
 
-            {/* Totals + action bar */}
-            <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-border bg-card p-4 shadow-sm">
-              <div className="text-sm text-muted-foreground">
-                <span className="font-semibold text-foreground">{cards.length}</span> cards
-                <span className="mx-2">·</span>
-                <span className="font-semibold text-foreground">{totalTrees}</span> trees
-                <span className="mx-2">·</span>
-                Total <span className="text-base font-bold text-primary">{formatUsd(totalCost)}</span>
-              </div>
+            <div className="space-y-2">
+              <p className="max-w-3xl text-xs text-muted-foreground">
+                We do not store recipient email addresses or names, and we will not send anything other than the
+                greeting card. The list is uploaded to our mailing software to send the emails and the local data is
+                then deleted in line with GDPR. Our mailing provider is SOC 2 accredited.
+              </p>
+              <p className="max-w-3xl text-xs text-muted-foreground">
+                Prefer to use your own email system and designs? We can supply tree codes to add to your own gift
+                cards — contact{" "}
+                <a
+                  href="mailto:gifts@zeerogroup.com"
+                  className="font-medium text-primary underline underline-offset-2"
+                >
+                  gifts@zeerogroup.com
+                </a>
+                .
+              </p>
+            </div>
+          </div>
+        </main>
 
-              <div className="flex flex-wrap items-center gap-3">
+        {/* Sticky action bar */}
+        <div className="border-t border-border bg-card shadow-[0_-2px_8px_hsl(var(--foreground)/0.06)]">
+          <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-8 py-3">
+            <div>
+              <p className="text-xs text-muted-foreground">
+                {cards.length} {cards.length === 1 ? "card" : "cards"} · {totalTrees} trees
+              </p>
+              <p className="text-lg font-bold text-foreground">Total {formatUsd(totalCost)}</p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
               <Button variant="outline" onClick={() => navigate("/gift-cards")}>
                 Previous
               </Button>
@@ -529,42 +549,11 @@ const GiftCardsCards = () => {
                 Preview your card
               </Button>
               <Button disabled={cards.length === 0}>Next</Button>
-              </div>
-
-
-              <TooltipProvider delayDuration={100}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <button type="button" aria-label="Privacy information" className="text-muted-foreground hover:text-foreground">
-                      <Info className="h-4 w-4" />
-                    </button>
-                  </TooltipTrigger>
-                  <TooltipContent side="top" className="max-w-sm">
-                    Please note, we do not store or keep email addresses or names that are shared with us &amp;
-                    neither will we send anything other than the greeting card to the recipient. The list is
-                    uploaded to our mailing software, in order to send the emails - the local data is then deleted
-                    according to GDPR regulations. Sendgrid (our mailing software provider) is SOC2 type reports
-                    (similar to ISO27001 accreditation) provides all the physical security protection measures you
-                    would expect.
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
-
-            <div className="space-y-2">
-              <p className="max-w-3xl text-xs text-muted-foreground">
-                We do not store recipient email addresses or names, and we will not send anything other than the
-                greeting card. The list is uploaded to our mailing software to send the emails and the local data is
-                then deleted in line with GDPR. Our mailing provider is SOC 2 accredited.
-              </p>
-              <p className="max-w-3xl text-xs text-muted-foreground">
-                Prefer to use your own email system and designs? We can supply tree codes to add to your own gift
-                cards — contact gifts@zeerogroup.com.
-              </p>
             </div>
           </div>
-        </main>
+        </div>
       </div>
+
 
       {/* Preview modal */}
       <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
