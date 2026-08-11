@@ -9,6 +9,8 @@ import {
   Info,
   Search,
   TreePine,
+  Trash2,
+
 
 } from "lucide-react";
 import { Sidebar } from "@/components/dashboard/Sidebar";
