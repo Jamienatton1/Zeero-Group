@@ -354,16 +354,16 @@ const Imports = () => {
             <Table className="w-full">
               <TableHeader>
                 <TableRow className="hover:bg-transparent">
-                  <TableHead className="h-9 w-[190px] text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  <TableHead className="h-9 w-[15%] whitespace-nowrap text-xs font-medium uppercase tracking-wide text-muted-foreground">
                     Added
                   </TableHead>
                   <TableHead className="h-9 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                     Agent / Corporate
                   </TableHead>
-                  <TableHead className="h-9 w-[430px] text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  <TableHead className="h-9 w-[35%] text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
                     Import health
                   </TableHead>
-                  <TableHead className="h-9 w-[170px] text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  <TableHead className="h-9 w-[1%] whitespace-nowrap text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
                     Actions
                   </TableHead>
                 </TableRow>
