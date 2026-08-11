@@ -8,8 +8,9 @@ import {
   Eye,
   Info,
   Search,
-  TreePine,
+  Check,
   Trash2,
+
 
 
 } from "lucide-react";
@@ -83,6 +84,12 @@ const MESSAGES = [
   "A little something from all of us — trees planted in your name to offset your journey to the conference.",
   "Season's greetings from the team. Instead of a card, we planted trees in your honour this year.",
   "Thanks for a brilliant year of partnership. These trees are planted in your name as our way of saying thank you.",
+];
+
+const STEPS: { label: string; to?: string }[] = [
+  { label: "Create cards", to: "/gift-cards" },
+  { label: "Your cards" },
+  { label: "Pay & send" },
 ];
 
 const MOCK_CARDS: CardRow[] = NAMES.map((n, i) => ({
@@ -184,75 +191,72 @@ const GiftCardsCards = () => {
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header title="Gift Cards" subtitle="Send trees as a gift — one recipient or thousands" />
 
-        <main className="flex-1 overflow-auto p-8">
-          <div className="mx-auto max-w-6xl space-y-6">
-            {/* Hero */}
-            <div className="overflow-hidden rounded-xl border border-border bg-primary/5">
-              <div className="flex flex-col gap-4 p-6 md:flex-row md:items-center md:justify-between">
-                <div className="flex items-start gap-3">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                    <TreePine className="h-5 w-5" />
-                  </span>
-                  <div>
-                    <h1 className="text-2xl font-bold tracking-tight text-foreground">
-                      Give A Gift Of Planting A Tree For Our Planet
-                    </h1>
-                    <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-                      Review your cards, edit any details, then continue to checkout.
-                    </p>
-                  </div>
-                </div>
-                <div className="flex shrink-0 gap-6 rounded-lg border border-border bg-card px-5 py-3">
-                  <div>
-                    <p className="text-xs uppercase tracking-wide text-muted-foreground">Cards</p>
-                    <p className="text-lg font-bold text-foreground">{cards.length}</p>
-                  </div>
-                  <Separator orientation="vertical" className="h-auto" />
-                  <div>
-                    <p className="text-xs uppercase tracking-wide text-muted-foreground">Trees</p>
-                    <p className="text-lg font-bold text-foreground">{totalTrees}</p>
-                  </div>
-                  <Separator orientation="vertical" className="h-auto" />
-                  <div>
-                    <p className="text-xs uppercase tracking-wide text-muted-foreground">Total</p>
-                    <p className="text-lg font-bold text-primary">{formatUsd(totalCost)}</p>
-                  </div>
-                </div>
-              </div>
+        <main className="flex-1 overflow-auto px-8 pb-32 pt-8">
+          <div className="mx-auto max-w-6xl space-y-4">
+            {/* Page header */}
+            <div className="mx-auto max-w-3xl pb-4 text-center">
+              <h1 className="text-3xl font-bold tracking-tight text-foreground">
+                Give a gift of planting a tree for our planet
+              </h1>
+              <p className="mt-3 text-sm text-foreground">
+                Price per tree {formatUsd(PRICE_PER_TREE)} — put as many trees in a card as you wish.
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Every tree we plant comes with a United Nations certified investment in renewable energy.
+              </p>
             </div>
 
             {/* Stepper */}
-            <div className="flex items-center gap-3">
-              {["Send cards", "Your cards", "Checkout"].map((label, i) => {
+            <div className="mx-auto flex max-w-[720px] items-center pb-2">
+              {STEPS.map((step, i) => {
                 const state = i < 1 ? "done" : i === 1 ? "current" : "todo";
+                const circle = (
+                  <span
+                    className={cn(
+                      "flex h-8 w-8 items-center justify-center rounded-full border text-xs font-semibold",
+                      state === "todo"
+                        ? "border-border bg-transparent text-muted-foreground"
+                        : "border-primary bg-primary text-primary-foreground",
+                    )}
+                  >
+                    {state === "done" ? <Check className="h-4 w-4" /> : i + 1}
+                  </span>
+                );
+                const label = (
+                  <span
+                    className={cn(
+                      "text-sm whitespace-nowrap",
+                      state === "current"
+                        ? "font-semibold text-foreground"
+                        : state === "done"
+                          ? "text-foreground"
+                          : "text-muted-foreground",
+                    )}
+                  >
+                    {step.label}
+                  </span>
+                );
                 return (
-                  <Fragment key={label}>
-                    <div className="flex items-center gap-2">
-                      <span
-                        className={cn(
-                          "flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold",
-                          state === "todo"
-                            ? "bg-muted text-muted-foreground"
-                            : "bg-primary text-primary-foreground",
-                        )}
+                  <Fragment key={step.label}>
+                    {state === "done" && step.to ? (
+                      <button
+                        type="button"
+                        onClick={() => navigate(step.to!)}
+                        className="flex items-center gap-2 rounded-md transition-opacity hover:opacity-80"
                       >
-                        {i + 1}
-                      </span>
-                      <span
-                        className={cn(
-                          "text-sm",
-                          state === "current"
-                            ? "font-semibold text-foreground"
-                            : "text-muted-foreground",
-                        )}
-                      >
+                        {circle}
                         {label}
-                      </span>
-                    </div>
-                    {i < 2 && (
+                      </button>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        {circle}
+                        {label}
+                      </div>
+                    )}
+                    {i < STEPS.length - 1 && (
                       <span
                         className={cn(
-                          "h-px flex-1 rounded-full",
+                          "mx-3 h-px flex-1",
                           i === 0 ? "bg-primary" : "bg-border",
                         )}
                       />
@@ -262,15 +266,37 @@ const GiftCardsCards = () => {
               })}
             </div>
 
-            <Card>
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3">
-                <div>
+            <Card className="shadow-sm">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 px-4 py-3">
+                <div className="flex items-center gap-2">
                   <h2 className="text-sm font-semibold text-foreground">Your cards</h2>
-                  <p className="text-xs text-muted-foreground">
-                    {cards.length} {cards.length === 1 ? "card" : "cards"} ready to send · click a row to edit
-                  </p>
+                  <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
+                    {cards.length}
+                  </span>
                 </div>
                 <div className="flex flex-wrap items-center gap-3">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <span>Show</span>
+                    <Select
+                      value={String(pageSize)}
+                      onValueChange={(v) => {
+                        setPageSize(Number(v));
+                        setPage(1);
+                      }}
+                    >
+                      <SelectTrigger className="h-8 w-[72px]">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {[10, 25, 50, 100].map((n) => (
+                          <SelectItem key={n} value={String(n)}>
+                            {n}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <span>entries</span>
+                  </div>
                   <div className="relative">
                     <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
                     <Input
@@ -283,31 +309,9 @@ const GiftCardsCards = () => {
                       className="h-8 w-56 pl-8"
                     />
                   </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <span>Show</span>
-                  <Select
-                    value={String(pageSize)}
-                    onValueChange={(v) => {
-                      setPageSize(Number(v));
-                      setPage(1);
-                    }}
-                  >
-                    <SelectTrigger className="h-8 w-[72px]">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {[10, 25, 50, 100].map((n) => (
-                        <SelectItem key={n} value={String(n)}>
-                          {n}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <span>entries</span>
                 </div>
-                </div>
-
               </div>
+
 
               <CardContent className="p-0">
                 {cards.length === 0 ? (
@@ -322,15 +326,14 @@ const GiftCardsCards = () => {
                   </div>
                 ) : (
                   <TooltipProvider delayDuration={100}>
-                    <Table>
+                    <Table className="table-fixed">
                       <TableHeader>
-                        <TableRow>
-                          <SortHead label="To email" sortField="email" />
-                          <SortHead label="Message" sortField="message" />
-                          <SortHead label="From company" sortField="fromCompany" />
-                          <SortHead label="From email" sortField="fromEmail" />
-                          <SortHead label="Trees" sortField="trees" className="text-right" />
-                          <TableHead className="w-24 text-right text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                        <TableRow className="border-border/60 hover:bg-transparent">
+                          <SortHead label="To email" sortField="email" className="w-[22%]" />
+                          <SortHead label="Message" sortField="message" className="w-[40%]" />
+                          <SortHead label="From" sortField="fromCompany" className="w-[20%]" />
+                          <SortHead label="Trees" sortField="trees" className="w-[10%] text-right" />
+                          <TableHead className="w-[8%] text-right text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                             Actions
                           </TableHead>
                         </TableRow>
@@ -338,7 +341,7 @@ const GiftCardsCards = () => {
                       <TableBody>
                         {pageRows.length === 0 && (
                           <TableRow>
-                            <TableCell colSpan={6} className="py-10 text-center text-sm text-muted-foreground">
+                            <TableCell colSpan={5} className="py-10 text-center text-sm text-muted-foreground">
                               No cards match “{search}”.
                             </TableCell>
                           </TableRow>
@@ -346,11 +349,13 @@ const GiftCardsCards = () => {
                         {pageRows.map((row) => (
                           <Fragment key={row.id}>
                             <TableRow
-                              className="cursor-pointer"
+                              className="cursor-pointer border-border/60 transition-colors hover:bg-muted/50"
                               onClick={() => setExpandedId((id) => (id === row.id ? null : row.id))}
                             >
-                              <TableCell className="text-sm font-medium text-foreground">{row.email}</TableCell>
-                              <TableCell className="max-w-[260px] text-sm text-muted-foreground">
+                              <TableCell className="py-4 text-sm font-medium text-foreground">
+                                <span className="block truncate">{row.email}</span>
+                              </TableCell>
+                              <TableCell className="py-4 text-sm text-muted-foreground">
                                 <Tooltip>
                                   <TooltipTrigger asChild>
                                     <span className="block truncate">{row.message}</span>
@@ -360,19 +365,23 @@ const GiftCardsCards = () => {
                                   </TooltipContent>
                                 </Tooltip>
                               </TableCell>
-                              <TableCell className="text-sm text-foreground">{row.fromCompany}</TableCell>
-                              <TableCell className="text-sm text-muted-foreground">{row.fromEmail}</TableCell>
-                              <TableCell className="text-right text-sm font-medium text-foreground">
-                                {row.trees}
+                              <TableCell className="py-4">
+                                <span className="block truncate text-sm text-foreground">{row.fromCompany}</span>
+                                <span className="block truncate text-xs text-muted-foreground">{row.fromEmail}</span>
                               </TableCell>
-                              <TableCell className="text-right">
+                              <TableCell className="py-4 text-right">
+                                <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
+                                  {row.trees} {row.trees === 1 ? "tree" : "trees"}
+                                </span>
+                              </TableCell>
+                              <TableCell className="py-4 text-right">
                                 <div className="flex items-center justify-end gap-1">
                                   <Tooltip>
                                     <TooltipTrigger asChild>
                                       <Button
                                         variant="ghost"
                                         size="icon"
-                                        className="h-8 w-8"
+                                        className="h-8 w-8 text-muted-foreground hover:text-primary"
                                         aria-label="Preview card"
                                         onClick={(e) => {
                                           e.stopPropagation();
@@ -382,15 +391,15 @@ const GiftCardsCards = () => {
                                         <Eye className="h-4 w-4" />
                                       </Button>
                                     </TooltipTrigger>
-                                    <TooltipContent>Preview</TooltipContent>
+                                    <TooltipContent>Preview card</TooltipContent>
                                   </Tooltip>
                                   <Tooltip>
                                     <TooltipTrigger asChild>
                                       <Button
                                         variant="ghost"
                                         size="icon"
-                                        className="h-8 w-8 text-destructive hover:text-destructive"
-                                        aria-label="Delete card"
+                                        className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                                        aria-label="Remove card"
                                         onClick={(e) => {
                                           e.stopPropagation();
                                           setPendingDelete(row);
@@ -399,15 +408,16 @@ const GiftCardsCards = () => {
                                         <Trash2 className="h-4 w-4" />
                                       </Button>
                                     </TooltipTrigger>
-                                    <TooltipContent>Delete</TooltipContent>
+                                    <TooltipContent>Remove card</TooltipContent>
                                   </Tooltip>
                                 </div>
                               </TableCell>
                             </TableRow>
 
                             {expandedId === row.id && (
-                              <TableRow className="bg-muted/40 hover:bg-muted/40">
-                                <TableCell colSpan={6} className="p-4">
+                              <TableRow className="border-border/60 bg-muted/40 hover:bg-muted/40">
+                                <TableCell colSpan={5} className="p-4">
+
                                   <div className="grid gap-4 md:grid-cols-[2fr_120px]">
                                     <div className="space-y-1.5">
                                       <Label className="text-xs">Recipient email</Label>
@@ -494,17 +504,37 @@ const GiftCardsCards = () => {
               )}
             </Card>
 
-            {/* Totals + action bar */}
-            <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-border bg-card p-4 shadow-sm">
-              <div className="text-sm text-muted-foreground">
-                <span className="font-semibold text-foreground">{cards.length}</span> cards
-                <span className="mx-2">·</span>
-                <span className="font-semibold text-foreground">{totalTrees}</span> trees
-                <span className="mx-2">·</span>
-                Total <span className="text-base font-bold text-primary">{formatUsd(totalCost)}</span>
-              </div>
+            <div className="space-y-2">
+              <p className="max-w-3xl text-xs text-muted-foreground">
+                We do not store recipient email addresses or names, and we will not send anything other than the
+                greeting card. The list is uploaded to our mailing software to send the emails and the local data is
+                then deleted in line with GDPR. Our mailing provider is SOC 2 accredited.
+              </p>
+              <p className="max-w-3xl text-xs text-muted-foreground">
+                Prefer to use your own email system and designs? We can supply tree codes to add to your own gift
+                cards — contact{" "}
+                <a
+                  href="mailto:gifts@zeerogroup.com"
+                  className="font-medium text-primary underline underline-offset-2"
+                >
+                  gifts@zeerogroup.com
+                </a>
+                .
+              </p>
+            </div>
+          </div>
+        </main>
 
-              <div className="flex flex-wrap items-center gap-3">
+        {/* Sticky action bar */}
+        <div className="border-t border-border bg-card shadow-[0_-2px_8px_hsl(var(--foreground)/0.06)]">
+          <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-8 py-3">
+            <div>
+              <p className="text-xs text-muted-foreground">
+                {cards.length} {cards.length === 1 ? "card" : "cards"} · {totalTrees} trees
+              </p>
+              <p className="text-lg font-bold text-foreground">Total {formatUsd(totalCost)}</p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
               <Button variant="outline" onClick={() => navigate("/gift-cards")}>
                 Previous
               </Button>
@@ -519,42 +549,11 @@ const GiftCardsCards = () => {
                 Preview your card
               </Button>
               <Button disabled={cards.length === 0}>Next</Button>
-              </div>
-
-
-              <TooltipProvider delayDuration={100}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <button type="button" aria-label="Privacy information" className="text-muted-foreground hover:text-foreground">
-                      <Info className="h-4 w-4" />
-                    </button>
-                  </TooltipTrigger>
-                  <TooltipContent side="top" className="max-w-sm">
-                    Please note, we do not store or keep email addresses or names that are shared with us &amp;
-                    neither will we send anything other than the greeting card to the recipient. The list is
-                    uploaded to our mailing software, in order to send the emails - the local data is then deleted
-                    according to GDPR regulations. Sendgrid (our mailing software provider) is SOC2 type reports
-                    (similar to ISO27001 accreditation) provides all the physical security protection measures you
-                    would expect.
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
-
-            <div className="space-y-2">
-              <p className="max-w-3xl text-xs text-muted-foreground">
-                We do not store recipient email addresses or names, and we will not send anything other than the
-                greeting card. The list is uploaded to our mailing software to send the emails and the local data is
-                then deleted in line with GDPR. Our mailing provider is SOC 2 accredited.
-              </p>
-              <p className="max-w-3xl text-xs text-muted-foreground">
-                Prefer to use your own email system and designs? We can supply tree codes to add to your own gift
-                cards — contact gifts@zeerogroup.com.
-              </p>
             </div>
           </div>
-        </main>
+        </div>
       </div>
+
 
       {/* Preview modal */}
       <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
