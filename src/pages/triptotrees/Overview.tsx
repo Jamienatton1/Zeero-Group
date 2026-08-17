@@ -49,23 +49,39 @@ function MetricTile({
   icon: Icon,
   label,
   value,
+  unit,
+  action,
+  onAction,
 }: {
   icon: typeof TreePine;
   label: string;
   value: number;
+  unit: string;
+  action?: string;
+  onAction?: () => void;
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl bg-surface-muted px-4 py-3">
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-data-soft text-data-foreground">
-        <Icon className="h-4 w-4" aria-hidden />
-      </span>
-      <div className="min-w-0">
-        <p className="text-xs text-muted-foreground">{label}</p>
-        <p className="text-lg font-semibold tracking-tight text-data-foreground">{value}</p>
-      </div>
-    </div>
+    <Card className="border-border bg-card shadow-sm">
+      <CardContent className="flex flex-col items-center gap-4 p-6 text-center">
+        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-brand text-brand-foreground">
+          <Icon className="h-6 w-6" strokeWidth={1.75} aria-hidden />
+        </span>
+        <div>
+          <p className="text-xs font-medium text-muted-foreground">{label}</p>
+          <p className="mt-1 text-3xl font-bold tracking-tight text-foreground">
+            {value} <span className="text-base font-normal text-muted-foreground">{unit}</span>
+          </p>
+        </div>
+        {action && (
+          <Button className="mt-1 w-full text-xs uppercase tracking-[0.08em]" onClick={onAction}>
+            {action}
+          </Button>
+        )}
+      </CardContent>
+    </Card>
   );
 }
+
 
 
 export default function TripToTreesOverview() {
