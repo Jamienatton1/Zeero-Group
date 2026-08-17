@@ -232,132 +232,121 @@ export default function TripToTreesOverview() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 rounded-lg border border-border bg-muted/40 p-3">
-                <Checkbox
-                  id="t2t-return"
-                  checked={returnTrip}
-                  onCheckedChange={(v) => setReturnTrip(v === true)}
-                  className="mt-0.5"
-                />
-                <div>
-                  <Label htmlFor="t2t-return" className="cursor-pointer">Return trip</Label>
-                  <p className="text-xs text-muted-foreground">
-                    Tick if the traveller is coming back — the distance is counted twice.
-                  </p>
-                </div>
+              <div className="flex items-center justify-between gap-4 border-t border-border pt-4">
+                <Label htmlFor="t2t-return" className="cursor-pointer text-sm font-medium">
+                  Return trip
+                </Label>
+                <TooltipProvider delayDuration={200}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span className="inline-flex">
+                        <Switch
+                          id="t2t-return"
+                          checked={returnTrip}
+                          onCheckedChange={setReturnTrip}
+                        />
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent side="left">Counts the distance twice</TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
             </CardContent>
           </Card>
 
-          <div className="space-y-6 lg:sticky lg:top-20">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">Trees required</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {!result.valid ? (
-                  <div className="rounded-lg border border-dashed border-border p-6 text-center">
-                    <Leaf className="mx-auto h-6 w-6 text-muted-foreground" aria-hidden />
-                    <p className="mt-3 text-sm font-medium text-foreground">Nothing to calculate yet</p>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      Choose a mode of travel, a trip from and to, and at least one traveller.
-                    </p>
-                  </div>
-                ) : (
-                  <div aria-live="polite" className="space-y-4">
-                    <div className="rounded-xl bg-primary/10 p-5 text-center">
-                      <p className="text-4xl font-semibold tracking-tight text-primary">
-                        {result.trees} trees
-                      </p>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        to cover {formatKg(result.totalKg)}
-                      </p>
+          <div className="space-y-6 lg:sticky lg:top-24">
+            <section aria-label="Trees required">
+              {!result.valid ? (
+                <div className="rounded-xl border border-dashed border-border p-5 text-center">
+                  <Leaf className="mx-auto h-5 w-5 text-muted-foreground" aria-hidden />
+                  <p className="mt-2 text-sm font-medium text-foreground">Nothing to calculate yet</p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Choose a mode of travel, a trip from and to, and at least one traveller.
+                  </p>
+                </div>
+              ) : (
+                <div aria-live="polite" className="rounded-2xl bg-data-soft p-6">
+                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-data-foreground">
+                    Trees required
+                  </p>
+                  <p className="mt-2 text-6xl font-semibold leading-none tracking-tight text-data-foreground">
+                    {result.trees}
+                  </p>
+                  <p className="mt-2 text-sm text-data-foreground/80">
+                    trees to cover {formatKg(result.totalKg)}
+                  </p>
+
+                  <dl className="mt-5 space-y-2 border-t border-data/20 pt-4 text-sm">
+                    <div className="flex justify-between">
+                      <dt className="text-muted-foreground">Distance</dt>
+                      <dd className="font-medium text-foreground">
+                        {result.distanceKm.toLocaleString("en-GB")} km
+                      </dd>
                     </div>
-                    <dl className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <dt className="text-muted-foreground">Distance</dt>
-                        <dd className="font-medium">{result.distanceKm.toLocaleString("en-GB")} km</dd>
-                      </div>
-                      <div className="flex justify-between">
-                        <dt className="text-muted-foreground">Travel emissions</dt>
-                        <dd className="font-medium">{formatKg(result.travelKg)}</dd>
-                      </div>
-                      <div className="flex justify-between">
-                        <dt className="text-muted-foreground">Accommodation emissions</dt>
-                        <dd className="font-medium">{formatKg(result.stayKg)}</dd>
-                      </div>
-                      <div className="flex justify-between border-t border-border pt-2">
-                        <dt className="text-muted-foreground">Cost if you gift them</dt>
-                        <dd className="font-semibold">{formatUsd(result.cost)}</dd>
-                      </div>
-                    </dl>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">What next?</CardTitle>
-                <CardDescription>Choose one — they are two outcomes of the same calculation.</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="rounded-lg border border-border p-4">
-                  <div className="flex items-center gap-2">
-                    <Gift className="h-4 w-4 text-primary" aria-hidden />
-                    <p className="text-sm font-medium">Gift trees</p>
-                  </div>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    You pay for the trees as a thank-you for the booking.
-                  </p>
-                  <Button
-                    className="mt-3 w-full gap-2"
-                    disabled={!result.valid}
-                    onClick={() =>
-                      toast({
-                        title: `Gifting ${result.trees} trees`,
-                        description: `${formatUsd(result.cost)} — checkout coming soon.`,
-                      })
-                    }
-                  >
-                    Gift {result.valid ? result.trees : ""} trees
-                    <ArrowRight className="h-4 w-4" aria-hidden />
-                  </Button>
+                    <div className="flex justify-between">
+                      <dt className="text-muted-foreground">Travel emissions</dt>
+                      <dd className="font-medium text-foreground">{formatKg(result.travelKg)}</dd>
+                    </div>
+                    <div className="flex justify-between">
+                      <dt className="text-muted-foreground">Accommodation emissions</dt>
+                      <dd className="font-medium text-foreground">{formatKg(result.stayKg)}</dd>
+                    </div>
+                    <div className="flex justify-between border-t border-data/20 pt-2">
+                      <dt className="text-muted-foreground">Cost if you gift them</dt>
+                      <dd className="font-semibold text-foreground">{formatUsd(result.cost)}</dd>
+                    </div>
+                  </dl>
                 </div>
+              )}
+            </section>
 
-                <div className="rounded-lg border border-border p-4">
-                  <div className="flex items-center gap-2">
-                    <Send className="h-4 w-4 text-primary" aria-hidden />
-                    <p className="text-sm font-medium">Share with traveller</p>
-                  </div>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    Send the traveller their tree total and invite them to pay.
-                  </p>
-                  <Button
-                    variant="outline"
-                    className="mt-3 w-full gap-2"
-                    disabled={!result.valid}
-                    onClick={() =>
-                      navigate("/trip-to-trees/share", {
-                        state: { trees: result.trees, kg: result.totalKg },
-                      })
-                    }
-                  >
-                    Share with traveller
-                    <ArrowRight className="h-4 w-4" aria-hidden />
-                  </Button>
-                </div>
+            <section aria-label="Next steps" className="space-y-4">
+              <h2 className="text-sm font-semibold text-foreground">What next?</h2>
 
-                {!result.valid && (
-                  <p className="text-xs text-muted-foreground">
-                    Complete the calculator to unlock these actions.
-                  </p>
-                )}
-              </CardContent>
-            </Card>
+              <div className="space-y-1.5">
+                <Button
+                  className="w-full gap-2"
+                  disabled={!result.valid}
+                  onClick={() =>
+                    toast({
+                      title: `Gifting ${result.trees} trees`,
+                      description: `${formatUsd(result.cost)} — checkout coming soon.`,
+                    })
+                  }
+                >
+                  <Gift className="h-4 w-4" aria-hidden />
+                  Gift {result.valid ? result.trees : ""} trees
+                  <ArrowRight className="h-4 w-4" aria-hidden />
+                </Button>
+                <p className="text-xs text-muted-foreground">
+                  You pay for the trees as a thank-you for the booking.
+                </p>
+              </div>
+
+              <div className="space-y-1.5">
+                <Button
+                  variant="outline"
+                  className="w-full gap-2"
+                  disabled={!result.valid}
+                  onClick={() =>
+                    navigate("/trip-to-trees/share", {
+                      state: { trees: result.trees, kg: result.totalKg },
+                    })
+                  }
+                >
+                  <Send className="h-4 w-4" aria-hidden />
+                  Share with traveller
+                  <ArrowRight className="h-4 w-4" aria-hidden />
+                </Button>
+                <p className="text-xs text-muted-foreground">
+                  Send the traveller their tree total and invite them to pay.
+                </p>
+              </div>
+            </section>
           </div>
         </div>
       </div>
     </T2TLayout>
   );
 }
+
