@@ -104,11 +104,12 @@ export default function TripToTreesOverview() {
 
   return (
     <T2TLayout>
-      <div className="mx-auto max-w-6xl space-y-6">
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <h1 className="text-2xl font-semibold tracking-tight text-foreground">Overview</h1>
-            <p className="mt-1 text-sm text-muted-foreground">
+      <div className="mx-auto max-w-6xl space-y-8">
+        <header className="flex flex-wrap items-end justify-between gap-4 border-b border-border pb-6">
+          <div className="max-w-xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-data-foreground">Trip to Trees</p>
+            <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">Overview</h1>
+            <p className="mt-2 text-sm text-muted-foreground">
               Work out how many trees cover a trip, then gift them or invite the traveller to plant them.
             </p>
           </div>
@@ -116,23 +117,21 @@ export default function TripToTreesOverview() {
             <Plus className="h-4 w-4" aria-hidden />
             Buy more trees
           </Button>
-        </div>
+        </header>
 
-        <section aria-label="Account summary" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <section aria-label="Account summary" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           <MetricTile icon={Gift} label="Trees gifted" value={ACCOUNT.treesGifted} />
           <MetricTile icon={TreePine} label="Trees in my account" value={ACCOUNT.treesInAccount} />
           <MetricTile icon={Users} label="Trees purchased by travellers" value={ACCOUNT.treesPurchasedByTravellers} />
         </section>
 
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-start">
-          <Card>
+          <Card className="border-border bg-surface shadow-sm">
             <CardHeader>
               <CardTitle className="text-base">Trip calculator</CardTitle>
-              <CardDescription>
-                Everything updates live — there is no calculate button.
-              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-5">
+
               <div className="grid gap-5 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="t2t-mode">Mode of travel</Label>
