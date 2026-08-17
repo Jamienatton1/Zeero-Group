@@ -35,6 +35,14 @@ import Login from "./pages/Login";
 import Reports from "./pages/Reports";
 import Quotes from "./pages/Quotes";
 import Imports from "./pages/Imports";
+import TripToTreesOverview from "./pages/triptotrees/Overview";
+import TripToTreesShare from "./pages/triptotrees/Share";
+import {
+  TripToTreesScript,
+  TripToTreesFaq,
+  TripToTreesForestInfo,
+  TripToTreesAccount,
+} from "./pages/triptotrees/Static";
 
 
 const queryClient = new QueryClient();
