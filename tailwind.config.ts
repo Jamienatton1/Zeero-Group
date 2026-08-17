@@ -52,6 +52,13 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				surface: 'hsl(var(--surface))',
+				'surface-muted': 'hsl(var(--surface-muted))',
+				data: {
+					DEFAULT: 'hsl(var(--data))',
+					foreground: 'hsl(var(--data-foreground))',
+					soft: 'hsl(var(--data-soft))'
+				},
 				'sidebar-dark': 'hsl(var(--sidebar-dark))',
 				'sidebar-item': 'hsl(var(--sidebar-item))',
 				'sidebar-item-active': 'hsl(var(--sidebar-item-active))',
