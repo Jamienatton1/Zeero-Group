@@ -115,6 +115,56 @@ All colors MUST be HSL.
   }
 }
 
+/* Trip to Trees theme: warm neutral surfaces, forest green reserved for
+   primary actions + active nav, sand/amber reserved for data & metrics. */
+@layer base {
+  .t2t {
+    --background: 40 30% 97%;
+    --foreground: 160 14% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 160 14% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 160 14% 11%;
+
+    --primary: 158 62% 19%;
+    --primary-foreground: 40 40% 98%;
+
+    --secondary: 38 26% 93%;
+    --secondary-foreground: 160 14% 11%;
+
+    --muted: 38 24% 94%;
+    --muted-foreground: 150 5% 44%;
+
+    --accent: 38 26% 93%;
+    --accent-foreground: 160 14% 11%;
+
+    --border: 38 20% 88%;
+    --input: 38 20% 88%;
+    --ring: 158 62% 19%;
+
+    /* surfaces */
+    --surface: 0 0% 100%;
+    --surface-muted: 38 28% 95%;
+
+    /* data / metric accent (never used for actions) */
+    --data: 32 76% 46%;
+    --data-foreground: 26 60% 20%;
+    --data-soft: 38 78% 93%;
+  }
+
+  /* One consistent disabled treatment across the app surface */
+  .t2t button:disabled,
+  .t2t [data-disabled] button {
+    opacity: 1;
+    background-color: hsl(var(--muted));
+    color: hsl(var(--muted-foreground));
+    border-color: hsl(var(--border));
+    box-shadow: none;
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
