@@ -115,43 +115,54 @@ All colors MUST be HSL.
   }
 }
 
-/* Trip to Trees theme: warm neutral surfaces, forest green reserved for
-   primary actions + active nav, sand/amber reserved for data & metrics. */
+/* Trip to Trees theme: near-black rail + actions, white cards on a light
+   warm grey page, green reserved for icon badges / data, gold for charts. */
 @layer base {
   .t2t {
-    --background: 40 30% 97%;
-    --foreground: 160 14% 11%;
+    --background: 40 14% 97%;
+    --foreground: 160 10% 8%;
 
     --card: 0 0% 100%;
-    --card-foreground: 160 14% 11%;
+    --card-foreground: 160 10% 8%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 160 14% 11%;
+    --popover-foreground: 160 10% 8%;
 
-    --primary: 158 62% 19%;
-    --primary-foreground: 40 40% 98%;
+    /* near-black primary actions */
+    --primary: 165 9% 7%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 38 26% 93%;
-    --secondary-foreground: 160 14% 11%;
+    --secondary: 210 12% 96%;
+    --secondary-foreground: 160 10% 8%;
 
-    --muted: 38 24% 94%;
-    --muted-foreground: 150 5% 44%;
+    --muted: 210 12% 95%;
+    --muted-foreground: 215 8% 46%;
 
-    --accent: 38 26% 93%;
-    --accent-foreground: 160 14% 11%;
+    --accent: 210 12% 96%;
+    --accent-foreground: 160 10% 8%;
 
-    --border: 38 20% 88%;
-    --input: 38 20% 88%;
-    --ring: 158 62% 19%;
+    --border: 210 14% 91%;
+    --input: 210 14% 91%;
+    --ring: 165 9% 7%;
+
+    --radius: 0.875rem;
 
     /* surfaces */
     --surface: 0 0% 100%;
-    --surface-muted: 38 28% 95%;
+    --surface-muted: 210 14% 97%;
 
-    /* data / metric accent (never used for actions) */
-    --data: 32 76% 46%;
-    --data-foreground: 26 60% 20%;
-    --data-soft: 38 78% 93%;
+    /* rail */
+    --rail: 165 9% 6%;
+    --rail-foreground: 0 0% 100%;
+    --rail-muted: 165 5% 62%;
+
+    /* brand green: icon badges, data viz, small active accents */
+    --brand: 158 65% 25%;
+    --brand-light: 150 55% 41%;
+    --brand-foreground: 0 0% 100%;
+
+    /* chart-only gold */
+    --data: 46 87% 55%;
   }
 
   /* One consistent disabled treatment across the app surface */
@@ -164,6 +175,7 @@ All colors MUST be HSL.
     box-shadow: none;
   }
 }
+
 
 @layer base {
   * {

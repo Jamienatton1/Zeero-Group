@@ -49,23 +49,39 @@ function MetricTile({
   icon: Icon,
   label,
   value,
+  unit,
+  action,
+  onAction,
 }: {
   icon: typeof TreePine;
   label: string;
   value: number;
+  unit: string;
+  action?: string;
+  onAction?: () => void;
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl bg-surface-muted px-4 py-3">
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-data-soft text-data-foreground">
-        <Icon className="h-4 w-4" aria-hidden />
-      </span>
-      <div className="min-w-0">
-        <p className="text-xs text-muted-foreground">{label}</p>
-        <p className="text-lg font-semibold tracking-tight text-data-foreground">{value}</p>
-      </div>
-    </div>
+    <Card className="border-border bg-card shadow-sm">
+      <CardContent className="flex flex-col items-center gap-4 p-6 text-center">
+        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-brand text-brand-foreground">
+          <Icon className="h-6 w-6" strokeWidth={1.75} aria-hidden />
+        </span>
+        <div>
+          <p className="text-xs font-medium text-muted-foreground">{label}</p>
+          <p className="mt-1 text-3xl font-bold tracking-tight text-foreground">
+            {value} <span className="text-base font-normal text-muted-foreground">{unit}</span>
+          </p>
+        </div>
+        {action && (
+          <Button className="mt-1 w-full text-xs uppercase tracking-[0.08em]" onClick={onAction}>
+            {action}
+          </Button>
+        )}
+      </CardContent>
+    </Card>
   );
 }
+
 
 
 export default function TripToTreesOverview() {
@@ -107,25 +123,40 @@ export default function TripToTreesOverview() {
   return (
     <T2TLayout>
       <div className="mx-auto max-w-6xl space-y-8">
-        <header className="flex flex-wrap items-end justify-between gap-4 border-b border-border pb-6">
+        <header className="flex flex-wrap items-start justify-between gap-4">
           <div className="max-w-xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-data-foreground">Trip to Trees</p>
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">Overview</h1>
-            <p className="mt-2 text-sm text-muted-foreground">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">Overview</h1>
+            <p className="mt-1.5 text-sm text-muted-foreground">
               Work out how many trees cover a trip, then gift them or invite the traveller to plant them.
             </p>
           </div>
-          <Button className="gap-2" onClick={() => toast({ title: "Buy more trees", description: "Tree purchasing is coming soon." })}>
+          <Button
+            className="gap-2 text-xs uppercase tracking-[0.08em]"
+            onClick={() => toast({ title: "Buy more trees", description: "Tree purchasing is coming soon." })}
+          >
             <Plus className="h-4 w-4" aria-hidden />
             Buy more trees
           </Button>
         </header>
 
-        <section aria-label="Account summary" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <MetricTile icon={Gift} label="Trees gifted" value={ACCOUNT.treesGifted} />
-          <MetricTile icon={TreePine} label="Trees in my account" value={ACCOUNT.treesInAccount} />
-          <MetricTile icon={Users} label="Trees purchased by travellers" value={ACCOUNT.treesPurchasedByTravellers} />
+        <section aria-label="Account summary" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <MetricTile icon={Gift} label="Trees gifted" value={ACCOUNT.treesGifted} unit="Trees" />
+          <MetricTile
+            icon={TreePine}
+            label="Trees in my account"
+            value={ACCOUNT.treesInAccount}
+            unit="Trees"
+            action="Buy more trees"
+            onAction={() => toast({ title: "Buy more trees", description: "Tree purchasing is coming soon." })}
+          />
+          <MetricTile
+            icon={Users}
+            label="Trees purchased by travellers"
+            value={ACCOUNT.treesPurchasedByTravellers}
+            unit="Trees"
+          />
         </section>
+
 
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-start">
           <Card className="border-border bg-surface shadow-sm">
@@ -256,96 +287,108 @@ export default function TripToTreesOverview() {
             </CardContent>
           </Card>
 
-          <div className="space-y-6 lg:sticky lg:top-24">
-            <section aria-label="Trees required">
-              {!result.valid ? (
-                <div className="rounded-xl border border-dashed border-border p-5 text-center">
-                  <Leaf className="mx-auto h-5 w-5 text-muted-foreground" aria-hidden />
-                  <p className="mt-2 text-sm font-medium text-foreground">Nothing to calculate yet</p>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    Choose a mode of travel, a trip from and to, and at least one traveller.
+          <div className="space-y-5 lg:sticky lg:top-24">
+            <Card className="border-border bg-card shadow-sm">
+              <CardContent className="p-6">
+                {!result.valid ? (
+                  <div className="text-center">
+                    <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-brand text-brand-foreground">
+                      <Leaf className="h-5 w-5" strokeWidth={1.75} aria-hidden />
+                    </span>
+                    <p className="mt-3 text-sm font-semibold text-foreground">Nothing to calculate yet</p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Choose a mode of travel, a trip from and to, and at least one traveller.
+                    </p>
+                  </div>
+                ) : (
+                  <div aria-live="polite">
+                    <div className="text-center">
+                      <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-brand text-brand-foreground">
+                        <TreePine className="h-6 w-6" strokeWidth={1.75} aria-hidden />
+                      </span>
+                      <p className="mt-3 text-xs font-medium text-muted-foreground">Trees required</p>
+                      <p className="mt-1 text-5xl font-bold leading-none tracking-tight text-foreground">
+                        {result.trees}{" "}
+                        <span className="text-base font-normal text-muted-foreground">Trees</span>
+                      </p>
+                      <p className="mt-2 text-xs text-muted-foreground">
+                        to cover {formatKg(result.totalKg)}
+                      </p>
+                    </div>
+
+                    <dl className="mt-5 space-y-2 border-t border-border pt-4 text-sm">
+                      <div className="flex justify-between">
+                        <dt className="text-muted-foreground">Distance</dt>
+                        <dd className="font-medium text-foreground">
+                          {result.distanceKm.toLocaleString("en-GB")} km
+                        </dd>
+                      </div>
+                      <div className="flex justify-between">
+                        <dt className="text-muted-foreground">Travel emissions</dt>
+                        <dd className="font-medium text-foreground">{formatKg(result.travelKg)}</dd>
+                      </div>
+                      <div className="flex justify-between">
+                        <dt className="text-muted-foreground">Accommodation emissions</dt>
+                        <dd className="font-medium text-foreground">{formatKg(result.stayKg)}</dd>
+                      </div>
+                      <div className="flex justify-between border-t border-border pt-2">
+                        <dt className="text-muted-foreground">Cost if you gift them</dt>
+                        <dd className="font-semibold text-foreground">{formatUsd(result.cost)}</dd>
+                      </div>
+                    </dl>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            <Card className="border-border bg-card shadow-sm">
+              <CardHeader>
+                <CardTitle className="text-base font-bold tracking-tight">What next?</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-5">
+                <div className="space-y-1.5">
+                  <Button
+                    className="w-full gap-2 text-xs uppercase tracking-[0.08em]"
+                    disabled={!result.valid}
+                    onClick={() =>
+                      toast({
+                        title: `Gifting ${result.trees} trees`,
+                        description: `${formatUsd(result.cost)} — checkout coming soon.`,
+                      })
+                    }
+                  >
+                    <Gift className="h-4 w-4" aria-hidden />
+                    Gift {result.valid ? result.trees : ""} trees
+                    <ArrowRight className="h-4 w-4" aria-hidden />
+                  </Button>
+                  <p className="text-xs text-muted-foreground">
+                    You pay for the trees as a thank-you for the booking.
                   </p>
                 </div>
-              ) : (
-                <div aria-live="polite" className="rounded-2xl bg-data-soft p-6">
-                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-data-foreground">
-                    Trees required
-                  </p>
-                  <p className="mt-2 text-6xl font-semibold leading-none tracking-tight text-data-foreground">
-                    {result.trees}
-                  </p>
-                  <p className="mt-2 text-sm text-data-foreground/80">
-                    trees to cover {formatKg(result.totalKg)}
-                  </p>
 
-                  <dl className="mt-5 space-y-2 border-t border-data/20 pt-4 text-sm">
-                    <div className="flex justify-between">
-                      <dt className="text-muted-foreground">Distance</dt>
-                      <dd className="font-medium text-foreground">
-                        {result.distanceKm.toLocaleString("en-GB")} km
-                      </dd>
-                    </div>
-                    <div className="flex justify-between">
-                      <dt className="text-muted-foreground">Travel emissions</dt>
-                      <dd className="font-medium text-foreground">{formatKg(result.travelKg)}</dd>
-                    </div>
-                    <div className="flex justify-between">
-                      <dt className="text-muted-foreground">Accommodation emissions</dt>
-                      <dd className="font-medium text-foreground">{formatKg(result.stayKg)}</dd>
-                    </div>
-                    <div className="flex justify-between border-t border-data/20 pt-2">
-                      <dt className="text-muted-foreground">Cost if you gift them</dt>
-                      <dd className="font-semibold text-foreground">{formatUsd(result.cost)}</dd>
-                    </div>
-                  </dl>
+                <div className="space-y-1.5">
+                  <Button
+                    variant="outline"
+                    className="w-full gap-2 text-xs uppercase tracking-[0.08em]"
+                    disabled={!result.valid}
+                    onClick={() =>
+                      navigate("/trip-to-trees/share", {
+                        state: { trees: result.trees, kg: result.totalKg },
+                      })
+                    }
+                  >
+                    <Send className="h-4 w-4" aria-hidden />
+                    Share with traveller
+                    <ArrowRight className="h-4 w-4" aria-hidden />
+                  </Button>
+                  <p className="text-xs text-muted-foreground">
+                    Send the traveller their tree total and invite them to pay.
+                  </p>
                 </div>
-              )}
-            </section>
-
-            <section aria-label="Next steps" className="space-y-4">
-              <h2 className="text-sm font-semibold text-foreground">What next?</h2>
-
-              <div className="space-y-1.5">
-                <Button
-                  className="w-full gap-2"
-                  disabled={!result.valid}
-                  onClick={() =>
-                    toast({
-                      title: `Gifting ${result.trees} trees`,
-                      description: `${formatUsd(result.cost)} — checkout coming soon.`,
-                    })
-                  }
-                >
-                  <Gift className="h-4 w-4" aria-hidden />
-                  Gift {result.valid ? result.trees : ""} trees
-                  <ArrowRight className="h-4 w-4" aria-hidden />
-                </Button>
-                <p className="text-xs text-muted-foreground">
-                  You pay for the trees as a thank-you for the booking.
-                </p>
-              </div>
-
-              <div className="space-y-1.5">
-                <Button
-                  variant="outline"
-                  className="w-full gap-2"
-                  disabled={!result.valid}
-                  onClick={() =>
-                    navigate("/trip-to-trees/share", {
-                      state: { trees: result.trees, kg: result.totalKg },
-                    })
-                  }
-                >
-                  <Send className="h-4 w-4" aria-hidden />
-                  Share with traveller
-                  <ArrowRight className="h-4 w-4" aria-hidden />
-                </Button>
-                <p className="text-xs text-muted-foreground">
-                  Send the traveller their tree total and invite them to pay.
-                </p>
-              </div>
-            </section>
+              </CardContent>
+            </Card>
           </div>
+
         </div>
       </div>
     </T2TLayout>

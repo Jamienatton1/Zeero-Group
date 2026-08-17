@@ -54,11 +54,20 @@ export default {
 				},
 				surface: 'hsl(var(--surface))',
 				'surface-muted': 'hsl(var(--surface-muted))',
-				data: {
-					DEFAULT: 'hsl(var(--data))',
-					foreground: 'hsl(var(--data-foreground))',
-					soft: 'hsl(var(--data-soft))'
+				rail: {
+					DEFAULT: 'hsl(var(--rail))',
+					foreground: 'hsl(var(--rail-foreground))',
+					muted: 'hsl(var(--rail-muted))'
 				},
+				brand: {
+					DEFAULT: 'hsl(var(--brand))',
+					light: 'hsl(var(--brand-light))',
+					foreground: 'hsl(var(--brand-foreground))'
+				},
+				data: {
+					DEFAULT: 'hsl(var(--data))'
+				},
+
 				'sidebar-dark': 'hsl(var(--sidebar-dark))',
 				'sidebar-item': 'hsl(var(--sidebar-item))',
 				'sidebar-item-active': 'hsl(var(--sidebar-item-active))',
