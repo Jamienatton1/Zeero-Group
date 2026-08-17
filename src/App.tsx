@@ -85,6 +85,12 @@ const App = () => (
           <Route path="/operations/imports" element={<Imports />} />
 
           <Route path="/reports" element={<Reports />} />
+          <Route path="/trip-to-trees" element={<TripToTreesOverview />} />
+          <Route path="/trip-to-trees/share" element={<TripToTreesShare />} />
+          <Route path="/trip-to-trees/script" element={<TripToTreesScript />} />
+          <Route path="/trip-to-trees/faq" element={<TripToTreesFaq />} />
+          <Route path="/trip-to-trees/forest-info" element={<TripToTreesForestInfo />} />
+          <Route path="/trip-to-trees/account" element={<TripToTreesAccount />} />
           <Route path="/organisation-settings" element={<OrganisationSettings />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
