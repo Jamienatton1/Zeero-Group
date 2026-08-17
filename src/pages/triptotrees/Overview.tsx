@@ -53,19 +53,18 @@ function MetricTile({
   value: number;
 }) {
   return (
-    <Card>
-      <CardContent className="flex items-center gap-4 p-5">
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-          <Icon className="h-5 w-5" aria-hidden />
-        </span>
-        <div className="min-w-0">
-          <p className="text-sm text-muted-foreground">{label}</p>
-          <p className="text-2xl font-semibold tracking-tight text-foreground">{value}</p>
-        </div>
-      </CardContent>
-    </Card>
+    <div className="flex items-center gap-3 rounded-xl bg-surface-muted px-4 py-3">
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-data-soft text-data-foreground">
+        <Icon className="h-4 w-4" aria-hidden />
+      </span>
+      <div className="min-w-0">
+        <p className="text-xs text-muted-foreground">{label}</p>
+        <p className="text-lg font-semibold tracking-tight text-data-foreground">{value}</p>
+      </div>
+    </div>
   );
 }
+
 
 export default function TripToTreesOverview() {
   const navigate = useNavigate();
