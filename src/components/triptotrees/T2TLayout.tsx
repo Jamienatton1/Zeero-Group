@@ -1,7 +1,24 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { LayoutDashboard, FileText, HelpCircle, TreePine, User, LogOut } from "lucide-react";
+import {
+  LayoutDashboard,
+  FileText,
+  HelpCircle,
+  TreePine,
+  User,
+  LogOut,
+  Bell,
+  Settings,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const navItems = [
   { title: "Overview", url: "/trip-to-trees", icon: LayoutDashboard, end: true },
@@ -11,31 +28,57 @@ const navItems = [
   { title: "My Account", url: "/trip-to-trees/account", icon: User },
 ];
 
-export function T2TLayout({ children }: { children: React.ReactNode }) {
+function UtilityBar() {
   const navigate = useNavigate();
-
   return (
-    <div className="t2t min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-surface px-4 sm:px-6">
-        <div className="flex items-center gap-3">
-          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+    <div className="flex items-center justify-end gap-1">
+      <Button variant="ghost" size="icon" aria-label="Notifications" className="text-muted-foreground hover:text-foreground">
+        <Bell className="h-[18px] w-[18px]" aria-hidden />
+      </Button>
+      <Button variant="ghost" size="icon" aria-label="Settings" className="text-muted-foreground hover:text-foreground">
+        <Settings className="h-[18px] w-[18px]" aria-hidden />
+      </Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" size="icon" aria-label="Profile" className="text-muted-foreground hover:text-foreground">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand text-brand-foreground">
+              <User className="h-4 w-4" aria-hidden />
+            </span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-48">
+          <DropdownMenuLabel>My account</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={() => navigate("/trip-to-trees/account")}>
+            <User className="mr-2 h-4 w-4" aria-hidden />
+            Account settings
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => navigate("/login")}>
+            <LogOut className="mr-2 h-4 w-4" aria-hidden />
+            Log out
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
+}
+
+export function T2TLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="t2t flex min-h-screen w-full bg-background text-foreground">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-60 flex-col bg-rail px-4 py-6 md:flex">
+        <div className="flex items-center gap-3 px-2">
+          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand text-brand-foreground">
             <TreePine className="h-5 w-5" aria-hidden />
           </span>
           <div className="leading-tight">
-            <p className="text-base font-semibold tracking-tight text-foreground">Trip to Trees</p>
-            <p className="text-xs text-muted-foreground">Make travel planet &amp; people positive</p>
+            <p className="text-[15px] font-semibold tracking-tight text-rail-foreground">Trip to Trees</p>
+            <p className="text-[11px] text-rail-muted">Planet &amp; people positive</p>
           </div>
         </div>
-        <Button variant="ghost" size="sm" className="gap-2" onClick={() => navigate("/login")}>
-          <LogOut className="h-4 w-4" aria-hidden />
-          Log out
-        </Button>
-      </header>
 
-
-      <div className="flex">
-        <nav aria-label="Main" className="sticky top-16 hidden h-[calc(100vh-4rem)] w-56 shrink-0 border-r border-border bg-surface p-3 md:block">
-          <ul className="space-y-1">
+        <nav aria-label="Main" className="mt-10">
+          <ul className="space-y-2">
             {navItems.map((item) => (
               <li key={item.url}>
                 <NavLink
@@ -43,43 +86,46 @@ export function T2TLayout({ children }: { children: React.ReactNode }) {
                   end={item.end}
                   className={({ isActive }) =>
                     cn(
-                      "flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                      "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors",
                       isActive
-                        ? "bg-primary/10 text-primary"
-                        : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                        ? "font-semibold text-rail-foreground"
+                        : "font-medium text-rail-muted hover:text-rail-foreground",
                     )
                   }
                 >
-                  <item.icon className="h-4 w-4" aria-hidden />
+                  <item.icon className="h-[18px] w-[18px]" aria-hidden />
                   {item.title}
                 </NavLink>
               </li>
             ))}
           </ul>
         </nav>
+      </aside>
 
-        {/* Mobile nav */}
-        <nav aria-label="Main" className="fixed bottom-0 left-0 right-0 z-30 flex border-t border-border bg-card md:hidden">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.url}
-              to={item.url}
-              end={item.end}
-              className={({ isActive }) =>
-                cn(
-                  "flex flex-1 flex-col items-center gap-1 py-2 text-[10px] font-medium",
-                  isActive ? "text-primary" : "text-muted-foreground",
-                )
-              }
-            >
-              <item.icon className="h-4 w-4" aria-hidden />
-              {item.title}
-            </NavLink>
-          ))}
-        </nav>
+      {/* Mobile nav */}
+      <nav aria-label="Main" className="fixed bottom-0 left-0 right-0 z-30 flex bg-rail md:hidden">
+        {navItems.map((item) => (
+          <NavLink
+            key={item.url}
+            to={item.url}
+            end={item.end}
+            className={({ isActive }) =>
+              cn(
+                "flex flex-1 flex-col items-center gap-1 py-2.5 text-[10px] font-medium",
+                isActive ? "text-rail-foreground" : "text-rail-muted",
+              )
+            }
+          >
+            <item.icon className="h-4 w-4" aria-hidden />
+            {item.title}
+          </NavLink>
+        ))}
+      </nav>
 
-        <main className="min-w-0 flex-1 p-4 pb-20 sm:p-6 md:pb-6">{children}</main>
-      </div>
+      <main className="min-w-0 flex-1 px-4 pb-24 pt-6 sm:px-8 md:ml-60 md:pb-10">
+        <UtilityBar />
+        <div className="mt-4">{children}</div>
+      </main>
     </div>
   );
 }
@@ -88,7 +134,7 @@ export function T2TPlaceholder({ title, description }: { title: string; descript
   return (
     <T2TLayout>
       <div className="mx-auto max-w-3xl">
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground">{title}</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-foreground">{title}</h1>
         <p className="mt-2 text-sm text-muted-foreground">{description}</p>
       </div>
     </T2TLayout>
