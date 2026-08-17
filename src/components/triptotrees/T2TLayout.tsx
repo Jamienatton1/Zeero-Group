@@ -34,7 +34,7 @@ export function T2TLayout({ children }: { children: React.ReactNode }) {
 
 
       <div className="flex">
-        <nav aria-label="Main" className="sticky top-14 hidden h-[calc(100vh-3.5rem)] w-56 shrink-0 border-r border-border bg-card p-3 md:block">
+        <nav aria-label="Main" className="sticky top-16 hidden h-[calc(100vh-4rem)] w-56 shrink-0 border-r border-border bg-surface p-3 md:block">
           <ul className="space-y-1">
             {navItems.map((item) => (
               <li key={item.url}>
