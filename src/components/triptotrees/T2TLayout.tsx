@@ -15,15 +15,15 @@ export function T2TLayout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-border bg-card px-4 sm:px-6">
-        <div className="flex items-center gap-2.5">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <TreePine className="h-4.5 w-4.5" aria-hidden />
+    <div className="t2t min-h-screen bg-background text-foreground">
+      <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-surface px-4 sm:px-6">
+        <div className="flex items-center gap-3">
+          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+            <TreePine className="h-5 w-5" aria-hidden />
           </span>
           <div className="leading-tight">
-            <p className="text-sm font-semibold tracking-tight text-foreground">Trip to Trees</p>
-            <p className="text-[11px] text-muted-foreground">Make travel planet &amp; people positive</p>
+            <p className="text-base font-semibold tracking-tight text-foreground">Trip to Trees</p>
+            <p className="text-xs text-muted-foreground">Make travel planet &amp; people positive</p>
           </div>
         </div>
         <Button variant="ghost" size="sm" className="gap-2" onClick={() => navigate("/login")}>
@@ -31,6 +31,7 @@ export function T2TLayout({ children }: { children: React.ReactNode }) {
           Log out
         </Button>
       </header>
+
 
       <div className="flex">
         <nav aria-label="Main" className="sticky top-14 hidden h-[calc(100vh-3.5rem)] w-56 shrink-0 border-r border-border bg-card p-3 md:block">
