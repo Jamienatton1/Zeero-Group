@@ -123,25 +123,40 @@ export default function TripToTreesOverview() {
   return (
     <T2TLayout>
       <div className="mx-auto max-w-6xl space-y-8">
-        <header className="flex flex-wrap items-end justify-between gap-4 border-b border-border pb-6">
+        <header className="flex flex-wrap items-start justify-between gap-4">
           <div className="max-w-xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-data-foreground">Trip to Trees</p>
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">Overview</h1>
-            <p className="mt-2 text-sm text-muted-foreground">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">Overview</h1>
+            <p className="mt-1.5 text-sm text-muted-foreground">
               Work out how many trees cover a trip, then gift them or invite the traveller to plant them.
             </p>
           </div>
-          <Button className="gap-2" onClick={() => toast({ title: "Buy more trees", description: "Tree purchasing is coming soon." })}>
+          <Button
+            className="gap-2 text-xs uppercase tracking-[0.08em]"
+            onClick={() => toast({ title: "Buy more trees", description: "Tree purchasing is coming soon." })}
+          >
             <Plus className="h-4 w-4" aria-hidden />
             Buy more trees
           </Button>
         </header>
 
-        <section aria-label="Account summary" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <MetricTile icon={Gift} label="Trees gifted" value={ACCOUNT.treesGifted} />
-          <MetricTile icon={TreePine} label="Trees in my account" value={ACCOUNT.treesInAccount} />
-          <MetricTile icon={Users} label="Trees purchased by travellers" value={ACCOUNT.treesPurchasedByTravellers} />
+        <section aria-label="Account summary" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <MetricTile icon={Gift} label="Trees gifted" value={ACCOUNT.treesGifted} unit="Trees" />
+          <MetricTile
+            icon={TreePine}
+            label="Trees in my account"
+            value={ACCOUNT.treesInAccount}
+            unit="Trees"
+            action="Buy more trees"
+            onAction={() => toast({ title: "Buy more trees", description: "Tree purchasing is coming soon." })}
+          />
+          <MetricTile
+            icon={Users}
+            label="Trees purchased by travellers"
+            value={ACCOUNT.treesPurchasedByTravellers}
+            unit="Trees"
+          />
         </section>
+
 
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-start">
           <Card className="border-border bg-surface shadow-sm">
