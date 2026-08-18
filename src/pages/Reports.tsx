@@ -210,7 +210,28 @@ const Reports = () => {
           subtitle="Analyse travel and accommodation emissions across your corporate accounts"
         />
         <main className="flex-1 overflow-auto p-8 space-y-6">
+          {showErrors ? (
+            <ReportErrorsView onBack={() => setShowErrors(false)} />
+          ) : (
+          <>
+          {/* Import error banner */}
+          <div className="rounded-xl border border-destructive/30 bg-destructive/5 p-4 flex flex-wrap items-center gap-3">
+            <AlertTriangle className="h-5 w-5 text-destructive" />
+            <div className="flex-1 min-w-[240px]">
+              <p className="text-sm font-semibold text-foreground">
+                1 row with errors and 21 skipped rows in your latest import
+              </p>
+              <p className="text-sm text-muted-foreground">
+                These records are excluded from the report below until they are resolved.
+              </p>
+            </div>
+            <Button variant="outline" size="sm" onClick={() => setShowErrors(true)}>
+              View errors
+            </Button>
+          </div>
+
           {/* Filter bar */}
+
           <div className="bg-metric-card rounded-xl shadow-card border border-border p-6">
             <div className="flex flex-wrap items-center gap-4">
               <div className="flex items-center gap-2">
