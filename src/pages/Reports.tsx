@@ -503,7 +503,10 @@ const Reports = () => {
               </div>
             </div>
           </div>
+          </>
+          )}
         </main>
+
       </div>
     </div>
   );
