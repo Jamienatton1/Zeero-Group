@@ -81,8 +81,8 @@ export default function TripToTreesShare() {
         <Card className="overflow-hidden border-0 shadow-card">
           <CardContent className="flex flex-col items-center justify-center gap-3 bg-white py-8 text-center">
             <div className="flex items-center gap-3">
-              <img src={T4TLogo} alt="Trees4Travel" className="h-12 w-auto" />
-              <h1 className="text-4xl font-extrabold tracking-tight text-foreground">Gift Trees</h1>
+              <img src={T4TLogo} alt="Trees4Travel" className="h-11 w-auto self-center" />
+              <h1 className="text-4xl font-extrabold leading-none tracking-tight text-foreground">Gift Trees</h1>
             </div>
             <p className="text-lg font-medium text-muted-foreground">Make Travel Planet &amp; People Positive</p>
             <div className="mt-2 h-1 w-40 rounded-full bg-gradient-to-r from-amber-400 to-emerald-600" />
