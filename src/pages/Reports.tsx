@@ -8,8 +8,10 @@ import {
   FileDown,
   Columns as ColumnsIcon,
   CalendarIcon,
+  AlertTriangle,
 } from "lucide-react";
 import { Sidebar } from "@/components/dashboard/Sidebar";
+import { ReportErrorsView } from "@/components/reports/ReportErrorsView";
 import { Header } from "@/components/dashboard/Header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -100,6 +102,7 @@ const Reports = () => {
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
   const [search, setSearch] = useState("");
+  const [showErrors, setShowErrors] = useState(false);
   const [visibleCols, setVisibleCols] = useState<Record<ColKey, boolean>>(
     () =>
       ALL_COLUMNS.reduce((acc, c) => {
