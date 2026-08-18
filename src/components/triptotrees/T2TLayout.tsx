@@ -118,22 +118,35 @@ export function T2TLayout({ children }: { children: React.ReactNode }) {
 
       {/* Mobile nav */}
       <nav aria-label="Main" className="fixed bottom-0 left-0 right-0 z-30 flex bg-rail md:hidden">
-        {navItems.map((item) => (
-          <NavLink
-            key={item.url}
-            to={item.url}
-            end={item.end}
-            className={({ isActive }) =>
-              cn(
-                "flex flex-1 flex-col items-center gap-1 py-2.5 text-[10px] font-medium",
-                isActive ? "text-rail-foreground" : "text-rail-muted",
-              )
-            }
-          >
-            <item.icon className="h-4 w-4" aria-hidden />
-            {item.title}
-          </NavLink>
-        ))}
+        {navItems.map((item) =>
+          item.newTab ? (
+            <a
+              key={item.url}
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-1 flex-col items-center gap-1 py-2.5 text-[10px] font-medium text-rail-muted"
+            >
+              <item.icon className="h-4 w-4" aria-hidden />
+              {item.title}
+            </a>
+          ) : (
+            <NavLink
+              key={item.url}
+              to={item.url}
+              end={item.end}
+              className={({ isActive }) =>
+                cn(
+                  "flex flex-1 flex-col items-center gap-1 py-2.5 text-[10px] font-medium",
+                  isActive ? "text-rail-foreground" : "text-rail-muted",
+                )
+              }
+            >
+              <item.icon className="h-4 w-4" aria-hidden />
+              {item.title}
+            </NavLink>
+          )
+        )}
       </nav>
 
       <main className="min-w-0 flex-1 px-4 pb-24 pt-6 sm:px-8 md:ml-60 md:pb-10">
