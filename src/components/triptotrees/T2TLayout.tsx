@@ -82,21 +82,34 @@ export function T2TLayout({ children }: { children: React.ReactNode }) {
           <ul className="space-y-2">
             {navItems.map((item) => (
               <li key={item.url}>
-                <NavLink
-                  to={item.url}
-                  end={item.end}
-                  className={({ isActive }) =>
-                    cn(
-                      "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors",
-                      isActive
-                        ? "font-semibold text-rail-foreground"
-                        : "font-medium text-rail-muted hover:text-rail-foreground",
-                    )
-                  }
-                >
-                  <item.icon className="h-[18px] w-[18px]" aria-hidden />
-                  {item.title}
-                </NavLink>
+                {item.newTab ? (
+                  <a
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-rail-muted transition-colors hover:text-rail-foreground"
+                  >
+                    <item.icon className="h-[18px] w-[18px]" aria-hidden />
+                    {item.title}
+                    <ExternalLink className="ml-auto h-3.5 w-3.5 opacity-60" aria-hidden />
+                  </a>
+                ) : (
+                  <NavLink
+                    to={item.url}
+                    end={item.end}
+                    className={({ isActive }) =>
+                      cn(
+                        "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors",
+                        isActive
+                          ? "font-semibold text-rail-foreground"
+                          : "font-medium text-rail-muted hover:text-rail-foreground",
+                      )
+                    }
+                  >
+                    <item.icon className="h-[18px] w-[18px]" aria-hidden />
+                    {item.title}
+                  </NavLink>
+                )}
               </li>
             ))}
           </ul>
