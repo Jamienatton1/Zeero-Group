@@ -175,7 +175,7 @@ export default function TripToTreesShare() {
               <Button
                 disabled={!canSend}
                 onClick={() => setSent("for-me")}
-                className="group relative w-full gap-3 rounded-xl bg-gradient-to-r from-amber-400 to-emerald-600 py-6 text-base font-semibold text-white shadow-md hover:opacity-95 disabled:from-muted disabled:to-muted disabled:text-muted-foreground"
+                className="group relative w-full gap-3 rounded-xl bg-primary py-6 text-base font-semibold text-primary-foreground shadow-md hover:bg-primary/90"
               >
                 <Mail className="h-5 w-5" aria-hidden />
                 Send this prepared email
@@ -188,7 +188,7 @@ export default function TripToTreesShare() {
               <Button
                 disabled={!canSend}
                 onClick={() => setSent("myself")}
-                className="group relative w-full gap-3 rounded-xl bg-gradient-to-r from-amber-400 to-emerald-600 py-6 text-base font-semibold text-white shadow-md hover:opacity-95 disabled:from-muted disabled:to-muted disabled:text-muted-foreground"
+                className="group relative w-full gap-3 rounded-xl bg-primary py-6 text-base font-semibold text-primary-foreground shadow-md hover:bg-primary/90"
               >
                 <Link2 className="h-5 w-5" aria-hidden />
                 Send my own email
