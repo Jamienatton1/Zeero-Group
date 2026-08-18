@@ -24,7 +24,7 @@ import {
 const navItems = [
   { title: "Overview", url: "/trip-to-trees", icon: LayoutDashboard, end: true },
   { title: "Script", url: "/trip-to-trees/script", icon: FileText },
-  { title: "FAQ", url: "/trip-to-trees/faq", icon: HelpCircle },
+  { title: "FAQ", url: "/trip-to-trees/faq", icon: HelpCircle, newTab: true },
   { title: "Forest Info", url: "/trip-to-trees/forest-info", icon: TreePine },
   { title: "My Account", url: "/trip-to-trees/account", icon: User },
 ];
