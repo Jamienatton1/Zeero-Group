@@ -123,21 +123,40 @@ export default function TripToTreesOverview() {
   return (
     <T2TLayout>
       <div className="mx-auto max-w-6xl space-y-8">
-        <header className="flex flex-wrap items-start justify-between gap-4">
-          <div className="max-w-xl">
-            <h1 className="text-3xl font-bold tracking-tight text-foreground">Overview</h1>
-            <p className="mt-1.5 text-sm text-muted-foreground">
-              Work out how many trees cover a trip, then gift them or invite the traveller to plant them.
-            </p>
+        <header className="overflow-hidden rounded-2xl bg-rail px-6 py-7 sm:px-8 sm:py-8">
+          <div className="flex flex-wrap items-start justify-between gap-6">
+            <div className="max-w-xl">
+              <span className="inline-flex items-center gap-2 rounded-full bg-brand/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-brand">
+                <Leaf className="h-3.5 w-3.5" aria-hidden />
+                Trip to Trees
+              </span>
+              <h1 className="mt-3 text-3xl font-bold tracking-tight text-rail-foreground sm:text-4xl">
+                Welcome back, Giannis
+              </h1>
+              <p className="mt-2 text-sm leading-relaxed text-rail-muted">
+                Work out how many trees cover a trip, then gift them or invite the traveller to plant them.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-stretch gap-3 sm:items-end">
+              <Button
+                className="gap-2 text-xs uppercase tracking-[0.08em]"
+                onClick={() => toast({ title: "Buy more trees", description: "Tree purchasing is coming soon." })}
+              >
+                <Plus className="h-4 w-4" aria-hidden />
+                Buy more trees
+              </Button>
+              <div className="flex items-center gap-2 text-xs text-rail-muted">
+                <TreePine className="h-4 w-4 text-brand" aria-hidden />
+                <span>
+                  <span className="font-semibold text-rail-foreground">{ACCOUNT.treesInAccount}</span> trees available
+                  in your account
+                </span>
+              </div>
+            </div>
           </div>
-          <Button
-            className="gap-2 text-xs uppercase tracking-[0.08em]"
-            onClick={() => toast({ title: "Buy more trees", description: "Tree purchasing is coming soon." })}
-          >
-            <Plus className="h-4 w-4" aria-hidden />
-            Buy more trees
-          </Button>
         </header>
+
 
         <section aria-label="Account summary" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           <MetricTile icon={Gift} label="Trees gifted" value={ACCOUNT.treesGifted} unit="Trees" />
