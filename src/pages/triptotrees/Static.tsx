@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { T2TPlaceholder } from "@/components/triptotrees/T2TLayout";
+import { T2TLayout, T2TPlaceholder } from "@/components/triptotrees/T2TLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function TripToTreesScript() {
   return (
