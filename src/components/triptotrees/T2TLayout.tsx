@@ -8,6 +8,7 @@ import {
   LogOut,
   Bell,
   Settings,
+  ExternalLink,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -23,7 +24,7 @@ import {
 const navItems = [
   { title: "Overview", url: "/trip-to-trees", icon: LayoutDashboard, end: true },
   { title: "Script", url: "/trip-to-trees/script", icon: FileText },
-  { title: "FAQ", url: "/trip-to-trees/faq", icon: HelpCircle },
+  { title: "FAQ", url: "/trip-to-trees/faq", icon: HelpCircle, newTab: true },
   { title: "Forest Info", url: "/trip-to-trees/forest-info", icon: TreePine },
   { title: "My Account", url: "/trip-to-trees/account", icon: User },
 ];
@@ -81,21 +82,34 @@ export function T2TLayout({ children }: { children: React.ReactNode }) {
           <ul className="space-y-2">
             {navItems.map((item) => (
               <li key={item.url}>
-                <NavLink
-                  to={item.url}
-                  end={item.end}
-                  className={({ isActive }) =>
-                    cn(
-                      "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors",
-                      isActive
-                        ? "font-semibold text-rail-foreground"
-                        : "font-medium text-rail-muted hover:text-rail-foreground",
-                    )
-                  }
-                >
-                  <item.icon className="h-[18px] w-[18px]" aria-hidden />
-                  {item.title}
-                </NavLink>
+                {item.newTab ? (
+                  <a
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-rail-muted transition-colors hover:text-rail-foreground"
+                  >
+                    <item.icon className="h-[18px] w-[18px]" aria-hidden />
+                    {item.title}
+                    <ExternalLink className="ml-auto h-3.5 w-3.5 opacity-60" aria-hidden />
+                  </a>
+                ) : (
+                  <NavLink
+                    to={item.url}
+                    end={item.end}
+                    className={({ isActive }) =>
+                      cn(
+                        "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors",
+                        isActive
+                          ? "font-semibold text-rail-foreground"
+                          : "font-medium text-rail-muted hover:text-rail-foreground",
+                      )
+                    }
+                  >
+                    <item.icon className="h-[18px] w-[18px]" aria-hidden />
+                    {item.title}
+                  </NavLink>
+                )}
               </li>
             ))}
           </ul>
@@ -104,22 +118,35 @@ export function T2TLayout({ children }: { children: React.ReactNode }) {
 
       {/* Mobile nav */}
       <nav aria-label="Main" className="fixed bottom-0 left-0 right-0 z-30 flex bg-rail md:hidden">
-        {navItems.map((item) => (
-          <NavLink
-            key={item.url}
-            to={item.url}
-            end={item.end}
-            className={({ isActive }) =>
-              cn(
-                "flex flex-1 flex-col items-center gap-1 py-2.5 text-[10px] font-medium",
-                isActive ? "text-rail-foreground" : "text-rail-muted",
-              )
-            }
-          >
-            <item.icon className="h-4 w-4" aria-hidden />
-            {item.title}
-          </NavLink>
-        ))}
+        {navItems.map((item) =>
+          item.newTab ? (
+            <a
+              key={item.url}
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-1 flex-col items-center gap-1 py-2.5 text-[10px] font-medium text-rail-muted"
+            >
+              <item.icon className="h-4 w-4" aria-hidden />
+              {item.title}
+            </a>
+          ) : (
+            <NavLink
+              key={item.url}
+              to={item.url}
+              end={item.end}
+              className={({ isActive }) =>
+                cn(
+                  "flex flex-1 flex-col items-center gap-1 py-2.5 text-[10px] font-medium",
+                  isActive ? "text-rail-foreground" : "text-rail-muted",
+                )
+              }
+            >
+              <item.icon className="h-4 w-4" aria-hidden />
+              {item.title}
+            </NavLink>
+          )
+        )}
       </nav>
 
       <main className="min-w-0 flex-1 px-4 pb-24 pt-6 sm:px-8 md:ml-60 md:pb-10">

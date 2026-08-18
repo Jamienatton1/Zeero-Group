@@ -39,10 +39,10 @@ import TripToTreesOverview from "./pages/triptotrees/Overview";
 import TripToTreesShare from "./pages/triptotrees/Share";
 import {
   TripToTreesScript,
-  TripToTreesFaq,
   TripToTreesForestInfo,
   TripToTreesAccount,
 } from "./pages/triptotrees/Static";
+import { TripToTreesFaq } from "./pages/triptotrees/Faq";
 
 
 const queryClient = new QueryClient();
