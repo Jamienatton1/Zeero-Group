@@ -9,7 +9,6 @@ import {
   Send,
   TreePine,
   Users,
-  Plus,
   ArrowRight,
 } from "lucide-react";
 import { T2TLayout } from "@/components/triptotrees/T2TLayout";
