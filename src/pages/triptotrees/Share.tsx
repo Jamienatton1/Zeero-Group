@@ -80,9 +80,6 @@ export default function TripToTreesShare() {
         {/* Header box */}
         <Card className="overflow-hidden border-0 shadow-card">
           <CardContent className="flex flex-col items-center justify-center gap-4 bg-white py-8 text-center">
-            <div className="inline-flex items-center justify-center rounded-xl bg-[#0F1211] px-5 py-3">
-              <img src={T4TLogo} alt="Trees4Travel" className="h-8 w-auto" />
-            </div>
             <div className="space-y-1">
               <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-foreground">Gift Trees</h1>
               <p className="text-lg font-medium text-muted-foreground">Make Travel Planet &amp; People Positive</p>
